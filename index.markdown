@@ -5,7 +5,9 @@ Call to actions:
 - Learn more
 - Sign me up
 Sections:
-- Blurb: How does it work?
+- blurb: How does it work?
+  actions:
+  - Get started
 layout: landing
 ---
 
