@@ -5,14 +5,6 @@ layout: base
 <header>
   <div class="header-content">
     <div class="header-content-inner">
-      <h1>
-        <i class="fa fa-2x fa-instagram sr-icons"></i>
-        <i class="fa fa-arrow-right sr-icons"></i>
-        <i class="fa fa-2x fa-magic sr-icons"></i>
-        <i class="fa fa-arrow-right sr-icons"></i>
-        <i class="fa fa-2x fa-file-o sr-icons"></i>
-      </h1>
-      <hr>
       <p>Stay in touch with the non-digitals in your life by letting Little Lilly transform your favorite Instagram photos into printed letters.</p>
       <div class="btn-group">
         <a href="#about" class="btn btn-default-outline btn-xl page-scroll">Learn more</a>
@@ -28,9 +20,6 @@ layout: base
     text=section.content
   %}
 {% endfor %}
-
-
-
 
 <section id="services">
   <div class="container">
