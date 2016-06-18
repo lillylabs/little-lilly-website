@@ -235,7 +235,7 @@ header {
 
   &.bg-primary {
     hr {
-      hr.inverted;
+      @extend hr.inverted;
     }
   }
 }
