@@ -2,7 +2,7 @@
 title: Little Lilly
 timezone: UTC
 collections:
-  page-sections:
+  blurbs:
     title: Page Sections
     output: false
   posts:
