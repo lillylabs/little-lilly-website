@@ -1,0 +1,22 @@
+<header>
+  <div class="header-content">
+    <div class="header-content-inner">
+
+      {% if include.section.title %}
+      <h1>{{ include.section.title }}</h1>
+      <hr>
+      {% endif %}
+
+      {{ include.section.content | markdownify }}
+
+      {% if include.section.actions %}
+      <div class="btn-group">
+        {% for action in include.section.actions %}
+        <a href="#" class="btn btn-default-outline btn-xl page-scroll">{{ action }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</header>

@@ -1,0 +1,22 @@
+<section class="bg-primary page-section" id="about">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-lg-offset-3 text-center">
+
+        {% if include.section.title %}
+        <h2>{{ include.section.title }}</h2>
+        <hr>
+        {% endif %}
+
+        <div class="text-faded">{{ include.section.content | markdownify }}</div>
+          {% if include.section.actions %}
+          <div class="btn-group">
+            {% for action in include.section.actions %}
+            <a href="#" class="btn btn-default-outline btn-xl page-scroll">{{ action }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

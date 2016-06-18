@@ -183,6 +183,11 @@ header {
         font-size: 16px;
         margin-bottom: 50px;
       }
+
+      .btn:last-child {
+        @extend .btn-primary;
+        margin-left: 0;
+      }
     }
   }
   @media (min-width: 768px) {
@@ -324,13 +329,6 @@ header {
 .no-gutter > [class*='col-'] {
   padding-right: 0;
   padding-left: 0;
-}
-
-.btn-group .btn+.btn,
-.btn-group .btn+.btn-group,
-.btn-group .btn-group+.btn,
-.btn-group .btn-group+.btn-group {
-  margin-left: 0;
 }
 
 // Button Styles
