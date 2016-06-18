@@ -2,10 +2,15 @@
 title: Little Lilly
 timezone: UTC
 collections:
+  pages:
+    title: Pages
+    output: true
+  page-sections:
+    title: Page Sections
+    output: false
   posts:
     title: Posts
     output: true
   uploads:
     title: Uploads
     output: true
-Test: En flott test
