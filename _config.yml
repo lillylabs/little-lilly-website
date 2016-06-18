@@ -5,9 +5,6 @@ collections:
   page-sections:
     title: Page Sections
     output: false
-  pages:
-    title: Pages
-    output: true
   posts:
     title: Posts
     output: true
