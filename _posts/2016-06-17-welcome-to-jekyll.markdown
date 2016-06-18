@@ -7,4 +7,4 @@ categories:
 layout: post
 ---
 
-Welcome to Little Lilly,
+Welcome to Little Lilly.
