@@ -3,11 +3,11 @@ title: Home
 date: 2016-06-18 14:06:00 Z
 sections:
 - title: Instagram photos sent to grandma's postbox
-  content: |-
-    Stay in touch with the non-digitals in your life by letting Little Lilly transform your favorite Instagram photos into printed letters.
+  content: Stay in touch with the non-digitals in your life by letting Little Lilly
+    transform your favorite Instagram photos into printed letters.
   actions:
-    - Learn more
-    - Sign me up
+  - Learn more
+  - Sign me up
   type: hero
 - title: How does it work?
   content: |-
@@ -18,3 +18,4 @@ sections:
   - Get started
 layout: base
 ---
+
