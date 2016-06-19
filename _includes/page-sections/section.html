@@ -1,22 +1,28 @@
-<section class="bg-primary page-section" id="about">
+<section class="page-section bg-{{ include.section.background }}" id="about">
   <div class="container">
     <div class="row">
+
+      {% if include.section.image %}
+
+      <div class="col-lg-6">
+
+       {% include page-sections/partials/content.html section=include.section %}
+
+      </div>
+      <div class="col-lg-6">
+        <img src="{{ include.section.image }}" />
+      </div>
+
+      {% else %}
+
       <div class="col-lg-6 col-lg-offset-3 text-center">
 
-        {% if include.section.title %}
-        <h2>{{ include.section.title }}</h2>
-        <hr>
-        {% endif %}
+        {% include page-sections/partials/content.html section=include.section %}
 
-        <div class="text-faded">{{ include.section.content | markdownify }}</div>
-          {% if include.section.actions %}
-          <div class="btn-group">
-            {% for action in include.section.actions %}
-            <a href="#" class="btn btn-default-outline btn-xl page-scroll">{{ action }}</a>
-            {% endfor %}
-          </div>
-          {% endif %}
       </div>
+
+      {% endif %}
+
     </div>
   </div>
 </section>

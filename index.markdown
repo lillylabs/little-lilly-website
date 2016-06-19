@@ -16,6 +16,7 @@ sections:
     All you need to do is let her know which photos are your favorites. You do this by including #lillygram in the caption or adding #lillygram as a comment.
   actions:
   - Get started
+  background: primary
 - title: Relaunching this fall
   content: |-
     Little Lilly has quietly helped many families stay in touch since  2013.  This suited me fine while taking time for my first born, Lillian.
