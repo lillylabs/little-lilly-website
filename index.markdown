@@ -16,6 +16,15 @@ sections:
     All you need to do is let her know which photos are your favorites. You do this by including #lillygram in the caption or adding #lillygram as a comment.
   actions:
   - Get started
+- title: Relaunching this fall
+  content: |-
+    Little Lilly has quietly helped many families stay in touch since  2013.  This suited me fine while taking time for my first born, Lillian.
+
+    But now, now it is time to make this baby my priority and we are relaunching in august with an upgraded product.
+
+    Follow the process and be the first to get an invite [by signing up today](#signup).
+  signature: "- Benedicte Raae, founder"
+  image: "/uploads/about4.jpg"
 layout: base
 ---
 
