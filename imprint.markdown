@@ -1,6 +1,7 @@
 ---
 title: Imprint
 date: 2016-06-20 14:43:00 Z
+layout: base
 ---
 
 The legal entity behind Little Lilly is bGraphic. A company incorporated in Norway.
