@@ -44,7 +44,7 @@ No information about you, your photos or their metadata will ever be willfully d
 
 You may at any time revoke our access to your Instagram account: https://instagram.com/accounts/manage_access
 
-Our rights as a seller
+## Our rights as a seller
 When you purchase credits in our application we have the right to deduct the appropriate amount of credits to ship #lillygram letters to your designated recipients.
 
 We also reserve the right to change these terms and conditions, the price and value of a credit and the product at any time. We promise to notify you as a buyer of major changes.
