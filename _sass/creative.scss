@@ -14,9 +14,11 @@ img {
 }
 
 hr {
+  display: inline-block;
   border-color: $theme-primary;
   border-width: 3px;
-  max-width: 50px;
+  width: 50px;
+  max-width: 100%;
 }
 
 hr.inverted {
