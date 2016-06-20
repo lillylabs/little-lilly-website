@@ -1,7 +1,6 @@
 @import "mixins";
 @import "buttons";
-
-@include bg-variant('.bg-dark', $gray-dark);
+@import "page-sections";
 
 html,
 body {
@@ -108,97 +107,3 @@ form {
     }
   }
 }
-
-.page-section {
-
-  @include background-cover();
-  padding: 100px 0;
-
-  .actions {
-    margin-top: 60px;
-  }
-
-  .row, &.row {
-    align-items: center;
-    justify-content: center;
-  }
-
-  .block {
-    @extend .col-lg-6;
-
-    &:first-child:last-child {
-      text-align: center;
-    }
-  }
-
-  &.hero {
-    width: 100%;
-    position: relative;
-    margin: 0;
-
-    .content {
-      font-size: $font-size-lg;
-      max-width: 80%;
-      margin: 0 auto;
-    }
-
-    .actions {
-      a:last-child {
-        @extend .btn-primary;
-        margin-left: 0;
-      }
-    }
-
-    .block {
-      @extend .col-lg-8;
-    }
-
-    @include media-breakpoint-up(md) {
-      min-height: 100%;
-    }
-  }
-
-  &.signup {
-
-    .block {
-      .content, form {
-        max-width: 500px;
-        margin: 0 auto;
-      }
-    }
-  }
-
-  &.site-footer {
-
-    padding-bottom: 50px;
-    font-size: $font-size-sm;
-
-    h3 {
-      font-size: $font-size-base;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .row {
-      align-items: flex-start;
-    }
-
-    .block {
-      @extend .col-lg-4;
-      text-align: center;
-
-      &:first-child {
-        text-align: left;
-      }
-
-      &:last-child {
-        text-align: right;
-      }
-    }
-  }
-}
-
-
