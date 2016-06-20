@@ -1,0 +1,204 @@
+@import "mixins";
+@import "buttons";
+
+@include bg-variant('.bg-dark', $gray-dark);
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+hr {
+  display: inline-block;
+  border-color: $brand-primary;
+  border-width: 3px;
+  width: 50px;
+  max-width: 100%;
+
+  .bg-primary & {
+    border-color: white;
+  }
+}
+
+h1, h2 {
+  +hr {
+    margin-bottom: 60px;
+  }
+}
+
+h3 {
+  +hr {
+    margin-bottom: 30px;
+  }
+}
+
+p {
+  .bg-primary &, .bg-dark & {
+    @include fade($brand-white);
+  }
+}
+
+form {
+
+  label {
+    display: block;
+    text-align: left;
+    @extend .text-muted;
+    font-size: $font-size-sm;
+  }
+
+  fieldset {
+    @extend .form-group;
+    margin-bottom: 1.5rem;
+  }
+
+  input {
+    @extend .form-control;
+  }
+
+  span.note {
+    display: inline-block;
+    @include fade($body-color);
+    font-size: $font-size-sm;
+    margin-top: 60px;
+  }
+
+  button {
+    @extend .btn;
+    @extend .btn-primary;
+  }
+
+  .bg-dark &, .bg-primary & {
+
+    label {
+      color: white;
+    }
+
+    input {
+      border: none;
+    }
+
+    span.note {
+      @include fade($brand-white, 0.5);
+    }
+  }
+
+  .bg-primary & {
+
+    button {
+      @extend .btn-white;
+    }
+  }
+}
+
+.actions {
+  @extend .btn-group;
+
+  a {
+    @extend .btn;
+    @extend .btn-outline-primary;
+
+    .bg-dark &, .bg-primary & {
+      @extend .btn-outline-white;
+    }
+  }
+}
+
+.page-section {
+
+  @include background-cover();
+  padding: 100px 0;
+
+  .actions {
+    margin-top: 60px;
+  }
+
+  .row, &.row {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .block {
+    @extend .col-lg-6;
+
+    &:first-child:last-child {
+      text-align: center;
+    }
+  }
+
+  &.hero {
+    width: 100%;
+    position: relative;
+    margin: 0;
+
+    .content {
+      font-size: $font-size-lg;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
+    .actions {
+      a:last-child {
+        @extend .btn-primary;
+        margin-left: 0;
+      }
+    }
+
+    .block {
+      @extend .col-lg-8;
+    }
+
+    @include media-breakpoint-up(md) {
+      min-height: 100%;
+    }
+  }
+
+  &.signup {
+
+    .block {
+      .content, form {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  &.site-footer {
+
+    padding-bottom: 50px;
+    font-size: $font-size-sm;
+
+    h3 {
+      font-size: $font-size-base;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .row {
+      align-items: flex-start;
+    }
+
+    .block {
+      @extend .col-lg-4;
+      text-align: center;
+
+      &:first-child {
+        text-align: left;
+      }
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+}
+
+

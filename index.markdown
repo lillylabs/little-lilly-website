@@ -8,6 +8,7 @@ sections:
   actions:
   - Learn more
   - Sign me up
+  image: "/uploads/header.jpg"
   type: hero
 - title: How does it work?
   content: |-
@@ -26,6 +27,11 @@ sections:
     Follow the process and be the first to get an invite [by signing up today](#signup).
   signature: "- Benedicte Raae, founder"
   image: "/uploads/about4.jpg"
+- title: Keep grandma updated!
+  content: |-
+    Learn more about Little Lilly and get early access when we relaunch by signing up below.
+  background: dark
+  type: signup
 layout: base
 ---
 

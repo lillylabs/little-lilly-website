@@ -1,0 +1,54 @@
+.btn-x-lg {
+  padding: 13px 30px;
+}
+
+.btn {
+  @extend .btn;
+  @extend .btn-x-lg;
+  border-radius: 300px;
+  font-weight: 700;
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+  font-family: $font-family-sans-serif;
+
+  @include transition-all();
+}
+
+.btn-primary {
+  @include button-variant($brand-white, $brand-primary, $brand-primary);
+
+  &:focus,
+  &.focus,
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    background-color: darken($brand-primary, 5%);
+    border-color: darken($brand-primary, 5%);
+  }
+  @include hover {
+    background-color: darken($brand-primary, 5%);
+    border-color: darken($brand-primary, 5%);
+  }
+}
+
+.btn-dark {
+  @include button-variant($brand-white, $brand-dark, $brand-dark);
+}
+
+.btn-white {
+  @include button-variant($brand-primary, $brand-white, $brand-white);
+}
+
+// Outline
+
+.btn-outline-primary {
+  @include button-outline($brand-primary);
+}
+
+.btn-outline-dark {
+  @include button-outline($brand-dark);
+}
+
+.btn-outline-white {
+  @include button-outline($brand-white);
+}

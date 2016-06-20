@@ -70,30 +70,6 @@ aside {
   padding: 0;
 }
 
-// Grid
-.row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: -15px;
-
-  .block {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 15px;
-
-    &:first-child:last-child {
-      max-width: 600px;
-      text-align: center;
-    }
-  }
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
-}
-
 // Navigation
 .navbar-default {
   background-color: white;
