@@ -5,20 +5,20 @@
 
   <body id="page-top">
 
-    {% include navigation.html %}
-
     {{ content }}
 
     {% for section in page.sections %}
       {% case section.type %}
         {% when 'hero' %}
           {% include page-sections/hero.html section=section %}
+        {% when 'signup' %}
+          {% include page-sections/signup.html section=section %}
         {% else %}
-          {% include page-sections/section.html section=section %}
+          {% include page-sections/basic.html section=section %}
       {% endcase %}
     {% endfor %}
 
-    {% include footer.html %}
+    {% include page-sections/footer.html %}
     {% include scripts.html %}
 
   </body>

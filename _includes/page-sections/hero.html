@@ -1,9 +1,7 @@
-<header class="row">
+<header class="page-section hero bg-dark row" style="background-image: url({{ include.section.image }})">
+  <div class="block">
 
-    <div class="block">
+    {% include page-sections/partials/content.html section=include.section title_size='h1' %}
 
-      {% include page-sections/partials/content.html section=include.section title_size='h1' %}
-
-    </div>
-
+  </div>
 </header>

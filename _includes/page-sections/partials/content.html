@@ -1,11 +1,9 @@
-{% if include.section.title %}
-<{{ include.title_size || default:'h2' }}>{{ include.section.title }}</{{ include.title_size || default:'h2' }}>
-<hr> {% endif %}
+{% include page-sections/partials/header.html title=include.section.title size=include.title_size %}
 
-<div>
+<div class="content">
   {{ include.section.content | markdownify }}
   {% if include.section.signatur %}
-  <p class="text-center">{{ include.section.signature }}</p>
+  <p class="signature">{{ include.section.signature }}</p>
   {% endif %}
 </div>
 

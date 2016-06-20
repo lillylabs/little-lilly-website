@@ -5,13 +5,32 @@
 
 
 
-// Variables
-$theme-primary: #F05F40;
-$theme-dark: #222;
+// Bootstrap Variables
+$brand-primary:             #F05F40 !default;
+$brand-success:             #5cb85c !default;
+$brand-info:                #5bc0de !default;
+$brand-warning:             #f0ad4e !default;
+$brand-danger:              #d9534f !default;
 
+$gray-dark:                 #373a3c !default;
+$gray:                      #55595c !default;
+$gray-light:                #818a91 !default;
+$gray-lighter:              #eceeef !default;
+$gray-lightest:             #f7f7f9 !default;
+
+$enable-flex:               true !default;
+
+$font-family-sans-serif:    "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-family-serif:         "Merriweather", Georgia, "Times New Roman", Times, serif !default;
+$font-family-base:          $font-family-serif !default;
+$headings-font-family:      $font-family-sans-serif !default;
+$headings-font-weight:      700 !default;
+
+// Project Variables
+$brand-dark:                $gray-dark;
+$brand-white:               white;
 
 // Import partials from `sass_dir` (defaults to `_sass`)
-@import
-        "mixins",
-        "creative"
-;
+
+@import "bootstrap-sass/bootstrap";
+@import "project";
