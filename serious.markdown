@@ -3,6 +3,8 @@ title: Serious Stuff
 date: 2016-06-20 14:43:00 Z
 ---
 
+# Imprint
+
 The legal entity behind Little Lilly is bGraphic. A company incorporated in Norway.
 
 bGraphic AS
