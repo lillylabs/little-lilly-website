@@ -10,7 +10,7 @@ collections:
     output: true
   testimonials:
     title: Testimonials
-    output: true
+    output: false
   uploads:
     title: Uploads
     output: true
