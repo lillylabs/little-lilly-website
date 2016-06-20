@@ -28,8 +28,8 @@ sections:
   signature: "- Benedicte Raae, founder"
   image: "/uploads/about4.jpg"
 - title: Keep grandma updated!
-  content: |-
-    Learn more about Little Lilly and get early access when we relaunch by signing up below.
+  content: Learn more about Little Lilly and get early access when we relaunch by
+    signing up below.
   background: dark
   type: signup
 layout: base
