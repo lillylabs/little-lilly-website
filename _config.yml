@@ -2,9 +2,15 @@
 title: Little Lilly
 timezone: UTC
 collections:
+  galleries:
+    title: Galleries
+    output: false
   posts:
     title: Posts
     output: true
+  testimonials:
+    title: Testimonials
+    output: false
   uploads:
     title: Uploads
     output: true
