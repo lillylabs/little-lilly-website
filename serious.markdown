@@ -55,4 +55,4 @@ We also reserve the right to change these terms and conditions, the price and va
 We promise to you that we will do everything we can to fulfill your expectations to our service. If you are not satisfied with our service, we may offer to refund your credit purchase.
 
 ## Liability
-BGRAPHIC AS is not liable for any damages, costs or injuries caused by the content of the #lillygram letters as they are shipped to the recipients designated by the buyer. It is solely the responsibility of the buyer to ensure that the photos, captions and hashtags will not offend the recipient or be in violation of any law in the country of the buyer or the recipient.
+BGRAPHIC AS is not liable for any damages, costs or injuries caused by the content of the Little Lilly letters as they are shipped to the recipients designated by the buyer. It is solely the responsibility of the buyer to ensure that the photos, captions and hashtags will not offend the recipient or be in violation of any law in the country of the buyer or the recipient.
