@@ -2,25 +2,16 @@
   <div class="container">
     <div class="row">
 
-      {% if include.section.image %}
-
-      <div class="col-lg-6">
+      <div class="block">
 
        {% include page-sections/partials/content.html section=include.section %}
 
       </div>
-      <div class="col-lg-6">
+
+      {% if include.section.image %}
+      <div class="block">
         <img src="{{ include.section.image }}" />
       </div>
-
-      {% else %}
-
-      <div class="col-lg-6 col-lg-offset-3 text-center">
-
-        {% include page-sections/partials/content.html section=include.section %}
-
-      </div>
-
       {% endif %}
 
     </div>
