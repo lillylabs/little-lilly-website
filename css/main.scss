@@ -30,5 +30,10 @@ $brand-dark:                $gray-dark;
 $brand-white:               white;
 
 @include bg-variant('.bg-dark', $gray-dark);
+@include bg-variant('.bg-light', $gray-lightest);
+
+.bg-light {
+  color: $body-color !important;
+}
 
 @import "project";

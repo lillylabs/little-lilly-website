@@ -1,6 +1,7 @@
 ---
 title: Contact
 date: 2016-06-20 14:51:00 Z
+layout: page
 ---
 
 # Telephone

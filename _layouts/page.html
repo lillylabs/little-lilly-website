@@ -4,12 +4,22 @@ layout: default
 
 <article class="post">
 
-  <header class="post-header">
-    <h1 class="post-title">{{ page.title }}</h1>
-  </header>
+  <div class="page-section page-header bg-dark row">
+      <header class="block">
+        <h1 class="post-title">{{ page.title }}</h1>
+      </header>
+  </div>
 
-  <div class="post-content">
-    {{ content }}
+  <div class="page-section page-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="block">
+          <div class="content">
+            {{ content }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </article>
