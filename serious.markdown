@@ -50,7 +50,8 @@ When you purchase credits in our application we have the right to deduct the app
 
 We also reserve the right to change these terms and conditions, the price and value of a credit and the product at any time. We promise to notify you as a buyer of major changes.
 
-Your rights as a buyer
+## Your rights as a buyer
+
 We promise to you that we will do everything we can to fulfill your expectations to our service. If you are not satisfied with our service, we may offer to refund your credit purchase.
 
 Liability
