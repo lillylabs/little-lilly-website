@@ -32,6 +32,10 @@ sections:
     signing up below.
   background: dark
   type: signup
+  form:
+    submit: Sign me up
+    note: We take your privacy seriously and will never spam you, or share your e-mail
+      with anyone else.
 layout: base
 ---
 
