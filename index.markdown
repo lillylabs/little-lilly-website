@@ -1,5 +1,5 @@
 ---
-title: Home
+title: Little Lilly
 date: 2016-06-18 14:06:00 Z
 sections:
 - title: Instagram photos sent to grandma's postbox
