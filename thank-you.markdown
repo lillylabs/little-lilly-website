@@ -1,6 +1,7 @@
 ---
 title: Thank you
 date: 2016-06-27 09:40:00 Z
+layout: page
 ---
 
 Thank you for your interest in Litte Lilly. An e-mail will arrive shortly, please make sure it does not end up in your spam folder.
