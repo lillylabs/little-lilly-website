@@ -3,8 +3,6 @@
 
 @charset "utf-8";
 
-
-
 // Bootstrap Variables
 $brand-primary:             #F05F40 !default;
 
@@ -17,7 +15,6 @@ $headings-font-weight:      700 !default;
 $enable-flex:               true !default;
 
 // Import partials from `sass_dir` (defaults to `_sass`)
-
 @import "bootstrap-sass/bootstrap";
 
 // Bootsrap overrides
