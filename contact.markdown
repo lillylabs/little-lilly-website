@@ -1,7 +1,7 @@
 ---
 title: Contact
 date: 2016-06-20 14:51:00 Z
-position: 0
+position: 1
 layout: page
 ---
 
