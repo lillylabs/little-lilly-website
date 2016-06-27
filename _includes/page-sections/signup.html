@@ -5,7 +5,7 @@
       <div class="block">
        {% include page-sections/partials/content.html section=include.section %}
 
-        <form name="signup-{{page.id}}" action="thank-you" netlify>
+        <form name="signup-{{ page.path || slugify }}" action="thank-you" netlify>
           <fieldset>
             <label for="name">Name</label>
             <input type="text" id="name" name="name">

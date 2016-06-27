@@ -22,7 +22,7 @@ Registered at the Brønnøysund Register Center
 Organization number: 998 085 640
 VAT ID: 998 085 640 MVA
 
-# Terms and conditions
+# Terms & conditions
 
 ## Conditions of use
 
