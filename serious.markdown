@@ -1,7 +1,7 @@
 ---
 title: Serious Stuff
 date: 2016-06-20 14:43:00 Z
-position: 0
+position: 2
 layout: page
 ---
 
