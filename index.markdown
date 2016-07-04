@@ -50,6 +50,12 @@ sections:
   signature: "- Benedicte Raae, founder"
   image: "/uploads/about4.jpg"
   id: relaunch
+- id: gallery
+  type: gallery
+  images:
+  - "/uploads/letter1.jpg"
+  - "/uploads/letter3.jpg"
+  - "/uploads/letter2.jpg"
 - title: Keep grandma updated!
   content: Learn more about Little Lilly and get early access when we relaunch by
     signing up below.
