@@ -7,8 +7,10 @@ sections:
   content: Stay in touch with the non-digitals in your life by letting Little Lilly
     transform your favorite Instagram photos into printed letters.
   actions:
-  - Learn more
-  - Sign me up
+  - label: Learn more
+    link: "#explainer"
+  - label: Sign me up
+    link: "#signup"
   image: "/uploads/letter2.jpg"
   type: hero
   id: hero
@@ -18,7 +20,8 @@ sections:
 
     All you need to do is let her know which photos are your favorites. You do this by including #lillygram in the caption or adding #lillygram as a comment.
   actions:
-  - Get started
+  - label: Get started
+    link: "#signup"
   background: primary
   id: explainer
 - type: list
