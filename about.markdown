@@ -27,6 +27,9 @@ sections:
     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec.
 
     Please [contact us](/contact) if you need more materials.
+  actions:
+  - label: Download Press Kit
+    file: "/uploads/Arkiv.zip"
 layout: page
 ---
 
