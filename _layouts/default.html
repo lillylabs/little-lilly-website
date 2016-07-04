@@ -14,7 +14,13 @@
         {% when 'signup' %}
           {% include page-sections/signup.html section=section %}
         {% else %}
-          {% include page-sections/basic.html section=section %}
+          {% if section.blurbs %}
+            {% include page-sections/blurbs.html section=section %}
+          {% elsif section.images %}
+            {% include page-sections/gallery.html section=section %}
+          {% else %}
+            {% include page-sections/basic.html section=section %}
+          {% endif %}
       {% endcase %}
     {% endfor %}
 

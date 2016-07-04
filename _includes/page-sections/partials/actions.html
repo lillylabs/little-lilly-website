@@ -1,7 +1,7 @@
 {% if include.actions %}
   <div class="actions">
     {% for action in include.actions %}
-    <a href="#">{{ action }}</a>
+    <a href="{{ action.link }}{{ action.file }}">{{ action.label }}</a>
     {% endfor %}
   </div>
 {% endif %}
