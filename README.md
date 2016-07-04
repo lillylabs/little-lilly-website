@@ -3,6 +3,13 @@
 The Little Lilly website is a Jekyll website hosted at Netlify. It is possible to edit the content
 visually through Siteleaf. The site is deployed automatically.
 
+## Getting started
+
+* Clone this repository: `git clone git@github.com:lillylabs/little-lilly-website.git`
+* Move into the site's directory: `cd little-lilly-website`
+* Build and serve the site using: `jekyll serve`
+* View the site at: `http://localhost:4000/`
+
 ## Development
 
 Development is done in feature branches that are merged into the `develop` branch through pull requests.
