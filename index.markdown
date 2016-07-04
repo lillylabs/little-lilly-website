@@ -11,6 +11,7 @@ sections:
   - Sign me up
   image: "/uploads/letter2.jpg"
   type: hero
+  id: hero
 - title: How does it work?
   content: |-
     Each month Little Lilly transform your favorite photos into a letter. She also prints and ships the letter(s) for you.
@@ -19,7 +20,10 @@ sections:
   actions:
   - Get started
   background: primary
-- title: Features
+  id: explainer
+- type: list
+  id: features
+  title: Features
   content:
   - icon: fa-globe
     header: Worldwide shipping
@@ -42,6 +46,7 @@ sections:
     Follow the process and be the first to get an invite [by signing up today](#signup).
   signature: "- Benedicte Raae, founder"
   image: "/uploads/about4.jpg"
+  id: relaunch
 - title: Keep grandma updated!
   content: Learn more about Little Lilly and get early access when we relaunch by
     signing up below.
@@ -51,6 +56,7 @@ sections:
     submit: Sign me up
     note: We take your privacy seriously and will never spam you, or share your e-mail
       with anyone else.
+  id: signup
 layout: default
 ---
 
