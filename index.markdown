@@ -19,6 +19,20 @@ sections:
   actions:
   - Get started
   background: primary
+- title: Features
+  content:
+  - icon: fa-globe
+    header: Worldwide shipping
+    content: Same easy pricing anywhere in the world.
+  - icon: fa-pencil-square-o
+    header: Personal Greeting
+    content: Add a personal greeting to accompany the photos.
+  - icon: fa-stack-overflow
+    header: Unlimited number of photos
+    content: Tag as many photos as you like!
+  - icon: fa-money
+    header: From 69 nok per letter
+    content: Payment is done with credits. Buy 1, 5 or 10 credits at the time.
 - title: Relaunching this fall
   content: |-
     Little Lilly has quietly helped many families stay in touch since  2013.  This suited me fine while taking time for my first born, Lillian.
