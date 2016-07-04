@@ -9,7 +9,7 @@ sections:
   actions:
   - Learn more
   - Sign me up
-  image: "/uploads/header.jpg"
+  image: "/uploads/letter2.jpg"
   type: hero
 - title: How does it work?
   content: |-
