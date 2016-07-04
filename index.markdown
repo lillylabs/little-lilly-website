@@ -13,8 +13,8 @@ sections:
     link: "#signup"
   image: "/uploads/letter2.jpg"
   type: hero
-  id: hero
 - title: How does it work?
+  id: explainer
   content: |-
     Each month Little Lilly transform your favorite photos into a letter. She also prints and ships the letter(s) for you.
 
@@ -23,11 +23,9 @@ sections:
   - label: Get started
     link: "#signup"
   background: primary
-  id: explainer
-- type: list
+- title: Features
   id: features
-  title: Features
-  content:
+  blurbs:
   - icon: fa-globe
     header: Worldwide shipping
     content: Same easy pricing anywhere in the world.
@@ -41,6 +39,7 @@ sections:
     header: From 69 nok per letter
     content: Payment is done with credits. Buy 1, 5 or 10 credits at the time.
 - title: Relaunching this fall
+  id: relaunch
   content: |-
     Little Lilly has quietly helped many families stay in touch since  2013.  This suited me fine while taking time for my first born, Lillian.
 
@@ -49,14 +48,13 @@ sections:
     Follow the process and be the first to get an invite [by signing up today](#signup).
   signature: "- Benedicte Raae, founder"
   image: "/uploads/about4.jpg"
-  id: relaunch
 - id: gallery
-  type: gallery
   images:
   - "/uploads/letter1.jpg"
   - "/uploads/letter3.jpg"
   - "/uploads/letter2.jpg"
 - title: Keep grandma updated!
+  id: signup
   content: Learn more about Little Lilly and get early access when we relaunch by
     signing up below.
   background: dark
@@ -65,7 +63,6 @@ sections:
     submit: Sign me up
     note: We take your privacy seriously and will never spam you, or share your e-mail
       with anyone else.
-  id: signup
 layout: default
 ---
 
