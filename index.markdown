@@ -3,9 +3,9 @@ title: Little Lilly
 date: 2016-06-18 14:06:00 Z
 position: 0
 sections:
-- title: Instagram photos sent to grandma's postbox
+- title: Send grandma a monthly letter filled with Instagram photos
   content: Stay in touch with the non-digitals in your life by letting Little Lilly
-    transform your favorite Instagram photos into printed letters.
+    transform your favorite Instagram photos into a printed letter.
   actions:
   - label: Learn more
     link: "#explainer"
