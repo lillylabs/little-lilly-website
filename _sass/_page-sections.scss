@@ -13,6 +13,10 @@
   @include background-cover();
   padding: 100px 0;
 
+  &.bg-white + .bg-white {
+    padding-top: 30px;
+  }
+
   .actions {
     margin-top: 60px;
   }
@@ -67,10 +71,6 @@
   &.page-content {
 
     padding-bottom: 0;
-
-    +.bg-white {
-      padding-top: 30px;
-    }
 
     .block {
       max-width: 800px !important;
