@@ -71,12 +71,12 @@
   &.page-content {
 
     padding-bottom: 0;
+    color: $brand-white;
 
     .block {
       max-width: 800px !important;
 
       h1 {
-        color: $brand-white;
         padding: 0 1rem;
         margin-bottom: 2rem;
       }
@@ -84,6 +84,7 @@
       .content {
         padding: 60px;
         background: $brand-white;
+        color: $brand-dark;
         width: 100%;
         border-radius: $border-radius;
         text-align: left;

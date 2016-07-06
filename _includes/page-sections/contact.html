@@ -1,0 +1,35 @@
+<section class="page-section contact bg-{{ include.section.background | default: 'white' }}" id="{{ section.id }}">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="block">
+       {% include page-sections/partials/content.html section=include.section %}
+      </div>
+
+    </div>
+    <div class="row">
+      <ul>
+        {% if include.section.phone %}
+        <li>
+          <i class="fa fa-envelope-o"></i>
+          {{ include.section.phone }}
+        </li>
+        {% endif %}
+        {% if include.section.email %}
+        <li>
+          <i class="fa fa-envelope-o"></i>
+          {{ include.section.email }}
+        </li>
+        {% endif %}
+        {% if include.section.address %}
+        <li>
+          <i class="fa fa-envelope-o"></i>
+          {{ include.section.address || markdownify }}
+        </li>
+        {% endif %}
+
+      </ul>
+
+    </div>
+  </div>
+</section>

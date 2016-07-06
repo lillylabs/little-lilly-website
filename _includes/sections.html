@@ -9,6 +9,8 @@
         {% include page-sections/blurbs.html section=section %}
       {% elsif section.team %}
         {% include page-sections/team.html section=section %}
+      {% elsif section.address %}
+        {% include page-sections/contact.html section=section %}
       {% elsif section.images %}
         {% include page-sections/gallery.html section=section %}
       {% else %}
