@@ -6,9 +6,13 @@
       </div>
     </div>
     <div class="row">
+      {% for member in include.section.team %}
       <div class="block">
-        Team
+        <img src="{{ member.image | default: '/uploads/avatar.jpg' }}"><br/>
+        {{ member.name }} <br/>
+        {{ member.title }} <br/>
       </div>
+      {% endfor %}
     </div>
   </div>
 </section>

@@ -7,18 +7,16 @@ sections:
 - title: Meet the Team
   team:
   - name: Benedicte Raae
-    image: "/uploads/avatar2.jpg"
+    image: "/uploads/benedicte.jpg"
     title: Chief Techologist
     some:
     - https://www.instagram.com/benedicteraae/
     - https://twitter.com/raae
   - name: Ola Vea
-    image: "/uploads/avatar2.jpg"
     title: Chief Marketeer
     some:
     - https://twitter.com/olaholstvea
   - name: Lillian Raae-Vea
-    image: "/uploads/avatar2.jpg"
     title: Chief Intern
 - title: Press Kit
   content: |-
