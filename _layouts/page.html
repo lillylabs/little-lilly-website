@@ -2,21 +2,21 @@
 layout: default
 ---
 
-<article class="post">
+<article class="post container-fluid">
 
-  <div class="page-section page-header bg-dark row">
+  <div class="page-background" style="background-image: url({{ page.image }})"></div>
+
+  <div class="page-section page-header row">
       <header class="block">
         <h1 class="post-title">{{ page.title }}</h1>
       </header>
   </div>
 
   <div class="page-section page-content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="block">
-          <div class="content">
-            {{ content }}
-          </div>
+    <div class="row">
+      <div class="block">
+        <div class="content">
+          {{ content }}
         </div>
       </div>
     </div>
