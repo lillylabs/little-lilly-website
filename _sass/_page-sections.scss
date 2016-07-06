@@ -101,6 +101,88 @@
     }
   }
 
+  &.team {
+    .team-image {
+      position: relative;
+      .team-image-social-icons {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        opacity: 1;
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+        @include transition-all;
+        ul {
+          display: inline-block;
+          margin: 0 auto;
+          li {
+            display: inline-block;
+            margin: 0 5px;
+            a {
+              display: block;
+              height: 40px;
+              width: 40px;
+              line-height: 40px;
+              border-radius: 100%;
+              background: $brand-primary;
+              color: white;
+              @include transition-all;
+              &:hover {
+                background: white;
+                color: $brand-primary;
+              }
+            }
+          }
+        }
+      }
+      &:hover {
+        .team-image-social-icons {
+          opacity: 1;
+        }
+      }
+    }
+    .team-info {
+      padding: 20px;
+      text-align: center;
+      color: white;
+      background-color: $brand-primary;
+      .team-info-name {
+        font-size: 110%;
+      }
+      .team-info-title {
+        font-size: 70%;
+        opacity: 0.7;
+      }
+    }
+    @media (min-width: 768px) {
+      .team {
+        .team-image-overlay {
+          display: visible;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: $brand-primary;
+          height: 100%;
+          width: 100%;
+          opacity: 0;
+          @include transition-all;
+        }
+        .team-image-social-icons {
+          opacity: 0;
+        }
+        &:hover {
+          .team-image-overlay {
+            opacity: 0.2;
+          }
+          .team-image-social-icons {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
   &.hero {
     width: 100%;
     margin: 0;

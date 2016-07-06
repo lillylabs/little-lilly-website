@@ -9,13 +9,13 @@ sections:
   - name: Benedicte Raae
     image: "/uploads/benedicte.jpg"
     title: Chief Techologist
-    some:
-    - https://www.instagram.com/benedicteraae/
-    - https://twitter.com/raae
+    social:
+      instagram: https://www.instagram.com/benedicteraae/
+      twitter: https://twitter.com/raae
   - name: Ola Vea
     title: Chief Marketeer
-    some:
-    - https://twitter.com/olaholstvea
+    social:
+      twitter: https://twitter.com/olaholstvea
   - name: Lillian Raae-Vea
     title: Chief Intern
 - title: Press Kit
