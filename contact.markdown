@@ -12,6 +12,7 @@ sections:
     Tromsøgata 26
     0565 Oslo
     Norway
+layout: page
 ---
 
 We’d love to hear from you. Lorem ipsum dolor sit amet, consectetur adipiscing elit.

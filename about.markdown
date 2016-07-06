@@ -20,7 +20,6 @@ sections:
   - name: Lillian Raae-Vea
     image: "/uploads/avatar2.jpg"
     title: Chief Intern
-  background: primary
 - title: Press Kit
   content: |-
     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec.
