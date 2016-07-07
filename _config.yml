@@ -1,6 +1,7 @@
 ---
 title: Little Lilly
 timezone: UTC
+permalink: none
 collections:
   galleries:
     title: Galleries
