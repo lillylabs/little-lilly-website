@@ -1,4 +1,4 @@
-<section class="page-section signup bg-{{ include.section.background }}" id="{{ section.id }}">
+<section class="page-section blurbs bg-{{ include.section.background | default: 'white' }}" id="{{ section.id }}">
   <div class="container-fluid">
     <div class="row">
 
@@ -8,7 +8,13 @@
 
     </div>
     <div class="row">
-      <!-- Blurbs -->
+      {% for blurb in include.section.blurbs %}
+      <div class="block">
+        <i class="fa {{ blurb.icon }}"></i>
+        <h3>{{ blurb.title }}</h3>
+        {{ blurb.content }} <br/>
+      </div>
+      {% endfor %}
     </div>
   </div>
 </section>

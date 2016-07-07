@@ -1,7 +1,21 @@
+.page-background {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 400px;
+  background: $brand-dark;
+  @include background-cover();
+}
+
 .page-section {
 
   @include background-cover();
   padding: 100px 0;
+
+  &.bg-white + .bg-white {
+    padding-top: 30px;
+  }
 
   .actions {
     margin-top: 60px;
@@ -54,29 +68,120 @@
     }
   }
 
-  &.page-header {
-
-    justify-content: center;
-    padding-bottom: 400px;
-    margin-bottom: -450px;
-
-    .block {
-      max-width: 700px !important;
-    }
-  }
-
   &.page-content {
 
-    justify-content: center;
+    padding-bottom: 0;
+    color: $brand-white;
 
     .block {
       max-width: 800px !important;
-      text-align: left !important;
+
+      h1 {
+        padding: 0 1rem;
+        margin-bottom: 2rem;
+      }
+
       .content {
         padding: 60px;
         background: $brand-white;
+        color: $brand-dark;
         width: 100%;
         border-radius: $border-radius;
+        text-align: left;
+
+        blockquote p {
+          border-left: 3px solid $brand-primary;
+          padding: 0 20px;
+          margin: 20px;
+          font-size: 120%;
+          font-style: italic;
+          @extend .text-muted;
+        }
+      }
+    }
+  }
+
+  &.team {
+    .row {
+      align-items: flex-start;
+    }
+    .team-image {
+      position: relative;
+      .team-image-social-icons {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        opacity: 1;
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+        @include transition-all;
+        ul {
+          display: inline-block;
+          margin: 0 auto;
+          li {
+            display: inline-block;
+            margin: 0 5px;
+            a {
+              display: block;
+              height: 40px;
+              width: 40px;
+              line-height: 40px;
+              border-radius: 100%;
+              background: $brand-primary;
+              color: white;
+              @include transition-all;
+              &:hover {
+                background: white;
+                color: $brand-primary;
+              }
+            }
+          }
+        }
+      }
+      &:hover {
+        .team-image-social-icons {
+          opacity: 1;
+        }
+      }
+    }
+    .team-info {
+      padding: 20px;
+      text-align: center;
+      color: white;
+      background-color: $brand-primary;
+      .team-info-name {
+        font-size: 110%;
+      }
+      .team-info-title {
+        font-size: 70%;
+        opacity: 0.7;
+      }
+    }
+    @media (min-width: 768px) {
+      .team {
+        .team-image-overlay {
+          display: visible;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: $brand-primary;
+          height: 100%;
+          width: 100%;
+          opacity: 0;
+          @include transition-all;
+        }
+        .team-image-social-icons {
+          opacity: 0;
+        }
+        &:hover {
+          .team-image-overlay {
+            opacity: 0.2;
+          }
+          .team-image-social-icons {
+            opacity: 1;
+          }
+        }
       }
     }
   }

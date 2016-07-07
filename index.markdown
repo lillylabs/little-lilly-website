@@ -27,16 +27,16 @@ sections:
   id: features
   blurbs:
   - icon: fa-globe
-    header: Worldwide shipping
+    title: Worldwide shipping
     content: Same easy pricing anywhere in the world.
   - icon: fa-pencil-square-o
-    header: Personal Greeting
+    title: Personal Greeting
     content: Add a personal greeting to accompany the photos.
   - icon: fa-stack-overflow
-    header: Unlimited number of photos
+    title: Unlimited number of photos
     content: Tag as many photos as you like!
   - icon: fa-money
-    header: From 69 nok per letter
+    title: From 69 nok per letter
     content: Payment is done with credits. Buy 1, 5 or 10 credits at the time.
 - title: Relaunching this fall
   id: relaunch
@@ -63,6 +63,6 @@ sections:
     submit: Sign me up
     note: We take your privacy seriously and will never spam you, or share your e-mail
       with anyone else.
-layout: default
+layout: landing
 ---
 

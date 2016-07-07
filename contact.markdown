@@ -8,10 +8,11 @@ sections:
   email: hello@littlelilly.no
   phone: "+47 97 66 70 45"
   address: |-
-    Lilly Labs
-    Tromsøgata 26
-    0565 Oslo
-    Norway
+    Lilly Labs  
+    Tromsøgata 26  
+    0565 Oslo  
+    Norway  
+layout: contact
 ---
 
 We’d love to hear from you. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
