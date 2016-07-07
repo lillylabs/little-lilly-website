@@ -1,7 +1,6 @@
 ---
 title: Little Lilly
 timezone: UTC
-permalink: none
 collections:
   galleries:
     title: Galleries
@@ -15,3 +14,4 @@ collections:
   uploads:
     title: Uploads
     output: true
+permalink: none
