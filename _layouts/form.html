@@ -13,7 +13,8 @@ layout: default
         <h1 class="post-title">{{ page.title }}</h1>
           {{ content }}
           <div class="content" style="min-height: 300px">
-            Contact form
+            {% assign path_array = page.path | split: '.' %}
+            {% include forms/{{path_array.first}}.html %}
           </div>
         </div>
       </div>
