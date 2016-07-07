@@ -102,6 +102,9 @@
   }
 
   &.team {
+    .row {
+      align-items: flex-start;
+    }
     .team-image {
       position: relative;
       .team-image-social-icons {
