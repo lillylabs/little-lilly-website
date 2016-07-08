@@ -60,7 +60,7 @@ sections:
   background: dark
   form:
     type: newsletter
-    action: /thank-you
+    action: "/thank-you"
     submit: Sign me up
     note: We take your privacy seriously and will never spam you, or share your e-mail
       with anyone else.
