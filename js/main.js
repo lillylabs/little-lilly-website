@@ -21,6 +21,23 @@
     event.preventDefault();
   });
 
+  // Initialize and Configure Scroll Reveal Animation
+  window.sr = ScrollReveal();
+  sr.reveal('.blurbs i', {
+    duration: 400,
+    scale: 0.6,
+    distance: '0px'
+  }, 200);
+  sr.reveal('.sr-button', {
+    duration: 1000,
+    delay: 200
+  });
+  sr.reveal('.sr-contact', {
+    duration: 600,
+    scale: 0.3,
+    distance: '0px'
+  }, 300);
+
   // Highlight the top nav as scrolling occurs
   $('body').scrollspy({
     target: '.navbar-fixed-top',
@@ -46,23 +63,6 @@
       top: 100
     }
   })
-
-  // Initialize and Configure Scroll Reveal Animation
-  window.sr = ScrollReveal();
-  sr.reveal('.sr-icons', {
-    duration: 600,
-    scale: 0.3,
-    distance: '0px'
-  }, 200);
-  sr.reveal('.sr-button', {
-    duration: 1000,
-    delay: 200
-  });
-  sr.reveal('.sr-contact', {
-    duration: 600,
-    scale: 0.3,
-    distance: '0px'
-  }, 300);
 
   // Initialize and Configure Magnific Popup Lightbox Plugin
   $('.popup-gallery').magnificPopup({
