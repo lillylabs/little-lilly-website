@@ -14,14 +14,13 @@ sections:
   type: hero
 - title: Relaunching this fall
   id: relaunch
-  content: |-
-    Little Lilly has quietly helped families, including yours, stay in touch since 2013.
-    
-    Following lean startup ideas we created Lillygram with as little techonology as possible to validate our product. We got a smalt, but loyal customer base. This suited me fine while taking time for my first born, Lillian. 
-    
-    But now, now it is time to make this baby my priority. We are relaunching in august with a system ready for growth and hope you will help us spread the word. 
-
-    Send a friend a link to [Little Lilly](/refer) today!
+  content: "Little Lilly has quietly helped families, including yours, stay in touch
+    since 2013.\n\nFollowing lean startup ideas we created Lillygram with as little
+    techonology as possible to validate our product. We got a smalt, but loyal customer
+    base. This suited me fine while taking time for my first born, Lillian. \n\nBut
+    now, now it is time to make this baby my priority. We are relaunching in august
+    with a system ready for growth and hope you will help us spread the word. \n\nSend
+    a friend a link to [Little Lilly](/refer) today!"
   signature: "- Benedicte Raae, founder"
   image: "/uploads/about4.jpg"
 - id: gallery
@@ -36,7 +35,7 @@ sections:
   background: dark
   form:
     type: newsletter
-    action: /thank-you
+    action: "/thank-you"
     submit: Sign me up
     note: We take your privacy seriously and will never spam you, or share your e-mail
       with anyone else.
