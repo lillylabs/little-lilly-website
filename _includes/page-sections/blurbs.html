@@ -12,7 +12,7 @@
       <div class="block">
         <i class="fa {{ blurb.icon }}"></i>
         <h3>{{ blurb.title }}</h3>
-        {{ blurb.content }} <br/>
+        {{ blurb.content || markdownify }} <br/>
       </div>
       {% endfor %}
     </div>

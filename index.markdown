@@ -33,11 +33,11 @@ sections:
     title: Personal Greeting
     content: Add a personal greeting to accompany the photos.
   - icon: fa-stack-overflow
-    title: Unlimited number of photos
-    content: Tag as many photos as you like!
-  - icon: fa-money
-    title: From 69 nok per letter
-    content: Payment is done with credits. Buy 1, 5 or 10 credits at the time.
+    title: Unlimited Photos
+    content: You can tag as many photos as you like!
+  - icon: fa-recycle
+    title: Quality paper
+    content: We use high quality, recycled paper.
 - title: Relaunching this fall
   id: relaunch
   content: |-

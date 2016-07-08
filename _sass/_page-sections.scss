@@ -101,6 +101,27 @@
     }
   }
 
+  &.blurbs {
+    text-align: center;
+
+    .row {
+      align-items: flex-start;
+    }
+
+    i.fa {
+      @extend .fa-4x;
+      color: $brand-primary;
+    }
+
+    h3 {
+      font-size: 24px;
+    }
+
+    p {
+      @extend .text-muted;
+    }
+  }
+
   &.team {
     .row {
       align-items: flex-start;
