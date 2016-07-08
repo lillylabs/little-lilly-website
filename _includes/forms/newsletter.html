@@ -1,4 +1,4 @@
-{% assign slug = page.path | remove: '.html' | remove: '.markdown' | remove: '.md' | slugify %}
+{% assign path = page.path | remove: '.html' | remove: '.markdown' | remove: '.md' | prettify %}
 
 <form name="newsletter" action="{{ include.form.action }}" netlify>
   <fieldset>
@@ -14,7 +14,7 @@
       <input name="bot-field">
     </label>
     <label>Location:
-      <input name="location" value="{{ slug }}">
+      <input name="location" value="{{ path }}">
     </label>
   </fieldset>
   <fieldset>
