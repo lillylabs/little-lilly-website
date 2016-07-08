@@ -17,8 +17,12 @@ $headings-margin-bottom:    $spacer;
 
 $enable-flex:               true !default;
 
-// Import partials from `sass_dir` (defaults to `_sass`)
 @import "bootstrap-sass/bootstrap";
+
+// Fontawsome Variables
+$fa-font-path:        "/vendor/font-awesome/fonts" !default;
+
+@import "fontawsome-sass/font-awesome";
 
 // Bootsrap overrides
 .container-fluid {

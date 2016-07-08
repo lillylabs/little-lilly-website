@@ -41,7 +41,8 @@
     &:nth-child(2):nth-last-child(3),
     &:nth-child(3):nth-last-child(2),
     &:nth-child(4):nth-last-child(1) {
-      @extend .col-sm-3;
+      @extend .col-lg-3;
+      @extend .col-md-6;
     }
 
     // 3 blocks
@@ -98,6 +99,27 @@
           @extend .text-muted;
         }
       }
+    }
+  }
+
+  &.blurbs {
+    text-align: center;
+
+    .row {
+      align-items: flex-start;
+    }
+
+    i.fa {
+      @extend .fa-4x;
+      color: $brand-primary;
+    }
+
+    h3 {
+      font-size: 24px;
+    }
+
+    p {
+      @extend .text-muted;
     }
   }
 
