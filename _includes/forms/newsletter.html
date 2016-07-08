@@ -1,6 +1,6 @@
 {% assign slug = page.path | remove: '.html' | remove: '.markdown' | remove: '.md' | slugify %}
 
-<form name="newsletter-{{ slug}}" action="{{ form.action }}" netlify>
+<form name="newsletter" action="{{ form.action }}" netlify>
   <fieldset>
     <label for="name">Name</label>
     <input type="text" id="name" name="name">
@@ -12,6 +12,9 @@
   <fieldset style="display:none">
     <label>Bot field:
       <input name="bot-field">
+    </label>
+    <label>Location:
+      <input name="location" value="{{ slug }}">
     </label>
   </fieldset>
   <fieldset>
