@@ -1,0 +1,15 @@
+<section class="page-section signup bg-{{ include.section.background | default: 'dark' }}" id="{{ section.id }}">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="block">
+        {% include page-sections/partials/content.html section=include.section %}
+
+        {% if include.section.form.type %}
+          {% include forms/{{ include.section.form.type }}.html form=include.section.form %}
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>

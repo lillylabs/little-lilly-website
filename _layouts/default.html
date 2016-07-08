@@ -2,9 +2,10 @@
 <html>
 
   {% include head.html %}
-  {% assign class = page.path | remove: '.html' | remove: '.markdown' | remove: '.md' | slugify %}
 
-  <body id="page-top" class="{{ class }}">
+  {% assign slug = page.path | remove: '.html' | remove: '.markdown' | remove: '.md' | slugify %}
+
+  <body id="page-top" class="{{ slug }}">
 
     {% comment %}
       To include and fix

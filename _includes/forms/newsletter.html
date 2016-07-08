@@ -1,0 +1,28 @@
+{% assign slug = page.path | remove: '.html' | remove: '.markdown' | remove: '.md' | slugify %}
+
+<form name="newsletter-{{ slug}}" action="{{ form.action }}" netlify>
+  <fieldset>
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name">
+  </fieldset>
+  <fieldset>
+    <label for="email">Email address</label>
+    <input type="email" id="email" name="email" required>
+  </fieldset>
+  <fieldset style="display:none">
+    <label>Bot field:
+      <input name="bot-field">
+    </label>
+  </fieldset>
+  <fieldset>
+    <button type="submit">{{ include.form.submit | default: "Sign me up" }}</button>
+  </fieldset>
+
+  {% if include.form.note %}
+
+  <fieldset>
+    <span class="note">{{ include.form.note }}</span>
+  </fieldset>
+
+  {% endif %}
+</form>

@@ -58,8 +58,9 @@ sections:
   content: Learn more about Little Lilly and get early access when we relaunch by
     signing up below.
   background: dark
-  type: signup
   form:
+    type: newsletter
+    action: /thank-you
     submit: Sign me up
     note: We take your privacy seriously and will never spam you, or share your e-mail
       with anyone else.

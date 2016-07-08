@@ -7,6 +7,8 @@
     {% else %}
       {% if section.blurbs %}
         {% include page-sections/blurbs.html section=section %}
+      {% elsif section.form %}
+        {% include page-sections/form.html section=section %}
       {% elsif section.team %}
         {% include page-sections/team.html section=section %}
       {% elsif section.address %}
