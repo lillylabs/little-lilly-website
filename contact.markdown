@@ -1,6 +1,7 @@
 ---
 title: Contact us
 date: 2016-07-04 12:24:00 Z
+image: "/uploads/letter2.jpg"
 sections:
 - title: Other ways to reach us
   content: You can also get in touch lorem ipsum dolor sit amet. Donec ut massa consequat,

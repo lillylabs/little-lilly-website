@@ -5,20 +5,23 @@ layout: default
 <article>
 
   <div class="page-background" style="background-image: url({{ page.image }})"></div>
+  <div class="page-background-overlay"></div>
 
   <div class="page-section page-content bg-white">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="block">
-        <h1 class="post-title">{{ page.title }}</h1>
-          {{ content }}
-          <div class="content" style="min-height: 300px">
-            {% assign path_array = page.path | split: '.' %}
-            {% include forms/{{path_array.first}}.html %}
+      <div class="container-fluid">
+          <div class="row">
+              <div class="block">
+                  <div class="page-heading">
+                      <h1 class="post-title">{{ page.title }}</h1>
+                      {{ content }}
+                  </div>
+                  <div class="content">
+                      {% assign path_array = page.path | split: '.' %}
+                      {% include forms/{{path_array.first}}.html %}
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-    </div>
   </div>
 
   {% include sections.html %}

@@ -2,7 +2,7 @@
 title: About Little Lilly
 date: 2016-06-20 14:51:00 Z
 position: 1
-image: "/uploads/letter1.jpg"
+image: "/uploads/letter2.jpg"
 sections:
 - title: Meet the Team
   team:
