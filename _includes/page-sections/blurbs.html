@@ -10,7 +10,7 @@
     <div class="row">
       {% for blurb in include.section.blurbs %}
       <div class="block">
-        <i class="fa {{ blurb.icon }}"></i>
+        <i class="icon {{ blurb.icon }}"></i>
         <h3>{{ blurb.title }}</h3>
         {{ blurb.content || markdownify }} <br/>
       </div>

@@ -7,28 +7,45 @@
       </div>
 
     </div>
-    <div class="row">
-      <ul>
-        {% if include.section.phone %}
-        <li>
-          <i class="fa fa-envelope-o"></i>
-          {{ include.section.phone }}
-        </li>
-        {% endif %}
-        {% if include.section.email %}
-        <li>
-          <i class="fa fa-envelope-o"></i>
-          {{ include.section.email }}
-        </li>
-        {% endif %}
-        {% if include.section.address %}
-        <li>
-          <i class="fa fa-envelope-o"></i>
-          {{ include.section.address || markdownify }}
-        </li>
-        {% endif %}
 
-      </ul>
+    <div class="row">
+
+      <div class="block">
+
+        <ul class="list-group contact-list">
+          {% if include.section.phone %}
+          <li class="list-group-item">
+            <div class="list-group-icon">
+              <i class="icon-screen-smartphone"></i>
+            </div>
+            <div class="list-group-content">
+              {{ include.section.phone }}
+            </div>
+          </li>
+          {% endif %}
+          {% if include.section.email %}
+          <li class="list-group-item">
+            <div class="list-group-icon">
+              <i class="icon-envelope"></i>
+            </div>
+            <div class="list-group-content">
+              <a href="mailto:{{ include.section.email }}">{{ include.section.email }}</a>
+            </div>
+          </li>
+          {% endif %}
+          {% if include.section.address %}
+          <li class="list-group-item">
+            <div class="list-group-icon">
+              <i class="icon-location-pin"></i>
+            </div>
+            <div class="list-group-content">
+              {{ include.section.address || markdownify }}
+            </div>
+          </li>
+          {% endif %}
+        </ul>
+
+      </div>
 
     </div>
   </div>

@@ -1,1 +1,20 @@
 <!-- Gallery -->
+
+<section class="page-section gallery bg-{{ include.section.background | default: 'white' }}" id="{{ section.id }}">
+
+	<div class="row">
+
+		{% for image in include.section.images %}
+		<div class="block">
+			<a href="{{ image.url }}">
+				<div class="overlay">
+					<i class="icon-magnifier"></i>
+				</div>
+				<img src="{{ image.url }}">
+			</a>
+		</div>
+		{% endfor %}
+
+	</div>
+
+</section>
