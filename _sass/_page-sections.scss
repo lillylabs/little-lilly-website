@@ -89,7 +89,7 @@
   padding: 100px 0;
 
   &.bg-white + .bg-white {
-    padding-top: 30px;
+    padding-top: 0px;
   }
 
   .actions {
@@ -141,6 +141,10 @@
 
     img {
       width: 100%;
+    }
+    
+    p:last-child {
+      margin-bottom: 0;
     }
   }
 
@@ -213,7 +217,7 @@
   }
 
   &.gallery {
-    padding-bottom: 0;
+    padding: 0;
 
     .row {
       margin: 0;
