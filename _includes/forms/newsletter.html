@@ -1,4 +1,4 @@
-<form method="POST" action="https://lillylabs.activehosted.com/proc.php" id="_form_6_" class="_form _form_6 _inline-form  _dark" novalidate>
+<form method="POST" action="https://lillylabs.activehosted.com/proc.php" id="_form_6_" class="_form _form_6 _inline-form  _dark contact-form form-dark" novalidate>
 
   <input type="hidden" name="u" value="6" />
   <input type="hidden" name="f" value="6" />
@@ -9,20 +9,20 @@
   <input type="hidden" name="v" value="2" />
 
   <div class="_form-content">
-    <fieldset>
+    <fieldset class="form-group">
       <label>
         Name
       </label>
-      <input type="text" name="fullname" placeholder="Type your name" />
+      <input class="form-control" type="text" name="fullname" placeholder="Type your name" />
     </fieldset>
-    <fieldset>
+    <fieldset class="form-group">
       <label>
         Email*
       </label>
-      <input type="text" name="email" placeholder="Type your email" required/>
+      <input class="form-control" type="text" name="email" placeholder="Type your email" required/>
     </fieldset>
     <fieldset>
-      <button type="submit">
+      <button class="btn-block" type="submit">
         {{ include.form.submit | default: "Sign me up" }}
       </button>
     </fieldset>

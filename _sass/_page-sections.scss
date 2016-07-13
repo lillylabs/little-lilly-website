@@ -69,7 +69,7 @@
   width: 100%;
   top: 0;
   left: 0;
-  height: 400px;
+  height: 500px;
   background-color: $brand-dark;
   @include background-cover();
 }
@@ -79,7 +79,7 @@
   width: 100%;
   top: 0;
   left: 0;
-  height: 400px;
+  height: 500px;
   background: fade-out($brand-background, 0.4);
 }
 
@@ -157,14 +157,17 @@
       max-width: 800px !important;
 
       .page-heading {
-        margin-bottom: 3rem;
+        margin-bottom: 125px;
+        margin-top: 50px;
 
         h1 {
           padding: 0;
+          margin: 0;
         }
 
         p {
-
+          margin: 0;
+          padding: 0;
         }
 
       }
@@ -396,40 +399,6 @@
     }
   }
 
-  .contact-form {
-
-    .form-group {
-      position: relative;
-      padding-bottom: 30px;
-      margin-bottom: 0;
-
-      .form-control,
-      form input {
-        padding: 15px 20px;
-        &:focus {
-          border-color: $brand-primary;
-        }
-      }
-
-      label {
-        color: fade-out($brand-dark, 0.75);
-        margin-bottom: 0;
-      }
-
-      label.error {
-        position: absolute;
-        bottom: 0;
-        color: $brand-primary;
-        font-size: 75%;
-      }
-
-      button {
-        margin-bottom: 14px;
-      }
-
-    }
-  }
-
   .contact-list {
     text-align: left;
     .list-group-item {
@@ -503,4 +472,48 @@
       }
     }
   }
+}
+
+.contact-form {
+
+  .form-group {
+    position: relative;
+    padding-bottom: 30px;
+    margin-bottom: 0;
+
+    .form-control,
+    form input {
+      padding: 15px 20px;
+      border: 1px solid $gray-lighter;
+      &:focus {
+        border: 1px solid $brand-primary;
+      }
+    }
+
+    label {
+      color: fade-out($brand-dark, 0.75);
+      margin-bottom: 0;
+    }
+
+    label.error {
+      position: absolute;
+      bottom: 0;
+      color: $brand-primary;
+      font-size: 75%;
+    }
+
+    button {
+      margin-bottom: 14px;
+    }
+
+  }
+
+  &.form-dark {
+
+    .form-group label {
+      color: fade-out($brand-white, 0.75);
+    }
+
+  }
+
 }
