@@ -80,7 +80,7 @@
   top: 0;
   left: 0;
   height: 400px;
-  background: fade-out($brand-background, 0.25);
+  background: fade-out($brand-background, 0.4);
 }
 
 .page-section {
@@ -370,7 +370,7 @@
       top: 0;
       left: 0;
       position: absolute;
-      background: fade-out($brand-background, 0.25);
+      background: fade-out($brand-background, 0.4);
     }
 
     .content {

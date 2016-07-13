@@ -32,7 +32,7 @@ $fa-font-path:        "/vendor/font-awesome/fonts" !default;
 // Project Variables
 $brand-dark:                $gray-dark;
 $brand-white:               white;
-$brand-background:			#392f25;
+$brand-background:			    #392f25;
 
 @include bg-variant('.bg-dark', $gray-dark);
 @include bg-variant('.bg-light', $gray-lightest);
