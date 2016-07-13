@@ -26,16 +26,16 @@ sections:
 - title: Features
   id: features
   blurbs:
-  - icon: fa-globe
+  - icon: icon-globe-alt
     title: Worldwide shipping
     content: Same easy pricing anywhere in the world.
-  - icon: fa-pencil-square-o
+  - icon: icon-pencil
     title: Personal Greeting
     content: Add a personal greeting to accompany the photos.
-  - icon: fa-stack-overflow
+  - icon: icon-camera
     title: Unlimited Photos
     content: You can tag as many photos as you like!
-  - icon: fa-recycle
+  - icon: icon-envelope-letter
     title: Quality paper
     content: We use high quality, recycled paper.
 - title: Relaunching this fall
@@ -50,9 +50,10 @@ sections:
   image: "/uploads/about4.jpg"
 - id: gallery
   images:
-  - "/uploads/letter1.jpg"
-  - "/uploads/letter3.jpg"
-  - "/uploads/letter2.jpg"
+  - url: "/uploads/letter1.jpg"
+  - url: "/uploads/letter2.jpg"
+  - url: "/uploads/letter1.jpg"
+  - url: "/uploads/letter2.jpg"
 - title: Keep grandma updated!
   id: signup
   content: Learn more about Little Lilly and get early access when we relaunch by
