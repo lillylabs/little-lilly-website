@@ -33,6 +33,7 @@ $fa-font-path:        "/vendor/font-awesome/fonts" !default;
 $brand-dark:                $gray-dark;
 $brand-white:               white;
 $brand-background:			    #392f25;
+$content-width-max:         500px;
 
 @include bg-variant('.bg-dark', $gray-dark);
 @include bg-variant('.bg-light', $gray-lightest);
