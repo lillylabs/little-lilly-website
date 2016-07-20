@@ -4,10 +4,37 @@
     <h1><span ng-bind="profile.name | username"></span></h1>
     <hr>
     <div class="content">
-      <div class="user-info" ng-if="user">
-        <span ng-bind="user.email"></span><br/>
-        <span ng-bind="profile.credits"></span> credits
-      </div>
+      
+      <ul class="list-group" ng-if="user">
+        <li class="list-group-item">
+          <div class="list-group-icon">
+            <i class="icon-envelope"></i>
+          </div>
+          <div class="list-group-content">
+            <span ng-bind="user.email"></span>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="list-group-icon">
+            <i class="icon-wallet"></i>
+          </div>
+          <div class="list-group-content">
+            <span ng-bind="profile.credits"></span> credits
+          </div>
+        </li>
+        <li ng-if="profile.instagram" class="list-group-item">
+          <div class="list-group-icon">
+            <i class="icon-social-instagram"></i>
+          </div>
+          <div class="list-group-content">
+            <span ng-repeat="account in profile.instagram">
+              <a href="http://instagram.com/{{account.username}}">{{account.username}}</a>
+              <span ng-show="!$last"> / </span>
+            </span>
+          </div>
+        </li>
+      </ul>
+      <a ng-if="!profile.instagram" class="btn btn-white btn-block">Connect to Instagram</a>
       <div class="actions">
         <a ng-click="signOut()">Log out</a>
       </div>
