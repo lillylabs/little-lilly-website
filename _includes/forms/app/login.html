@@ -9,6 +9,7 @@
       <input type="password" class="form-control" id="password" placeholder="TopSecret123" ng-model="password">
     </div>
     <div class="form-group col-xs-12">
+      <p class="text-muted" ng-show="error" ng-bind="error"></p>
       <button type="submit" class="btn btn-primary btn-block">Sign in</button>
     </div>
   </div>

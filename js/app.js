@@ -128,6 +128,7 @@ app.controller("LoginController", ["$scope", "$state", "Auth",
     $scope.signIn = function() {
       Auth.$signInWithEmailAndPassword($scope.email, $scope.password).catch(function(error) {
         console.log("Error", error);
+        $scope.error = error.message;
       });
     };
   }
