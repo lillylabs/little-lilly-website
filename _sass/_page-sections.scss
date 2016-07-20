@@ -1,3 +1,13 @@
+.container-fluid {
+  .app-index main & {
+    max-width: 800px;
+    text-align: center;
+    .content {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+  }
+}
 // Navigation
 
 #mainNav {

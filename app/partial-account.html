@@ -1,0 +1,49 @@
+<header class="page-section header bg-primary">
+  <div class="container-fluid">
+
+    <h1><span ng-bind="profile.name | username"></span></h1>
+    <hr>
+    <div class="content">
+      <div class="user-info" ng-if="user">
+        <span ng-bind="user.email"></span><br/>
+        <span ng-bind="profile.credits"></span> credits
+      </div>
+      <div class="actions">
+        <a ng-click="signOut()">Log out</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="page-section letter bg-white">
+  <div class="container-fluid">
+
+    <div ng-hide="letter.name">
+      <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div ng-show="letter.name">
+      <h2 ng-bind="letter.name"></h2>
+      <hr>
+      <div class="content">
+        <p ng-bind="letter.greeting.text"></p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="page-section archive bg-white" ng-if="archive.length > 0" >
+  <div class="container-fluid">
+    <h2>Account history</h2>
+    <hr>
+    <div class="content">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="letter in archive | orderBy:'-$id' track by letter.$id">
+          <span ng-bind="letter.name"></span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>

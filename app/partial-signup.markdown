@@ -1,6 +1,6 @@
 ---
 title: Sign Up
-layout: form
+layout: app-partial-form
 ---
 
 Sign up to send your first letters.  

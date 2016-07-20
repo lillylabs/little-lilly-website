@@ -1,6 +1,6 @@
 ---
 title: Log in
-layout: form
+layout: app-partial-form
 ---
 
 Don't have a Little Lilly account yet?  
