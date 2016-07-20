@@ -68,9 +68,9 @@ app.run(["$rootScope", "$state", "Auth", function($rootScope, $state, Auth) {
 
   Auth.$onAuthStateChanged(function(firebaseUser) {
     if(firebaseUser !== null) {
-      $state.transitionTo("account");
+      $state.go("account");
     } else {
-      $state.transitionTo("login");
+      $state.go("login");
     }
   });
 
@@ -94,7 +94,7 @@ app.config(function($stateProvider, $locationProvider, $urlRouterProvider){
       templateUrl: "partial-account.html",
       controller: "AccountController",
       resolve: {
-        "currentAuth": ["Auth", function(Auth) {
+        "currentAuth": ["Auth", "$state", function(Auth, $state) {
           return Auth.$requireSignIn().catch(function(){
             $state.go('login');
           });
