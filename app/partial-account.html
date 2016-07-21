@@ -34,7 +34,7 @@
           </div>
         </li>
       </ul>
-      <a ng-if="!profile.instagram" class="btn btn-white btn-block">Connect to Instagram</a>
+      <a ng-click="instagramAuth()" ng-if="!profile.instagram" class="btn btn-white btn-block">Connect to Instagram</a>
       <div class="actions">
         <a ng-click="signOut()">Log out</a>
       </div>
