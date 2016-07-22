@@ -6,7 +6,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var app = angular.module("LittleLillyApp", ["firebase", "ui.router"]);
+var app = angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment"]);
 
 app.factory("Config", [
   function () {
@@ -30,10 +30,18 @@ app.factory("Auth", ["$firebaseAuth",
 ]);
 
 app.factory("Profile", ["$firebaseObject",
-  function ($firebaseObject) {
-    return function (uid) {
+  function($firebaseObject) {
+
+    var Profile = $firebaseObject.$extend({
+      getIGToken: function() {
+        var token = null;
+        return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
+      }
+    });
+
+    return function(uid) {
       var ref = firebase.database().ref('users/' + uid + '/profile');
-      return $firebaseObject(ref);
+      return new Profile(ref);
     }
   }
 ]);
@@ -56,8 +64,8 @@ app.factory("Archive", ["$firebaseArray",
   }
 ]);
 
-app.factory("Instagram", ["$window", "$http", "$q", "Config",
-  function ($window, $http, $q, Config) {
+app.factory("Instagram", ["$window", "$http", "$q", "moment", "Config",
+  function ($window, $http, $q, moment, Config) {
 
     function getRedirectUrl() {
       var redirectUrl = $window.location.host;
@@ -72,13 +80,90 @@ app.factory("Instagram", ["$window", "$http", "$q", "Config",
       $window.location.assign(url);
     }
 
+    function isSelected(photo) {
+      var TAGS = ['lillygram', 'lillygram'];
+      var isSelected = false;
+      angular.forEach(TAGS, function (TAG) {
+        if (photo.tags.toString().indexOf(TAG) > -1) {
+          isSelected = true;
+        }
+      });
+      return isSelected;
+    }
+
+    function isWithinTimeframe(timeframe, photo) {
+      timeframe = {
+        start: moment(timeframe.start),
+        end: moment(timeframe.end)
+      }
+
+      photo = moment(photo.created_time * 1000);
+
+      return photo.isBetween(timeframe.start, timeframe.end, 'day', '[]');
+    }
+
+    function isNewerThanTimeFrameStart(timeframe, photo) {
+      timeframe = {
+        start: moment(timeframe.start)
+      }
+
+      photo = moment(photo.created_time * 1000);
+
+      return photo.isAfter(timeframe.start, 'day', '[]');
+    }
+
+    function filterPhotos(photos, timeframe) {
+      var filtredPhotos = [];
+      angular.forEach(photos, function (photo) {
+        if (isSelected(photo) && isWithinTimeframe(timeframe, photo)) {
+          this.push(photo);
+        }
+      }, filtredPhotos);
+      return filtredPhotos;
+    }
+
+    function fetchPhotos(params) {
+
+      var url = 'https://api.instagram.com/v1/users/self/media/recent/';
+      url += '?access_token=' + params.token;
+      url += '&count=' + '5';
+      url += '&callback=JSON_CALLBACK';
+
+
+      if (params.pagination && params.pagination.next_max_id) {
+        url += '&max_id=' + params.pagination.next_max_id;
+      }
+
+      if (params.pagination && params.pagination.next_min_id) {
+        url += '&min_id=' + params.pagination.next_min_id;
+      }
+
+      $http.jsonp(url).success(function (response) {
+        console.log("Response data: ", response.data);
+        if (!params.photos) {
+          params.photos = response.data;
+        } else {
+          params.photos = params.photos.concat(response.data);
+        }
+
+        if (response.pagination && response.pagination.next_url && isNewerThanTimeFrameStart(params.timeframe, params.photos[params.photos.length - 1])) {
+          params.pagination = response.pagination;
+          fetchPhotos(params);
+        } else {
+          console.log("Params photos: ", params.photos);
+          var filteredPhotos = filterPhotos(params.photos, params.timeframe).reverse();
+          params.deferred.resolve(filteredPhotos);
+        }
+      });
+    }
+
     var instagram = {
-      auth: function () {
+      authAccount: function () {
         Config.instagramClientId().then(function (clientId) {
           goToAuthUrl(clientId, getRedirectUrl());
         });
       },
-      user: function (igToken) {
+      fetchUserInfo: function (igToken) {
         var url = 'https://api.instagram.com/v1/users/self/';
         url += '?access_token=' + igToken;
         url += '&callback=JSON_CALLBACK';
@@ -88,6 +173,19 @@ app.factory("Instagram", ["$window", "$http", "$q", "Config",
         $http.jsonp(url).success(function (response) {
           deferred.resolve(response.data);
         });
+
+        return deferred.promise;
+      },
+      fetchPhotos: function (profile, letter) {
+        var deferred = $q.defer();
+
+        var params = {
+          token: profile.getIGToken(),
+          timeframe: letter.timeframe,
+          deferred: deferred
+        }
+
+        fetchPhotos(params);
 
         return deferred.promise;
       }
@@ -168,12 +266,12 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
         "currentAuth": ["$stateParams", "Auth", "Profile", "Instagram", function ($stateParams, Auth, Profile, Instagram) {
           return Auth.$waitForSignIn().then(function (auth) {
             return Profile(auth.uid).$loaded().then(function (profile) {
-              return Instagram.user($stateParams.igToken).then(function (user) {
-                profile.instagram = {};
-                profile.instagram[user.id] = {
+              return Instagram.fetchUserInfo($stateParams.igToken).then(function (user) {
+                profile.ig_accounts = {};
+                profile.ig_accounts[user.id] = {
                   username: user.username,
                   token: $stateParams.igToken,
-                  profilePicture: user.profile_picture
+                  profile_picture: user.profile_picture
                 }
                 return profile.$save().catch(function (error) {
                   console.log('Error saving profile', error);
@@ -189,18 +287,52 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("account");
 });
 
-app.controller("AccountController", ["$scope", "currentAuth", "Auth", "Profile", "Letter", "Archive", "Instagram",
-  function ($scope, currentAuth, Auth, Profile, Letter, Archive, Instagram) {
-    $scope.user = currentAuth;
-    $scope.profile = Profile(currentAuth.uid);
-    $scope.letter = Letter(currentAuth.uid);
-    $scope.archive = Archive(currentAuth.uid);
+app.controller("AccountController", ["$scope", "currentAuth", "Profile", "Letter", "Archive",
+  function ($scope, currentAuth, Profile, Letter, Archive) {
 
-    $scope.instagramAuth = Instagram.auth;
+    $scope.user = currentAuth;
+    $scope.letter = Letter(currentAuth.uid);
+    $scope.profile = Profile(currentAuth.uid);
+    $scope.archive = Archive(currentAuth.uid);
+  }
+]);
+
+app.controller("ProfileController", ["$scope", "Auth", "Instagram",
+  function ($scope, Instagram) {
+
+    $scope.authIGAccount = function () {
+      Instagram.authAccount();
+    };
 
     $scope.signOut = function () {
       Auth.$signOut();
     };
+
+  }
+]);
+
+app.controller("LetterController", ["$scope", "Instagram",
+  function ($scope, Instagram) {
+
+    function fetchIGPhotos() {
+      Instagram.fetchPhotos($scope.profile, $scope.letter).then(function(photos) {
+        $scope.letter.photos = photos;
+      });
+    }
+
+    $scope.profile.$loaded().then(function (profile) {
+      return $scope.letter.$loaded();
+    }).then(function () {
+      fetchIGPhotos();
+
+      $scope.profile.$watch(function () {
+        fetchIGPhotos();
+      });
+
+      $scope.letter.$watch(function () {
+        fetchIGPhotos();
+      });
+    });
   }
 ]);
 

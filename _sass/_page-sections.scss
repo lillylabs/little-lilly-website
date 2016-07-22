@@ -6,6 +6,14 @@
       max-width: 480px;
       margin: 0 auto;
     }
+
+    .photos {
+      img {
+        display: inline-block;
+        width: 80px;
+        margin: 5px;
+      }
+    }
   }
 }
 // Navigation
