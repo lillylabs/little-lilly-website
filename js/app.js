@@ -6,7 +6,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var app = angular.module("LittleLillyApp", ["firebase", "ui.router"]);
+var app = angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment"]);
 
 app.factory("Config", [
   function () {
@@ -56,8 +56,8 @@ app.factory("Archive", ["$firebaseArray",
   }
 ]);
 
-app.factory("Instagram", ["$window", "$http", "$q", "Config",
-  function ($window, $http, $q, Config) {
+app.factory("Instagram", ["$window", "$http", "$q", "moment", "Config",
+  function ($window, $http, $q, moment, Config) {
 
     function getRedirectUrl() {
       var redirectUrl = $window.location.host;
@@ -72,36 +72,78 @@ app.factory("Instagram", ["$window", "$http", "$q", "Config",
       $window.location.assign(url);
     }
 
-    function getPhotos(igToken, pagination, deferred, photos) {
+    function isSelected(photo) {
+      var TAGS = ['lillygram', 'lillygram'];
+      var isSelected = false;
+      angular.forEach(TAGS, function (TAG) {
+        if(photo.tags.toString().indexOf(TAG) > -1) {
+          isSelected = true;
+        }
+      });
+      return isSelected;
+    }
+
+    function isWithinTimeframe(timeframe, photo) {
+      timeframe = {
+        start: moment(timeframe.start),
+        end: moment(timeframe.end)
+      }
+
+      photo = moment(photo.created_time * 1000);
+
+      return photo.isBetween(timeframe.start, timeframe.end, 'day', '[]');
+    }
+
+    function isNewerThanTimeFrameStart(timeframe, photo) {
+      timeframe = {
+        start: moment(timeframe.start)
+      }
+
+      photo = moment(photo.created_time * 1000);
+
+      return photo.isAfter(timeframe.start, 'day', '[]');
+    }
+
+    function filterPhotos(photos, timeframe) {
+      var filtredPhotos = [];
+      angular.forEach(photos, function (photo) {
+        if (isSelected(photo) && isWithinTimeframe(timeframe, photo)) {
+          this.push(photo);
+        }
+      }, filtredPhotos);
+      return filtredPhotos;
+    }
+
+    function fetchPhotos(params) {
 
       var url = 'https://api.instagram.com/v1/users/self/media/recent/';
-      url += '?access_token=' + igToken;
-      url += '&count=' + '100';
+      url += '?access_token=' + params.token;
+      url += '&count=' + '5';
       url += '&callback=JSON_CALLBACK';
 
 
-      if (pagination.next_max_id) {
-        url += '&max_id=' + pagination.next_max_id;
+      if (params.pagination && params.pagination.next_max_id) {
+        url += '&max_id=' + params.pagination.next_max_id;
       }
 
-      if (pagination.next_min_id) {
-        url += '&min_id=' + pagination.next_min_id;
+      if (params.pagination && params.pagination.next_min_id) {
+        url += '&min_id=' + params.pagination.next_min_id;
       }
 
       $http.jsonp(url).success(function (response) {
-        console.log(url);
-        console.log(response);
-
-        if (!photos) {
-          photos = response.data;
+        console.log(response.data);
+        if (!params.photos) {
+          params.photos = response.data;
         } else {
-          photos = photos.concat(response.data);
+          params.photos = params.photos.concat(response.data);
         }
 
-        if (response.pagination && response.pagination.next_url) {
-          getPhotos(igToken, response.pagination, deferred, photos);
+        if (response.pagination && response.pagination.next_url && isNewerThanTimeFrameStart(params.timeframe, params.photos[params.photos.length-1])) {
+          params.pagination = response.pagination;
+          fetchPhotos(params);
         } else {
-          deferred.resolve(photos);
+          console.log(params.photos);
+          params.deferred.resolve(filterPhotos(params.photos, params.timeframe).reverse());
         }
       });
     }
@@ -125,11 +167,16 @@ app.factory("Instagram", ["$window", "$http", "$q", "Config",
 
         return deferred.promise;
       },
-      photos: function (igToken, timeframe) {
-
+      photos: function (token, timeframe) {
         var deferred = $q.defer();
 
-        getPhotos(igToken, {}, deferred);
+        var params = {
+          token: token,
+          timeframe: timeframe,
+          deferred: deferred
+        }
+
+        fetchPhotos(params);
 
         return deferred.promise;
       }
@@ -243,14 +290,12 @@ app.controller("AccountController", ["$scope", "currentAuth", "Auth", "Profile",
     }
 
     function fetchIGPhotos() {
-
+      console.log("Fetch ig photos");
       if ($scope.profile.ig_accounts) {
-        Instagram.photos(igToken($scope.profile.ig_accounts)).then(function (photos) {
-          console.log('Photos fetched', photos);
+        Instagram.photos(igToken($scope.profile.ig_accounts), $scope.letter.timeframe).then(function (photos) {
           $scope.letter.photos = photos;
         });
       } else {
-        console.log("No ig accounts");
         $scope.letter.photos = [];
       }
     }
@@ -262,11 +307,17 @@ app.controller("AccountController", ["$scope", "currentAuth", "Auth", "Profile",
     $scope.instagramAuth = Instagram.auth;
 
     $scope.profile.$loaded().then(function (profile) {
+      return $scope.letter.$loaded();
+    }).then(function () {
       fetchIGPhotos();
-    });
 
-    $scope.profile.$watch(function () {
-      fetchIGPhotos();
+      $scope.profile.$watch(function () {
+        fetchIGPhotos();
+      });
+
+      $scope.letter.$watch(function () {
+        fetchIGPhotos();
+      });
     });
 
     $scope.signOut = function () {
