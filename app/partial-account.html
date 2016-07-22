@@ -53,8 +53,37 @@
       <h2 ng-bind="letter.name"></h2>
       <hr>
       <div class="content">
-        <p ng-bind="letter.greeting.text"></p>
-<!--        <p ng-bind="letter.photos | json"></p>-->
+        <p class="text" ng-show="greetingStatus == 'PREVIEW'">
+
+          <span ng-bind="letter.greeting.text" ng-if="letter.greeting.text"></span>
+          <br/>
+          <button type="button" class="btn"
+                  ng-class="letter.greeting.text ? 'btn-link' : 'btn-primary'" aria-hidden="true" ng-click="greetingStatus = 'EDIT'">
+            <i ng-class="letter.greeting.text ? 'icon-note' : 'icon-plus'" aria-hidden="true"></i>
+            {{letter.greeting.text ? "Edit greeting" : "Add greeting"}}
+          </button>
+        </p>
+
+        <form ng-show="greetingStatus != 'PREVIEW'">
+          <div class="form-group">
+            <textarea class="form-control" rows="9"
+                      ng-model="letter.greeting.text"
+                      ng-readonly="greetingStatus == 'PROCESS'" >
+            </textarea>
+          </div>
+
+          <div class="form-group">
+            <button type="button" class="btn btn-link"
+                    ng-click="greetingStatus = 'CANCEL'">
+              Cancel
+            </button>
+            <button type="submit" class="btn"
+                    ng-click="greetingStatus = 'SAVE'">
+              Save
+            </button>
+          </div>
+        </form>
+
       </div>
       <div class="photos">
         <a ng-repeat="photo in letter.photos" ng-href="{{photo.link}}"><img ng-src="{{photo.images.low_resolution.url}}" /></a>
