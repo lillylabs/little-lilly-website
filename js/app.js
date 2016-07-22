@@ -72,6 +72,40 @@ app.factory("Instagram", ["$window", "$http", "$q", "Config",
       $window.location.assign(url);
     }
 
+    function getPhotos(igToken, pagination, deferred, photos) {
+
+      var url = 'https://api.instagram.com/v1/users/self/media/recent/';
+      url += '?access_token=' + igToken;
+      url += '&count=' + '100';
+      url += '&callback=JSON_CALLBACK';
+
+
+      if (pagination.next_max_id) {
+        url += '&max_id=' + pagination.next_max_id;
+      }
+
+      if (pagination.next_min_id) {
+        url += '&min_id=' + pagination.next_min_id;
+      }
+
+      $http.jsonp(url).success(function (response) {
+        console.log(url);
+        console.log(response);
+
+        if (!photos) {
+          photos = response.data;
+        } else {
+          photos = photos.concat(response.data);
+        }
+
+        if (response.pagination && response.pagination.next_url) {
+          getPhotos(igToken, response.pagination, deferred, photos);
+        } else {
+          deferred.resolve(photos);
+        }
+      });
+    }
+
     var instagram = {
       auth: function () {
         Config.instagramClientId().then(function (clientId) {
@@ -88,6 +122,14 @@ app.factory("Instagram", ["$window", "$http", "$q", "Config",
         $http.jsonp(url).success(function (response) {
           deferred.resolve(response.data);
         });
+
+        return deferred.promise;
+      },
+      photos: function (igToken, timeframe) {
+
+        var deferred = $q.defer();
+
+        getPhotos(igToken, {}, deferred);
 
         return deferred.promise;
       }
@@ -169,11 +211,11 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
           return Auth.$waitForSignIn().then(function (auth) {
             return Profile(auth.uid).$loaded().then(function (profile) {
               return Instagram.user($stateParams.igToken).then(function (user) {
-                profile.instagram = {};
-                profile.instagram[user.id] = {
+                profile.ig_accounts = {};
+                profile.ig_accounts[user.id] = {
                   username: user.username,
                   token: $stateParams.igToken,
-                  profilePicture: user.profile_picture
+                  profile_picture: user.profile_picture
                 }
                 return profile.$save().catch(function (error) {
                   console.log('Error saving profile', error);
@@ -191,12 +233,41 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
 app.controller("AccountController", ["$scope", "currentAuth", "Auth", "Profile", "Letter", "Archive", "Instagram",
   function ($scope, currentAuth, Auth, Profile, Letter, Archive, Instagram) {
+
+    function igToken(igAccounts) {
+      var igToken = null;
+      angular.forEach($scope.profile.ig_accounts, function (value) {
+        igToken = value.token;
+      });
+      return igToken;
+    }
+
+    function fetchIGPhotos() {
+
+      if ($scope.profile.ig_accounts) {
+        Instagram.photos(igToken($scope.profile.ig_accounts)).then(function (photos) {
+          console.log('Photos fetched', photos);
+          $scope.letter.photos = photos;
+        });
+      } else {
+        console.log("No ig accounts");
+        $scope.letter.photos = [];
+      }
+    }
+
     $scope.user = currentAuth;
     $scope.profile = Profile(currentAuth.uid);
     $scope.letter = Letter(currentAuth.uid);
     $scope.archive = Archive(currentAuth.uid);
-
     $scope.instagramAuth = Instagram.auth;
+
+    $scope.profile.$loaded().then(function (profile) {
+      fetchIGPhotos();
+    });
+
+    $scope.profile.$watch(function () {
+      fetchIGPhotos();
+    });
 
     $scope.signOut = function () {
       Auth.$signOut();
