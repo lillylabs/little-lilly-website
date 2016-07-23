@@ -57,6 +57,7 @@
         <p class="text" ng-show="greetingStatus == 'PREVIEW'">
           <span ng-bind="letter.greeting.text" ng-if="letter.greeting.text"></span>
         </p>
+
         <p ng-show="greetingStatus == 'PREVIEW'">
           <button type="button" class="btn" ng-class="letter.greeting.text ? 'btn-link' : 'btn-primary'" aria-hidden="true" ng-click="greetingStatus = 'EDIT'">
             <i ng-class="letter.greeting.text ? 'icon-note' : 'icon-plus'" aria-hidden="true"></i> {{letter.greeting.text ? "Edit greeting" : "Add greeting"}}
@@ -81,8 +82,21 @@
 
       </div>
 
-      <div class="photos">
+      <p class="photos">
         <a ng-repeat="photo in letter.photos" ng-href="{{photo.link}}"><img ng-src="{{photo.images.low_resolution.url}}" /></a>
+      </p>
+
+      <div class="content">
+        <h3>Recipients</h3>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="recipient in letter.recipients">
+            <div class="list-group-content">
+              {{recipient.name}}
+            </div>
+            <a class="btn btn-link list-group-action"><i class="icon-note"></i> Edit</a>
+          </li>
+        </ul>
+        <a class="btn btn-link"><i class="icon-plus"></i> Add recipient</a>
       </div>
 
     </div>

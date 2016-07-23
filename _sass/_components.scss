@@ -3,13 +3,6 @@
   text-align: left;
   color: $brand-dark;
 
-  a {
-    color: $brand-dark;
-    &:hover {
-      color: $brand-primary;
-    }
-  }
-
   p:last-child {
     margin-bottom: 0;
   }
@@ -23,7 +16,9 @@
     display: flex;
     justify-content: flex-start;
 
-    .list-group-icon {
+    .list-group-icon,
+    .list-group-actions {
+      flex: 0 0 auto;
 
       margin: -1.25rem;
       margin-right: 0;
@@ -48,6 +43,22 @@
 
         font-size: 20px;
       }
+    }
+
+    .list-group-content {
+      flex: 1 1 auto;
+      a {
+        color: $brand-dark;
+        &:hover {
+          color: $brand-primary;
+        }
+      }
+    }
+
+    .list-group-action {
+      flex: 0 0 auto;
+      padding: 0;
+      padding-left: 1.25rem;
     }
   }
 }

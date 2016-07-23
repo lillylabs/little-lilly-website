@@ -2,6 +2,7 @@
   .app-index main & {
     max-width: 800px;
     text-align: center;
+
     .content {
       max-width: 480px;
       margin: 0 auto;
@@ -13,6 +14,11 @@
         width: 80px;
         margin: 5px;
       }
+    }
+
+    h3 {
+      margin-top: $spacer*3;
+      margin-bottom: $spacer*2;
     }
   }
 }
