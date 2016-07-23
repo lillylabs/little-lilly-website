@@ -328,18 +328,17 @@ app.controller("LetterController", ["$scope", "Instagram",
 
     function fetchIGPhotos() {
       console.log("Fetch photos");
-      Instagram.fetchPhotos($scope.profile, $scope.letter).then(function (photos) {
-        $scope.letter.photos = photos;
-      });
+      Instagram.fetchPhotos($scope.profile, $scope.letter);
     }
 
     $scope.greetingStatus = 'PREVIEW';
+    $scope.backup = {};
 
     $scope.$watch('greetingStatus', function () {
 
       switch ($scope.greetingStatus) {
       case 'EDIT':
-        $scope.greetingBackup = angular.copy($scope.letter.greeting.text);
+        $scope.backup.greeting = angular.copy($scope.letter.greeting.text);
         break;
       case 'SAVE':
         $scope.greetingStatus = 'PROCESS';
@@ -348,24 +347,32 @@ app.controller("LetterController", ["$scope", "Instagram",
         });
         break;
       case 'CANCEL':
-        $scope.letter.greeting.text = $scope.greetingBackup;
+        $scope.letter.greeting.text = $scope.backup.greeting;
         $scope.greetingStatus = 'PREVIEW';
         break;
         break;
       }
     });
 
-    $scope.profile.$loaded().then(function (profile) {
+    $scope.profile.$loaded().then(function () {
       return $scope.letter.$loaded();
       }).then(function () {
         fetchIGPhotos();
+        $scope.backup.igToken = angular.copy($scope.profile.igToken());
+        $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
 
         $scope.profile.$watch(function () {
-          fetchIGPhotos();
+          if($scope.profile.igToken() !== $scope.backup.igToken) {
+            $scope.backup.igToken = angular.copy($scope.profile.igToken());
+            fetchIGPhotos();
+          }
         });
 
         $scope.letter.$watch(function () {
-          fetchIGPhotos();
+          if(JSON.stringify($scope.letter.timeframe) !== JSON.stringify($scope.backup.timeframe)) {
+            $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
+            fetchIGPhotos();
+          }
         });;
     })
   }

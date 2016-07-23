@@ -53,6 +53,7 @@
       <h2 ng-bind="letter.name"></h2>
       <hr>
       <div class="content">
+        {{ backup | json }}
         <p class="text" ng-show="greetingStatus == 'PREVIEW'">
 
           <span ng-bind="letter.greeting.text" ng-if="letter.greeting.text"></span>
