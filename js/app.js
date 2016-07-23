@@ -306,6 +306,8 @@ app.controller("AccountController", ["$scope", "currentAuth", "Profile", "Letter
     $scope.letter = Letter(currentAuth.uid);
     $scope.profile = Profile(currentAuth.uid);
     $scope.archive = Archive(currentAuth.uid);
+
+    console.log($scope.letter);
   }
 ]);
 
@@ -328,12 +330,15 @@ app.controller("LetterController", ["$scope", "Instagram",
 
     function fetchIGPhotos() {
       console.log("LetterController: fetchIGPhotos()");
-//      Instagram.fetchPhotos($scope.profile, $scope.letter);
+      Instagram.fetchPhotos($scope.profile, $scope.letter).then(function(photos) {
+        $scope.letter.photos = photos;
+        $scope.letter.$save();
+      });
     }
 
-    $scope.backup = {};
+    console.log($scope.letter);
 
-    $scope.test = $scope.letter.getGreeting();
+    $scope.backup = {};
 
     $scope.profile.$loaded().then(function () {
       return $scope.letter.$loaded();
