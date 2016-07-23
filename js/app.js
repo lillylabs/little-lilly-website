@@ -30,16 +30,18 @@ app.factory("Auth", ["$firebaseAuth",
 ]);
 
 app.factory("Profile", ["$firebaseObject",
-  function($firebaseObject) {
+  function ($firebaseObject) {
 
     var Profile = $firebaseObject.$extend({
-      getIGToken: function() {
-        var token = null;
+      igToken: function () {
         return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
+      },
+      getIGAccounts: function () {
+        return $firebaseObject(this.$ref().child('ig-accounts'));
       }
     });
 
-    return function(uid) {
+    return function (uid) {
       var ref = firebase.database().ref('users/' + uid + '/profile');
       return new Profile(ref);
     }
@@ -48,9 +50,19 @@ app.factory("Profile", ["$firebaseObject",
 
 app.factory("Letter", ["$firebaseObject",
   function ($firebaseObject) {
+
+    var Letter = $firebaseObject.$extend({
+      getTimeframe: function () {
+        return $firebaseObject(this.$ref().child('timeframe'));
+      },
+      getGreeting: function () {
+        return $firebaseObject(this.$ref().child('greeting'));
+      }
+    });
+
     return function (uid) {
       var ref = firebase.database().ref('users/' + uid + '/letter');
-      return $firebaseObject(ref);
+      return new Letter(ref);
     }
   }
 ]);
@@ -139,7 +151,7 @@ app.factory("Instagram", ["$window", "$http", "$q", "moment", "Config",
       }
 
       $http.jsonp(url).success(function (response) {
-        console.log("Response data: ", response.data);
+        console.log("Instagram: Response data, ", response.data);
         if (!params.photos) {
           params.photos = response.data;
         } else {
@@ -150,7 +162,7 @@ app.factory("Instagram", ["$window", "$http", "$q", "moment", "Config",
           params.pagination = response.pagination;
           fetchPhotos(params);
         } else {
-          console.log("Params photos: ", params.photos);
+          console.log("Instagram: Params photos, ", params.photos);
           var filteredPhotos = filterPhotos(params.photos, params.timeframe).reverse();
           params.deferred.resolve(filteredPhotos);
         }
@@ -180,7 +192,7 @@ app.factory("Instagram", ["$window", "$http", "$q", "moment", "Config",
         var deferred = $q.defer();
 
         var params = {
-          token: profile.getIGToken(),
+          token: profile.igToken(),
           timeframe: letter.timeframe,
           deferred: deferred
         }
@@ -274,7 +286,7 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
                   profile_picture: user.profile_picture
                 }
                 return profile.$save().catch(function (error) {
-                  console.log('Error saving profile', error);
+                  console.log("State 'access_token': Error saving profile, ", error);
                 });
               });
             });
@@ -315,24 +327,53 @@ app.controller("LetterController", ["$scope", "Instagram",
   function ($scope, Instagram) {
 
     function fetchIGPhotos() {
-      Instagram.fetchPhotos($scope.profile, $scope.letter).then(function(photos) {
-        $scope.letter.photos = photos;
-      });
+      console.log("LetterController: fetchIGPhotos()");
+      Instagram.fetchPhotos($scope.profile, $scope.letter);
     }
 
-    $scope.profile.$loaded().then(function (profile) {
-      return $scope.letter.$loaded();
-    }).then(function () {
-      fetchIGPhotos();
+    $scope.greetingStatus = 'PREVIEW';
+    $scope.backup = {};
 
-      $scope.profile.$watch(function () {
-        fetchIGPhotos();
-      });
+    $scope.$watch('greetingStatus', function () {
 
-      $scope.letter.$watch(function () {
-        fetchIGPhotos();
-      });
+      switch ($scope.greetingStatus) {
+      case 'EDIT':
+        $scope.backup.greeting = angular.copy($scope.letter.greeting.text);
+        break;
+      case 'SAVE':
+        $scope.greetingStatus = 'PROCESS';
+        $scope.letter.$save().then(function () {
+          $scope.greetingStatus = 'PREVIEW';
+        });
+        break;
+      case 'CANCEL':
+        $scope.letter.greeting.text = $scope.backup.greeting;
+        $scope.greetingStatus = 'PREVIEW';
+        break;
+      }
     });
+
+    $scope.profile.$loaded().then(function () {
+      return $scope.letter.$loaded();
+      }).then(function () {
+        fetchIGPhotos();
+        $scope.backup.igToken = angular.copy($scope.profile.igToken());
+        $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
+
+        $scope.profile.$watch(function () {
+          if($scope.profile.igToken() !== $scope.backup.igToken) {
+            $scope.backup.igToken = angular.copy($scope.profile.igToken());
+            fetchIGPhotos();
+          }
+        });
+
+        $scope.letter.$watch(function () {
+          if(JSON.stringify($scope.letter.timeframe) !== JSON.stringify($scope.backup.timeframe)) {
+            $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
+            fetchIGPhotos();
+          }
+        });;
+    })
   }
 ]);
 
@@ -340,7 +381,7 @@ app.controller("LoginController", ["$scope", "$state", "Auth",
   function ($scope, $state, Auth) {
     $scope.signIn = function () {
       Auth.$signInWithEmailAndPassword($scope.email, $scope.password).catch(function (error) {
-        console.log("Error", error);
+        console.log("LoginController: Error, ", error);
         $scope.error = error.message;
       });
     };
