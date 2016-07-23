@@ -37,7 +37,7 @@ app.factory("Profile", ["$firebaseObject",
         return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
       },
       getIGAccounts: function () {
-        return $firebaseObject(this.$ref().child('ig-accounts'));
+        return $firebaseObject(this.$ref().child('ig_accounts'));
       }
     });
 
@@ -328,30 +328,12 @@ app.controller("LetterController", ["$scope", "Instagram",
 
     function fetchIGPhotos() {
       console.log("LetterController: fetchIGPhotos()");
-      Instagram.fetchPhotos($scope.profile, $scope.letter);
+//      Instagram.fetchPhotos($scope.profile, $scope.letter);
     }
 
-    $scope.greetingStatus = 'PREVIEW';
     $scope.backup = {};
 
-    $scope.$watch('greetingStatus', function () {
-
-      switch ($scope.greetingStatus) {
-      case 'EDIT':
-        $scope.backup.greeting = angular.copy($scope.letter.greeting.text);
-        break;
-      case 'SAVE':
-        $scope.greetingStatus = 'PROCESS';
-        $scope.letter.$save().then(function () {
-          $scope.greetingStatus = 'PREVIEW';
-        });
-        break;
-      case 'CANCEL':
-        $scope.letter.greeting.text = $scope.backup.greeting;
-        $scope.greetingStatus = 'PREVIEW';
-        break;
-      }
-    });
+    $scope.test = $scope.letter.getGreeting();
 
     $scope.profile.$loaded().then(function () {
       return $scope.letter.$loaded();
@@ -374,6 +356,34 @@ app.controller("LetterController", ["$scope", "Instagram",
           }
         });;
     })
+  }
+]);
+
+app.controller("GreetingController", ["$scope",
+  function ($scope) {
+
+    $scope.status = 'PREVIEW';
+    $scope.greeting = $scope.letter.getGreeting();
+
+    $scope.$watch('status', function () {
+
+      switch ($scope.status) {
+      case 'EDIT':
+        $scope.backup = angular.copy($scope.greeting.text);
+        break;
+      case 'SAVE':
+        $scope.status = 'PROCESS';
+        $scope.greeting.$save().then(function () {
+          $scope.status = 'PREVIEW';
+        });
+        break;
+      case 'CANCEL':
+        $scope.greeting.text = $scope.backup;
+        $scope.status = 'PREVIEW';
+        break;
+      }
+    });
+
   }
 ]);
 
