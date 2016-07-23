@@ -151,7 +151,7 @@ app.factory("Instagram", ["$window", "$http", "$q", "moment", "Config",
       }
 
       $http.jsonp(url).success(function (response) {
-        console.log("Response data: ", response.data);
+        console.log("Instagram: Response data, ", response.data);
         if (!params.photos) {
           params.photos = response.data;
         } else {
@@ -162,7 +162,7 @@ app.factory("Instagram", ["$window", "$http", "$q", "moment", "Config",
           params.pagination = response.pagination;
           fetchPhotos(params);
         } else {
-          console.log("Params photos: ", params.photos);
+          console.log("Instagram: Params photos, ", params.photos);
           var filteredPhotos = filterPhotos(params.photos, params.timeframe).reverse();
           params.deferred.resolve(filteredPhotos);
         }
@@ -286,7 +286,7 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
                   profile_picture: user.profile_picture
                 }
                 return profile.$save().catch(function (error) {
-                  console.log('Error saving profile', error);
+                  console.log("State 'access_token': Error saving profile, ", error);
                 });
               });
             });
@@ -327,7 +327,7 @@ app.controller("LetterController", ["$scope", "Instagram",
   function ($scope, Instagram) {
 
     function fetchIGPhotos() {
-      console.log("Fetch photos");
+      console.log("LetterController: fetchIGPhotos()");
       Instagram.fetchPhotos($scope.profile, $scope.letter);
     }
 
@@ -349,7 +349,6 @@ app.controller("LetterController", ["$scope", "Instagram",
       case 'CANCEL':
         $scope.letter.greeting.text = $scope.backup.greeting;
         $scope.greetingStatus = 'PREVIEW';
-        break;
         break;
       }
     });
@@ -382,7 +381,7 @@ app.controller("LoginController", ["$scope", "$state", "Auth",
   function ($scope, $state, Auth) {
     $scope.signIn = function () {
       Auth.$signInWithEmailAndPassword($scope.email, $scope.password).catch(function (error) {
-        console.log("Error", error);
+        console.log("LoginController: Error, ", error);
         $scope.error = error.message;
       });
     };
