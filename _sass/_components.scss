@@ -15,9 +15,9 @@
 
     display: flex;
     justify-content: flex-start;
+    align-content: center;
 
-    .list-group-icon,
-    .list-group-actions {
+    .list-group-icon {
       flex: 0 0 auto;
 
       margin: -1.25rem;
@@ -55,10 +55,16 @@
       }
     }
 
-    .list-group-action {
-      flex: 0 0 auto;
-      padding: 0;
-      padding-left: 1.25rem;
+    .list-group-actions {
+      padding-left: 0.5rem;
+      display: flex;
+      align-items: center;
+
+      a {
+        padding: 0;
+        padding-left: 0.75rem;
+
+      }
     }
   }
 }

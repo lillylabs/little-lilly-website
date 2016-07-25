@@ -90,14 +90,25 @@
         <h3>Recipients</h3>
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="recipient in recipients">
+
             <div class="list-group-content"
                  ng-show="recipient._status == 'PREVIEW'">
-              {{recipient.name}}
+              <span class="recipient-name">{{recipient.name}}</span>
+              <small class="recipient-address" class="text-muted">
+                {{recipient.address}}
+              </small>
             </div>
-            <a class="btn btn-link list-group-action"
-               ng-click="editRecipient(recipient)" ng-show="recipient._status == 'PREVIEW'">
-              <i class="icon-note"></i> Edit
-            </a>
+            <div class="list-group-actions" ng-show="recipient._status == 'PREVIEW'">
+              <a class="btn btn-link list-group-action"
+               ng-click="editRecipient(recipient)">
+                <i class="icon-note"></i> Edit
+              </a>
+              <a class="btn btn-link list-group-action"
+               ng-click="deleteRecipient(recipient)" >
+                <i class="icon-trash"></i> Delete
+              </a>
+            </div>
+
             <form ng-show="recipient._status != 'PREVIEW'">
               <div class="form-group">
                 <label>Name</label>
@@ -118,6 +129,7 @@
                 </button>
               </div>
             </form>
+
           </li>
         </ul>
         <a class="btn btn-link" ng-click="addRecipient()" ng-show="!newRecipient">

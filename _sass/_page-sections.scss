@@ -23,6 +23,11 @@
     }
 
     .recipients {
+
+      .recipient-address {
+        white-space: pre-line;
+      }
+
       form {
         width: 100%;
         text-align: center;

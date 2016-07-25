@@ -414,6 +414,10 @@ app.controller("RecipientsController", ["$scope",
       $scope.recipients.push($scope.newRecipient);
     }
 
+    $scope.deleteRecipient = function(recipient) {
+      $scope.recipients.$remove(recipient);
+    }
+
     $scope.editRecipient = function(recipient) {
       recipient._backup = angular.copy(recipient);
       recipient._status = 'EDIT';
