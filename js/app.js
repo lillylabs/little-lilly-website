@@ -48,8 +48,8 @@ app.factory("Profile", ["$firebaseObject",
   }
 ]);
 
-app.factory("Letter", ["$firebaseObject",
-  function ($firebaseObject) {
+app.factory("Letter", ["$firebaseObject", "$firebaseArray",
+  function ($firebaseObject, $firebaseArray) {
 
     var Letter = $firebaseObject.$extend({
       getTimeframe: function () {
@@ -57,7 +57,11 @@ app.factory("Letter", ["$firebaseObject",
       },
       getGreeting: function () {
         return $firebaseObject(this.$ref().child('greeting'));
+      },
+      getRecipients: function () {
+        return $firebaseArray(this.$ref().child('recipients'));
       }
+
     });
 
     return function (uid) {
@@ -388,6 +392,57 @@ app.controller("GreetingController", ["$scope",
         break;
       }
     });
+
+  }
+]);
+
+app.controller("RecipientsController", ["$scope",
+  function ($scope) {
+
+    $scope.recipients = $scope.letter.getRecipients();
+    $scope.newRecipient = null;
+
+    $scope.recipients.$loaded(function() {
+      angular.forEach($scope.recipients, function(recipient) {
+        recipient._status = 'PREVIEW';
+      });
+    });
+
+    $scope.addRecipient = function() {
+      $scope.newRecipient = {};
+      $scope.editRecipient($scope.newRecipient);
+      $scope.recipients.push($scope.newRecipient);
+    }
+
+    $scope.editRecipient = function(recipient) {
+      recipient._backup = angular.copy(recipient);
+      recipient._status = 'EDIT';
+    }
+
+    $scope.saveRecipient = function(recipient) {
+      recipient._status = 'PROCESS';
+      if(recipient == $scope.newRecipient) {
+        $scope.recipients.$add(recipient).then(function(ref) {
+          $scope.recipients.splice($scope.recipients.$indexFor($scope.newRecipient),1);
+          $scope.recipients.$getRecord(ref.key)._status = 'PREVIEW';
+        });
+      } else {
+        $scope.recipients.$save(recipient).then(function () {
+          recipient._status = 'PREVIEW';
+        });
+      }
+    }
+
+    $scope.revertRecipient = function(recipient) {
+      if(recipient == $scope.newRecipient) {
+        $scope.recipients.splice($scope.recipients.$indexFor($scope.newRecipient),1);
+        $scope.newRecipient = null;
+      } else {
+        recipient.name = recipient._backup.name;
+        recipient.address = recipient._backup.address;
+        recipient._status = 'PREVIEW';
+      }
+    }
 
   }
 ]);

@@ -86,17 +86,43 @@
         <a ng-repeat="photo in letter.photos" ng-href="{{photo.link}}"><img ng-src="{{photo.images.low_resolution.url}}" /></a>
       </p>
 
-      <div class="content">
+      <div class="content recipients" ng-controller="RecipientsController">
         <h3>Recipients</h3>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="recipient in letter.recipients">
-            <div class="list-group-content">
+          <li class="list-group-item" ng-repeat="recipient in recipients">
+            <div class="list-group-content"
+                 ng-show="recipient._status == 'PREVIEW'">
               {{recipient.name}}
             </div>
-            <a class="btn btn-link list-group-action"><i class="icon-note"></i> Edit</a>
+            <a class="btn btn-link list-group-action"
+               ng-click="editRecipient(recipient)" ng-show="recipient._status == 'PREVIEW'">
+              <i class="icon-note"></i> Edit
+            </a>
+            <form ng-show="recipient._status != 'PREVIEW'">
+              <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" ng-model="recipient.name" ng-readonly="recipient._status == 'PROCESS'" />
+              </div>
+              <div class="form-group">
+                <label>Address</label>
+                <textarea class="form-control" rows="5" ng-model="recipient.address" ng-readonly="recipient._status == 'PROCESS'">
+                </textarea>
+              </div>
+
+              <div class="form-group">
+                <button type="button" class="btn btn-link" ng-click="revertRecipient(recipient)">
+                  Cancel
+                </button>
+                <button type="submit" class="btn" ng-click="saveRecipient(recipient)">
+                  Save
+                </button>
+              </div>
+            </form>
           </li>
         </ul>
-        <a class="btn btn-link"><i class="icon-plus"></i> Add recipient</a>
+        <a class="btn btn-link" ng-click="addRecipient()" ng-show="!newRecipient">
+          <i class="icon-plus"></i> Add recipient
+        </a>
       </div>
 
     </div>
