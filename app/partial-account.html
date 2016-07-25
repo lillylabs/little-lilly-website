@@ -1,7 +1,7 @@
 <header class="page-section header bg-primary" ng-controller="ProfileController">
   <div class="container-fluid">
 
-    <h1><span ng-bind="profile.name | username"></span></h1>
+    <h1><span ng-bind="profile.getFullName()"></span></h1>
     <hr>
     <div class="content">
 
