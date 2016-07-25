@@ -34,7 +34,9 @@ app.factory("Profile", ["$firebaseObject",
 
     var Profile = $firebaseObject.$extend({
       igToken: function () {
-        return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
+        if (this.ig_accounts) {
+          return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
+        }
       },
       getIGAccounts: function () {
         return $firebaseObject(this.$ref().child('ig_accounts'));
@@ -139,6 +141,10 @@ app.factory("Instagram", ["$window", "$http", "$q", "moment", "Config",
     }
 
     function fetchPhotos(params) {
+
+      if (!params.token) {
+        return params.deferred.resolve();
+      }
 
       var url = 'https://api.instagram.com/v1/users/self/media/recent/';
       url += '?access_token=' + params.token;
@@ -316,7 +322,7 @@ app.controller("AccountController", ["$scope", "currentAuth", "Profile", "Letter
 ]);
 
 app.controller("ProfileController", ["$scope", "Auth", "Instagram",
-  function ($scope, Instagram) {
+  function ($scope, Auth, Instagram) {
 
     $scope.authIGAccount = function () {
       Instagram.authAccount();
