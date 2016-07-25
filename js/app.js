@@ -334,7 +334,7 @@ app.controller("LetterController", ["$scope", "Instagram",
 
     function fetchIGPhotos() {
       console.log("LetterController: fetchIGPhotos()");
-      Instagram.fetchPhotos($scope.profile, $scope.letter).then(function(photos) {
+      Instagram.fetchPhotos($scope.profile, $scope.letter).then(function (photos) {
         $scope.letter.photos = photos;
         $scope.letter.$save();
       });
@@ -346,24 +346,24 @@ app.controller("LetterController", ["$scope", "Instagram",
 
     $scope.profile.$loaded().then(function () {
       return $scope.letter.$loaded();
-      }).then(function () {
-        fetchIGPhotos();
-        $scope.backup.igToken = angular.copy($scope.profile.igToken());
-        $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
+    }).then(function () {
+      fetchIGPhotos();
+      $scope.backup.igToken = angular.copy($scope.profile.igToken());
+      $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
 
-        $scope.profile.$watch(function () {
-          if($scope.profile.igToken() !== $scope.backup.igToken) {
-            $scope.backup.igToken = angular.copy($scope.profile.igToken());
-            fetchIGPhotos();
-          }
-        });
+      $scope.profile.$watch(function () {
+        if ($scope.profile.igToken() !== $scope.backup.igToken) {
+          $scope.backup.igToken = angular.copy($scope.profile.igToken());
+          fetchIGPhotos();
+        }
+      });
 
-        $scope.letter.$watch(function () {
-          if(JSON.stringify($scope.letter.timeframe) !== JSON.stringify($scope.backup.timeframe)) {
-            $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
-            fetchIGPhotos();
-          }
-        });;
+      $scope.letter.$watch(function () {
+        if (JSON.stringify($scope.letter.timeframe) !== JSON.stringify($scope.backup.timeframe)) {
+          $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
+          fetchIGPhotos();
+        }
+      });;
     })
   }
 ]);
@@ -402,33 +402,33 @@ app.controller("RecipientsController", ["$scope",
     $scope.recipients = $scope.letter.getRecipients();
     $scope.newRecipient = null;
 
-    $scope.recipients.$loaded(function() {
-      angular.forEach($scope.recipients, function(recipient) {
+    $scope.recipients.$loaded(function () {
+      angular.forEach($scope.recipients, function (recipient) {
         recipient._status = 'PREVIEW';
       });
     });
 
-    $scope.addRecipient = function() {
+    $scope.addRecipient = function () {
       $scope.newRecipient = {};
       $scope.editRecipient($scope.newRecipient);
       $scope.recipients.push($scope.newRecipient);
     }
 
-    $scope.deleteRecipient = function(recipient) {
+    $scope.deleteRecipient = function (recipient) {
       $scope.recipients.$remove(recipient);
     }
 
-    $scope.editRecipient = function(recipient) {
+    $scope.editRecipient = function (recipient) {
       recipient._backup = angular.copy(recipient);
       recipient._status = 'EDIT';
     }
 
-    $scope.saveRecipient = function(recipient) {
+    $scope.saveRecipient = function (recipient) {
       recipient._status = 'PROCESS';
-      if(recipient == $scope.newRecipient) {
+      if (recipient == $scope.newRecipient) {
         $scope.newRecipient = null;
-        $scope.recipients.$add(recipient).then(function(ref) {
-          $scope.recipients.splice($scope.recipients.$indexFor($scope.newRecipient),1);
+        $scope.recipients.$add(recipient).then(function (ref) {
+          $scope.recipients.splice($scope.recipients.$indexFor($scope.newRecipient), 1);
           $scope.recipients.$getRecord(ref.key)._status = 'PREVIEW';
         });
       } else {
@@ -438,9 +438,9 @@ app.controller("RecipientsController", ["$scope",
       }
     }
 
-    $scope.revertRecipient = function(recipient) {
-      if(recipient == $scope.newRecipient) {
-        $scope.recipients.splice($scope.recipients.$indexFor($scope.newRecipient),1);
+    $scope.revertRecipient = function (recipient) {
+      if (recipient == $scope.newRecipient) {
+        $scope.recipients.splice($scope.recipients.$indexFor($scope.newRecipient), 1);
         $scope.newRecipient = null;
       } else {
         recipient.name = recipient._backup.name;
