@@ -426,6 +426,7 @@ app.controller("RecipientsController", ["$scope",
     $scope.saveRecipient = function(recipient) {
       recipient._status = 'PROCESS';
       if(recipient == $scope.newRecipient) {
+        $scope.newRecipient = null;
         $scope.recipients.$add(recipient).then(function(ref) {
           $scope.recipients.splice($scope.recipients.$indexFor($scope.newRecipient),1);
           $scope.recipients.$getRecord(ref.key)._status = 'PREVIEW';
