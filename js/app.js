@@ -6,6 +6,69 @@ var config = {
 };
 firebase.initializeApp(config);
 
+var signup = angular.module("SignUpModule", ["firebase"]);
+
+signup.factory("Auth", ["$firebaseAuth",
+  function ($firebaseAuth) {
+    return $firebaseAuth();
+  }
+]);
+
+signup.factory("Profile", ["$firebaseObject",
+  function ($firebaseObject) {
+
+    var Profile = $firebaseObject.$extend({
+      igToken: function () {
+        if (this.ig_accounts) {
+          return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
+        }
+      },
+      getIGAccounts: function () {
+        return $firebaseObject(this.$ref().child('ig_accounts'));
+      }
+    });
+
+    return function (uid) {
+      var ref = firebase.database().ref('users/' + uid + '/profile');
+      return new Profile(ref);
+    }
+  }
+]);
+
+signup.run();
+
+signup.controller("SignUpController", ["$scope", "$window", "Auth", "Profile",
+  function ($scope, $window, Auth, Profile) {
+
+    Auth.$onAuthStateChanged(function (firebaseUser) {
+      if (firebaseUser !== null) {
+        $scope.loggedIn = true;
+      }
+    });
+
+    $scope.signUp = function () {
+      Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.password)
+        .then(function (firebaseUser) {
+          console.log("User " + firebaseUser.uid + " created successfully!");
+          var profile = Profile(firebaseUser.uid);
+          profile.name = {
+            first: $scope.user.firstname,
+            last: $scope.user.lastname
+          }
+          profile.$save().then(function() {
+            console.log("save");
+            var url = 'http://' + $window.location.host + '/app';
+            console.log(url);
+            $window.location.assign(url);
+          });
+        }).catch(function (error) {
+          console.error("Error: ", error);
+        });
+    };
+
+  }
+]);
+
 var app = angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment"]);
 
 app.factory("Config", [
