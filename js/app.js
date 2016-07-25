@@ -37,7 +37,7 @@ app.factory("Profile", ["$firebaseObject",
         return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
       },
       getIGAccounts: function () {
-        return $firebaseObject(this.$ref().child('ig-accounts'));
+        return $firebaseObject(this.$ref().child('ig_accounts'));
       }
     });
 
@@ -48,8 +48,8 @@ app.factory("Profile", ["$firebaseObject",
   }
 ]);
 
-app.factory("Letter", ["$firebaseObject",
-  function ($firebaseObject) {
+app.factory("Letter", ["$firebaseObject", "$firebaseArray",
+  function ($firebaseObject, $firebaseArray) {
 
     var Letter = $firebaseObject.$extend({
       getTimeframe: function () {
@@ -57,7 +57,11 @@ app.factory("Letter", ["$firebaseObject",
       },
       getGreeting: function () {
         return $firebaseObject(this.$ref().child('greeting'));
+      },
+      getRecipients: function () {
+        return $firebaseArray(this.$ref().child('recipients'));
       }
+
     });
 
     return function (uid) {
@@ -306,6 +310,8 @@ app.controller("AccountController", ["$scope", "currentAuth", "Profile", "Letter
     $scope.letter = Letter(currentAuth.uid);
     $scope.profile = Profile(currentAuth.uid);
     $scope.archive = Archive(currentAuth.uid);
+
+    console.log($scope.letter);
   }
 ]);
 
@@ -328,30 +334,15 @@ app.controller("LetterController", ["$scope", "Instagram",
 
     function fetchIGPhotos() {
       console.log("LetterController: fetchIGPhotos()");
-      Instagram.fetchPhotos($scope.profile, $scope.letter);
+      Instagram.fetchPhotos($scope.profile, $scope.letter).then(function(photos) {
+        $scope.letter.photos = photos;
+        $scope.letter.$save();
+      });
     }
 
-    $scope.greetingStatus = 'PREVIEW';
+    console.log($scope.letter);
+
     $scope.backup = {};
-
-    $scope.$watch('greetingStatus', function () {
-
-      switch ($scope.greetingStatus) {
-      case 'EDIT':
-        $scope.backup.greeting = angular.copy($scope.letter.greeting.text);
-        break;
-      case 'SAVE':
-        $scope.greetingStatus = 'PROCESS';
-        $scope.letter.$save().then(function () {
-          $scope.greetingStatus = 'PREVIEW';
-        });
-        break;
-      case 'CANCEL':
-        $scope.letter.greeting.text = $scope.backup.greeting;
-        $scope.greetingStatus = 'PREVIEW';
-        break;
-      }
-    });
 
     $scope.profile.$loaded().then(function () {
       return $scope.letter.$loaded();
@@ -374,6 +365,90 @@ app.controller("LetterController", ["$scope", "Instagram",
           }
         });;
     })
+  }
+]);
+
+app.controller("GreetingController", ["$scope",
+  function ($scope) {
+
+    $scope.status = 'PREVIEW';
+    $scope.greeting = $scope.letter.getGreeting();
+
+    $scope.$watch('status', function () {
+
+      switch ($scope.status) {
+      case 'EDIT':
+        $scope.backup = angular.copy($scope.greeting.text);
+        break;
+      case 'SAVE':
+        $scope.status = 'PROCESS';
+        $scope.greeting.$save().then(function () {
+          $scope.status = 'PREVIEW';
+        });
+        break;
+      case 'CANCEL':
+        $scope.greeting.text = $scope.backup;
+        $scope.status = 'PREVIEW';
+        break;
+      }
+    });
+
+  }
+]);
+
+app.controller("RecipientsController", ["$scope",
+  function ($scope) {
+
+    $scope.recipients = $scope.letter.getRecipients();
+    $scope.newRecipient = null;
+
+    $scope.recipients.$loaded(function() {
+      angular.forEach($scope.recipients, function(recipient) {
+        recipient._status = 'PREVIEW';
+      });
+    });
+
+    $scope.addRecipient = function() {
+      $scope.newRecipient = {};
+      $scope.editRecipient($scope.newRecipient);
+      $scope.recipients.push($scope.newRecipient);
+    }
+
+    $scope.deleteRecipient = function(recipient) {
+      $scope.recipients.$remove(recipient);
+    }
+
+    $scope.editRecipient = function(recipient) {
+      recipient._backup = angular.copy(recipient);
+      recipient._status = 'EDIT';
+    }
+
+    $scope.saveRecipient = function(recipient) {
+      recipient._status = 'PROCESS';
+      if(recipient == $scope.newRecipient) {
+        $scope.newRecipient = null;
+        $scope.recipients.$add(recipient).then(function(ref) {
+          $scope.recipients.splice($scope.recipients.$indexFor($scope.newRecipient),1);
+          $scope.recipients.$getRecord(ref.key)._status = 'PREVIEW';
+        });
+      } else {
+        $scope.recipients.$save(recipient).then(function () {
+          recipient._status = 'PREVIEW';
+        });
+      }
+    }
+
+    $scope.revertRecipient = function(recipient) {
+      if(recipient == $scope.newRecipient) {
+        $scope.recipients.splice($scope.recipients.$indexFor($scope.newRecipient),1);
+        $scope.newRecipient = null;
+      } else {
+        recipient.name = recipient._backup.name;
+        recipient.address = recipient._backup.address;
+        recipient._status = 'PREVIEW';
+      }
+    }
+
   }
 ]);
 

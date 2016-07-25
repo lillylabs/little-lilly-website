@@ -2,9 +2,16 @@
   .app-index main & {
     max-width: 800px;
     text-align: center;
+
     .content {
       max-width: 480px;
       margin: 0 auto;
+    }
+
+    .greeting {
+      .greeting-text {
+        white-space: pre-line;
+      }
     }
 
     .photos {
@@ -13,6 +20,23 @@
         width: 80px;
         margin: 5px;
       }
+    }
+
+    .recipients {
+
+      .recipient-address {
+        white-space: pre-line;
+      }
+
+      form {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    h3 {
+      margin-top: $spacer*3;
+      margin-bottom: $spacer*2;
     }
   }
 }

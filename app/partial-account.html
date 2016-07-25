@@ -52,28 +52,29 @@
     <div ng-show="letter.name">
       <h2 ng-bind="letter.name"></h2>
       <hr>
-      <div class="content">
+      <div class="content greeting" ng-controller="GreetingController">
 
-        <p class="text" ng-show="greetingStatus == 'PREVIEW'">
-          <span ng-bind="letter.greeting.text" ng-if="letter.greeting.text"></span>
+        <p class="greeting-text" ng-show="status == 'PREVIEW'">
+          <span ng-bind="greeting.text" ng-if="greeting.text"></span>
         </p>
-        <p ng-show="greetingStatus == 'PREVIEW'">
-          <button type="button" class="btn" ng-class="letter.greeting.text ? 'btn-link' : 'btn-primary'" aria-hidden="true" ng-click="greetingStatus = 'EDIT'">
-            <i ng-class="letter.greeting.text ? 'icon-note' : 'icon-plus'" aria-hidden="true"></i> {{letter.greeting.text ? "Edit greeting" : "Add greeting"}}
+
+        <p ng-show="status == 'PREVIEW'">
+          <button type="button" class="btn" ng-class="greeting.text ? 'btn-link' : 'btn-primary'" aria-hidden="true" ng-click="status= 'EDIT'">
+            <i ng-class="greeting.text ? 'icon-note' : 'icon-plus'" aria-hidden="true"></i> {{greeting.text ? "Edit greeting" : "Add greeting"}}
           </button>
         </p>
 
-        <form ng-show="greetingStatus != 'PREVIEW'">
+        <form ng-show="status != 'PREVIEW'">
           <div class="form-group">
-            <textarea class="form-control" rows="9" ng-model="letter.greeting.text" ng-readonly="greetingStatus == 'PROCESS'">
+            <textarea class="form-control" rows="9" ng-model="greeting.text" ng-readonly="status == 'PROCESS'">
             </textarea>
           </div>
 
           <div class="form-group">
-            <button type="button" class="btn btn-link" ng-click="greetingStatus = 'CANCEL'">
+            <button type="button" class="btn btn-link" ng-click="status = 'CANCEL'">
               Cancel
             </button>
-            <button type="submit" class="btn" ng-click="greetingStatus = 'SAVE'">
+            <button type="submit" class="btn" ng-click="status = 'SAVE'">
               Save
             </button>
           </div>
@@ -81,8 +82,59 @@
 
       </div>
 
-      <div class="photos">
+      <p class="photos">
         <a ng-repeat="photo in letter.photos" ng-href="{{photo.link}}"><img ng-src="{{photo.images.low_resolution.url}}" /></a>
+      </p>
+
+      <div class="content recipients" ng-controller="RecipientsController">
+        <h3>Recipients</h3>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="recipient in recipients">
+
+            <div class="list-group-content"
+                 ng-show="recipient._status == 'PREVIEW'">
+              <span class="recipient-name">{{recipient.name}}</span>
+              <small class="recipient-address" class="text-muted">
+                {{recipient.address}}
+              </small>
+            </div>
+            <div class="list-group-actions" ng-show="recipient._status == 'PREVIEW'">
+              <a class="btn btn-link list-group-action"
+               ng-click="editRecipient(recipient)">
+                <i class="icon-note"></i> Edit
+              </a>
+              <a class="btn btn-link list-group-action"
+               ng-click="deleteRecipient(recipient)" >
+                <i class="icon-trash"></i> Delete
+              </a>
+            </div>
+
+            <form ng-show="recipient._status != 'PREVIEW'">
+              <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" ng-model="recipient.name" ng-readonly="recipient._status == 'PROCESS'" />
+              </div>
+              <div class="form-group">
+                <label>Address</label>
+                <textarea class="form-control" rows="5" ng-model="recipient.address" ng-readonly="recipient._status == 'PROCESS'">
+                </textarea>
+              </div>
+
+              <div class="form-group">
+                <button type="button" class="btn btn-link" ng-click="revertRecipient(recipient)">
+                  Cancel
+                </button>
+                <button type="submit" class="btn" ng-click="saveRecipient(recipient)">
+                  Save
+                </button>
+              </div>
+            </form>
+
+          </li>
+        </ul>
+        <a class="btn btn-link" ng-click="addRecipient()" ng-show="!newRecipient">
+          <i class="icon-plus"></i> Add recipient
+        </a>
       </div>
 
     </div>
