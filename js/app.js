@@ -6,66 +6,80 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var signup = angular.module("SignUpModule", ["firebase"]);
+angular.module("Backbone", ["firebase"])
+  .factory("Profile", ["$firebaseObject",
+    function ($firebaseObject) {
 
-signup.factory("Auth", ["$firebaseAuth",
-  function ($firebaseAuth) {
-    return $firebaseAuth();
-  }
-]);
-
-signup.factory("Profile", ["$firebaseObject",
-  function ($firebaseObject) {
-
-    var Profile = $firebaseObject.$extend({
-      igToken: function () {
-        if (this.ig_accounts) {
-          return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
-        }
-      },
-      getIGAccounts: function () {
-        return $firebaseObject(this.$ref().child('ig_accounts'));
-      }
-    });
-
-    return function (uid) {
-      var ref = firebase.database().ref('users/' + uid + '/profile');
-      return new Profile(ref);
-    }
-  }
-]);
-
-signup.run();
-
-signup.controller("SignUpController", ["$scope", "$window", "Auth", "Profile",
-  function ($scope, $window, Auth, Profile) {
-
-    Auth.$onAuthStateChanged(function (firebaseUser) {
-      if (firebaseUser !== null) {
-        $scope.loggedIn = true;
-      }
-    });
-
-    $scope.signUp = function () {
-      Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.password)
-        .then(function (firebaseUser) {
-          console.log("User " + firebaseUser.uid + " created successfully!");
-          var profile = Profile(firebaseUser.uid);
-          profile.name = {
-            first: $scope.user.firstname,
-            last: $scope.user.lastname
+      var Profile = $firebaseObject.$extend({
+        igToken: function () {
+          if (this.ig_accounts) {
+            return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
           }
-          profile.$save().then(function() {
-            console.log("save");
-            var url = 'http://' + $window.location.host + '/app';
-            console.log(url);
-            $window.location.assign(url);
-          });
-        }).catch(function (error) {
-          console.error("Error: ", error);
-        });
-    };
+        }
+      });
 
+      return function (uid) {
+        var ref = firebase.database().ref('users/' + uid + '/profile');
+        return new Profile(ref);
+      }
+  }
+]);
+
+angular.module("AuthApp", ["firebase", "ui.router", "Backbone"])
+  .service("Auth", ["$q", "$firebaseAuth", "Profile",
+    function ($q, $firebaseAuth, Profile) {
+
+      var auth = $firebaseAuth();
+
+      this.signUp = function (email, password, name) {
+        return auth.$createUserWithEmailAndPassword(email, password)
+          .then(function (firebaseUser) {
+            console.log("Auth: User " + firebaseUser.uid + " created successfully!");
+            var profile = Profile(firebaseUser.uid);
+            profile.name = name;
+            return profile.$save();
+          }).catch(function (error) {
+            console.error("Error: ", error);
+            return $q.reject(error);
+          });
+      }
+
+      this.signIn = function (email, password) {
+        return auth.$signInWithEmailAndPassword(email, password).catch(function (error) {
+          console.log("LoginController: Error, ", error);
+          return $q.reject(error);
+        });
+      }
+  }
+]).controller("SignUpController", ["$scope", "$window", "Auth",
+    function ($scope, $window, Auth, Profile) {
+
+      $scope.signUp = function () {
+        var name = {
+          firstname: $scope.firstname,
+          lastname: $scope.lastname
+        }
+
+        Auth.signUp($scope.email, $scope.password, name).then(function () {
+          var url = 'http://' + $window.location.host + '/app';
+          $window.location.assign(url);
+        }).catch(function (error) {
+          $scope.error = error.message;
+        });
+      };
+
+  }
+]).controller("SignInController", ["$scope", "$window", "Auth",
+    function ($scope, $window, Auth, Profile) {
+
+      $scope.signIn = function () {
+        Auth.signIn($scope.email, $scope.password).then(function () {
+          var url = 'http://' + $window.location.host + '/app';
+          $window.location.assign(url);
+        }).catch(function (error) {
+          $scope.error = error.message;
+        });
+      };
   }
 ]);
 
