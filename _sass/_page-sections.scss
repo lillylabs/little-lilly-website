@@ -8,6 +8,12 @@
       margin: 0 auto;
     }
 
+    .greeting {
+      .greeting-text {
+        white-space: pre-line;
+      }
+    }
+
     .photos {
       img {
         display: inline-block;

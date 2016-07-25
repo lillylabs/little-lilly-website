@@ -52,11 +52,9 @@
     <div ng-show="letter.name">
       <h2 ng-bind="letter.name"></h2>
       <hr>
-      <div class="content" ng-controller="GreetingController">
-        Status: {{status | json}}<br/>
-        Greeting: {{greeting | json}}<br/>
+      <div class="content greeting" ng-controller="GreetingController">
 
-        <p class="text" ng-show="status == 'PREVIEW'">
+        <p class="greeting-text" ng-show="status == 'PREVIEW'">
           <span ng-bind="greeting.text" ng-if="greeting.text"></span>
         </p>
 
