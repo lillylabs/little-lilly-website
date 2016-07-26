@@ -1,0 +1,26 @@
+<div ng-app="AuthApp" ng-controller="SignUpController">
+  <form ng-submit="signUp()" class="contact-form">
+    <div class="row">
+      <div class="form-group col-xs-12 col-sm-6">
+        <label>Firstname</label>
+        <input type="text" class="form-control" id="firstname" placeholder="Lilly" ng-model="firstname">
+      </div>
+      <div class="form-group col-xs-12 col-sm-6">
+        <label>Lastname</label>
+        <input type="text" class="form-control" id="lastname" placeholder="Skywalker" ng-model="lastname">
+      </div>
+      <div class="form-group col-xs-12">
+        <label>E-mail</label>
+        <input type="email" class="form-control" id="email" placeholder="lilly@example.com" ng-model="email">
+      </div>
+      <div class="form-group col-xs-12">
+        <label>Password</label>
+        <input type="password" class="form-control" id="password" placeholder="TopSecret123" ng-model="password">
+      </div>
+      <div class="form-group col-xs-12">
+        <p class="text-muted" ng-show="error" ng-bind="error"></p>
+        <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+      </div>
+    </div>
+  </form>
+</div>

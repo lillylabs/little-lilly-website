@@ -1,0 +1,18 @@
+<div ng-app="AuthApp" ng-controller="SignInController">
+  <form ng-submit="signIn()" class="contact-form">
+    <div class="row">
+      <div class="form-group col-xs-12">
+        <label>E-mail</label>
+        <input type="email" class="form-control" id="email" placeholder="lilly@example.com" ng-model="email">
+      </div>
+      <div class="form-group col-xs-12">
+        <label>Password</label>
+        <input type="password" class="form-control" id="password" placeholder="TopSecret123" ng-model="password">
+      </div>
+      <div class="form-group col-xs-12">
+        <p class="text-muted" ng-show="error" ng-bind="error"></p>
+        <button type="submit" class="btn btn-primary btn-block">Log in</button>
+      </div>
+    </div>
+  </form>
+</div>
