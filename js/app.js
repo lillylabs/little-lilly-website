@@ -207,8 +207,8 @@ angular.module("Backbone", ["firebase"])
         return $firebaseArray(ref);
       }
   }
-]).service("URLService", ["$window",
-  function ($window) {
+]).service("URLService", ["$window", "$location",
+  function ($window, $location) {
 
       var baseUrl = $window.location.host;
 
@@ -217,7 +217,6 @@ angular.module("Backbone", ["firebase"])
       }
 
       function goTo(path) {
-        console.log("go to app", baseUrl + path);
         $window.location.assign(baseUrl + path);
       }
 
@@ -232,10 +231,16 @@ angular.module("Backbone", ["firebase"])
       this.goToSignUp = function () {
         goTo('/#signup');
       }
+
+      this.isApp = function () {
+        console.log($window.location.pathname);
+        console.log(baseUrl);
+        return $window.location.pathname == '/app/';
+      }
   }
 ]);
 
-angular.module("FormApp", ["firebase", "ui.router", "Backbone"])
+angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
   .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile",
     function ($q, $firebaseAuth, Auth, Profile) {
 
@@ -263,13 +268,10 @@ angular.module("FormApp", ["firebase", "ui.router", "Backbone"])
       }
 
       this.signOut = function () {
-        return Auth.$signOut().catch(function (error) {
-          console.log("AuthService: Error, ", error);
-          return $q.reject(error);
-        });
+        return Auth.$signOut();
       }
   }
-]).controller("SignUpController", ["$scope", "AuthService", "URLService",
+]).controller("SignUpFormController", ["$scope", "AuthService", "URLService",
 
     function ($scope, AuthService, URLService) {
 
@@ -282,40 +284,60 @@ angular.module("FormApp", ["firebase", "ui.router", "Backbone"])
       };
 
   }
-]).controller("SignInController", ["$scope", "AuthService", "URLService",
+]).controller("SignInFormController", ["$scope", "AuthService", "URLService",
 
     function ($scope, AuthService, URLService) {
 
       $scope.signIn = function () {
         AuthService.signIn($scope.email, $scope.password).then(function () {
-          console.log("sign in");
           URLService.goToApp();
         }).catch(function (error) {
           $scope.error = error.message;
         });
       };
   }
+]).controller("NavBarController", ["$scope", "$location", "AuthService", "URLService",
+
+    function ($scope, $location, AuthService, URLService) {
+
+      $scope.signOut = function () {
+        AuthService.signOut();
+      }
+  }
 ]);
 
-angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment", "Backbone", "IG"])
-  .run(["$rootScope", "$state", "Auth", "URLService", function ($rootScope, $state, Auth, URLService) {
+angular.module("Authentication").run(
+  ["$rootScope", "Auth", function ($rootScope, Auth) {
 
     Auth.$onAuthStateChanged(function (firebaseUser) {
-      if (firebaseUser) {
-        $state.go("account");
-      } else {
-        URLService.goToSignIn();
+      $rootScope.currentAuth = firebaseUser;
+    });
+
+}]);
+
+angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment", "Backbone", "Authentication", "IG"]);
+
+angular.module("LittleLillyApp").run(
+  ["$rootScope", "$state", "Auth", "URLService", function ($rootScope, $state, Auth, URLService) {
+
+    Auth.$onAuthStateChanged(function (firebaseUser) {
+      console.log("go account");
+      if (URLService.isApp()) {
+        if (firebaseUser) {
+          console.log("go account");
+          $state.go("account");
+        } else {
+          URLService.goToSignIn();
+        }
       }
     });
 
-}]).config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
+}]);
 
-    $urlRouterProvider.otherwise("app");
+angular.module("LittleLillyApp").config(
+  ["$stateProvider", "$locationProvider", "$urlRouterProvider", function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
     $stateProvider
-      .state("app", {
-        url: "/"
-      })
       .state("account", {
         url: "/account",
         templateUrl: "partial-account.html",
@@ -353,7 +375,7 @@ angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment", "Bac
         }]
         }
       });
-  });
+  }]);
 
 angular.module("LittleLillyApp").controller("AccountController", ["$scope", "currentAuth", "Profile", "Letter", "Archive",
   function ($scope, currentAuth, Profile, Letter, Archive) {
@@ -386,8 +408,6 @@ angular.module("LittleLillyApp").controller("LetterController", ["$scope", "Inst
         $scope.letter.$save();
       });
     }
-
-    console.log($scope.letter);
 
     $scope.backup = {};
 
@@ -496,20 +516,5 @@ angular.module("LittleLillyApp").controller("RecipientsController", ["$scope",
       }
     }
 
-  }
-]);
-
-angular.module("NavApp", ["firebase", "ui.router", "Backbone"])
-  .controller("SignOutController", ["$scope", "Auth", "URLService",
-
-    function ($scope, Auth, URLService) {
-
-      Auth.$onAuthStateChanged(function (firebaseUser) {
-        $scope.currentAuth = firebaseUser;
-      });
-
-      $scope.signOut = function () {
-        Auth.$signOut();
-      };
   }
 ]);
