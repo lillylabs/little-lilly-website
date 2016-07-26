@@ -195,12 +195,20 @@
       max-width: 800px !important;
 
       .page-heading {
-        margin-bottom: 60px;
         margin-top: 50px;
+
+        h1:last-child {
+          margin-bottom: 50px;
+        }
 
         p {
           max-width: $content-width-max;
-          margin: 0 auto;
+          margin-left: auto;
+          margin-right: auto;
+
+          :last-child {
+            margin-bottom: 0;
+          }
         }
       }
 
