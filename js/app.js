@@ -238,12 +238,15 @@ angular.module("AuthApp", ["firebase", "ui.router", "Backbone"])
   .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile",
     function ($q, $firebaseAuth, Auth, Profile) {
 
-      this.signUp = function (email, password, name) {
+      this.signUp = function (email, password, firstname, lastname) {
         return Auth.$createUserWithEmailAndPassword(email, password)
           .then(function (firebaseUser) {
             console.log("Auth: User " + firebaseUser.uid + " created successfully!");
             var profile = Profile(firebaseUser.uid);
-            profile.name = name;
+            profile.name = {
+              first: firstname ? firstname : "",
+              last: lastname ? lastname : "",
+            };
             return profile.$save();
           }).catch(function (error) {
             console.error("Error: ", error);
@@ -262,12 +265,7 @@ angular.module("AuthApp", ["firebase", "ui.router", "Backbone"])
     function ($scope, $window, AuthService) {
 
       $scope.signUp = function () {
-        var name = {
-          first: $scope.firstname,
-          last: $scope.lastname
-        }
-
-        AuthService.signUp($scope.email, $scope.password, name).then(function () {
+        AuthService.signUp($scope.email, $scope.password, $scope.firstname, $scope.lastname).then(function () {
           var url = 'http://' + $window.location.host + '/app';
           $window.location.assign(url);
         }).catch(function (error) {
