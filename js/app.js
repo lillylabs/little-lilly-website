@@ -254,8 +254,8 @@ angular.module("AuthApp", ["firebase", "ui.router", "Backbone"])
 
       $scope.signUp = function () {
         var name = {
-          firstname: $scope.firstname,
-          lastname: $scope.lastname
+          first: $scope.firstname,
+          last: $scope.lastname
         }
 
         AuthService.signUp($scope.email, $scope.password, name).then(function () {
