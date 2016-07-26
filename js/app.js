@@ -178,12 +178,21 @@ angular.module("Backbone", ["firebase"])
   function ($firebaseObject, $firebaseArray) {
 
       var Letter = $firebaseObject.$extend({
+
+        $$defaults: {
+          name: "July 2016",
+          timeframe: {
+            start: "2016-07-01",
+            end: "2016-07-31"
+          }
+        },
         getGreeting: function () {
           return $firebaseObject(this.$ref().child('greeting'));
         },
         getRecipients: function () {
           return $firebaseArray(this.$ref().child('recipients'));
         }
+
       });
 
       return function (uid) {
