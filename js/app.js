@@ -220,6 +220,10 @@ angular.module("Backbone", ["firebase"])
         $window.location.assign(baseUrl + path);
       }
 
+      this.goToHome = function () {
+        goTo('/');
+      }
+
       this.goToApp = function () {
         goTo('/app');
       }
@@ -300,6 +304,14 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
 
     function ($scope, $location, AuthService, URLService) {
 
+      $scope.logIn = function() {
+        if($scope.currentAuth) {
+          URLService.goToApp();
+        } else {
+          URLService.goToSignIn();
+        }
+      }
+
       $scope.signOut = function () {
         AuthService.signOut();
       }
@@ -327,7 +339,7 @@ angular.module("LittleLillyApp").run(
           console.log("go account");
           $state.go("account");
         } else {
-          URLService.goToSignIn();
+          URLService.goToHome();
         }
       }
     });
