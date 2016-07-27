@@ -11,4 +11,4 @@ sections:
 layout: form
 ---
 
-We’d love to hear from you. Shoot us an [e-mail](mailto:hi@littlelilly.no) or call us on [+47 97 66 70 45](tel:+4797667045).
+We’d love to hear from you.
