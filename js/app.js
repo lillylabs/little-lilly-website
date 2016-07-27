@@ -1,10 +1,25 @@
 var config = {
-  apiKey: "AIzaSyA5-592fUq1D42RsZ417oIGOsiZ2101fpk",
-  authDomain: "little-lilly-test.firebaseapp.com",
-  databaseURL: "https://little-lilly-test.firebaseio.com",
-  storageBucket: "little-lilly-test.appspot.com",
+  test: {
+    apiKey: "AIzaSyA5-592fUq1D42RsZ417oIGOsiZ2101fpk",
+    authDomain: "little-lilly-test.firebaseapp.com",
+    databaseURL: "https://little-lilly-test.firebaseio.com",
+    storageBucket: "little-lilly-test.appspot.com"
+  },
+  prod: {
+    apiKey: "AIzaSyCXqEvxSBF76_5MnxpaMf5M5_8tysZAdJU",
+    authDomain: "little-lilly.firebaseapp.com",
+    databaseURL: "https://little-lilly.firebaseio.com",
+    storageBucket: "little-lilly.appspot.com"
+  }
 };
-firebase.initializeApp(config);
+
+console.log(window.location.host);
+
+if(window.location.host == 'http://littlelilly.no') {
+  firebase.initializeApp(config.prod);
+} else {
+  firebase.initializeApp(config.test);
+}
 
 angular.module("IG", ["firebase"])
   .factory("Instagram", ["$window", "$http", "$q", "moment",
