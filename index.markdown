@@ -59,9 +59,17 @@ sections:
   background: dark
   form:
     type: signup
-    submit: Sign me up
-    note: We take your privacy seriously and will never spam you, or share your e-mail
-      with anyone else.
 layout: landing
+
+form:
+  type: signup
+  placeholders:
+    firstname: Lillian
+    lastname: Vader
+    email: lilly@death.star
+    password: FreeThroathHugz
+  buttons:
+    submit: Sign me up
+    
 ---
 
