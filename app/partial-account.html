@@ -1,9 +1,9 @@
-<header class="page-section header bg-primary" ng-controller="ProfileController">
+<header class="page-section header bg-primary" ng-controller="ProfileController" ng-show="currentAuth">
   <div class="container-fluid">
 
     <h1><span ng-bind="profile.getFullName()"></span></h1>
     <hr>
-    <div class="content">
+    <div class="content profile">
 
       <ul class="list-group" ng-if="user">
         <li class="list-group-item">
@@ -52,7 +52,7 @@
       <h2 ng-bind="letter.name"></h2>
       <hr>
       <div class="content">
-        This letter will be shipped to your recipents on August 8th. Make sure you have everything ready by August 4th.
+        This letter will be shipped to your recipents on August 8th. Make sure you have everything ready by <strong>August 4th</strong>.
       </div>
 
       <div class="content greeting" ng-controller="GreetingController">
@@ -88,6 +88,9 @@
 
       <div class="photos">
         <h3>Photos</h3>
+        <p ng-hide="!letter.photos">
+          Select photos for your letter by tagging them with <strong>#lillygram</strong>.
+        </p>
         <p>
           <a ng-repeat="photo in letter.photos" ng-href="{{photo.link}}"><img ng-src="{{photo.images.low_resolution.url}}" /></a>
         </p>

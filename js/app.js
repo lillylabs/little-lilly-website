@@ -15,9 +15,11 @@ var config = {
 
 console.log(window.location.host);
 
-if(window.location.host == 'http://littlelilly.no') {
+if(window.location.host == 'littlelilly.no') {
+  console.log("Firebase: Little Lilly");
   firebase.initializeApp(config.prod);
 } else {
+  console.log("Firebase: Little Lilly Test");
   firebase.initializeApp(config.test);
 }
 
