@@ -11,7 +11,7 @@ angular.module("IG", ["firebase"])
     function ($window, $http, $q, moment) {
 
       function getClientId() {
-        return firebase.database().ref('/instagram').once('value').then(function (snapshot) {
+        return firebase.database().ref('config/instagram').once('value').then(function (snapshot) {
           return snapshot.val().client_id;
         });
       }
