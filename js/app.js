@@ -237,8 +237,6 @@ angular.module("Backbone", ["firebase"])
       }
 
       this.isApp = function () {
-        console.log($window.location.pathname);
-        console.log(baseUrl);
         return $window.location.pathname == '/app/';
       }
   }
@@ -333,10 +331,8 @@ angular.module("LittleLillyApp").run(
   ["$rootScope", "$state", "Auth", "URLService", function ($rootScope, $state, Auth, URLService) {
 
     Auth.$onAuthStateChanged(function (firebaseUser) {
-      console.log("go account");
       if (URLService.isApp()) {
         if (firebaseUser) {
-          console.log("go account");
           $state.go("account");
         } else {
           URLService.goToHome();
@@ -396,8 +392,6 @@ angular.module("LittleLillyApp").controller("AccountController", ["$scope", "cur
     $scope.letter = Letter(currentAuth.uid);
     $scope.profile = Profile(currentAuth.uid);
     $scope.archive = Archive(currentAuth.uid);
-
-    console.log($scope.letter);
   }
 ]);
 
