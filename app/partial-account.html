@@ -1,5 +1,5 @@
-<header class="page-section header bg-primary" ng-controller="ProfileController" ng-show="currentAuth">
-  <div class="container-fluid">
+<header class="page-section header bg-primary" ng-controller="ProfileController">
+  <div class="container-fluid" ng-show="currentAuth">
 
     <h1><span ng-bind="profile.getFullName()"></span></h1>
     <hr>
