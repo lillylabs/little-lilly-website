@@ -52,7 +52,7 @@ sections:
   images:
   - url: "/uploads/letter1.jpg"
   - url: "/uploads/letter2.jpg"
-  - url: "/uploads/letter1.jpg"
+  - url: "/uploads/letter3.jpg"
   - url: "/uploads/letter2.jpg"
 - title: Keep grandma updated!
   id: signup
