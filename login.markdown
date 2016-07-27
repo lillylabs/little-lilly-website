@@ -1,5 +1,9 @@
 ---
 title: Log in
+form:
+  placeholders:
+    email: lilly@example.com
+    password: super-secret
 layout: form
 ---
 
