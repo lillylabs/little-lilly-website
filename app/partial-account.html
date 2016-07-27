@@ -51,10 +51,15 @@
     <div ng-show="letter.name">
       <h2 ng-bind="letter.name"></h2>
       <hr>
-      <div class="content greeting" ng-controller="GreetingController">
+      <div class="content">
+        This letter will be shipped to your recipents on August 8th. Make sure you have everything ready by August 4th.
+      </div>
 
-        <p class="greeting-text" ng-show="status == 'PREVIEW'">
-          <span ng-bind="greeting.text" ng-if="greeting.text"></span>
+      <div class="content greeting" ng-controller="GreetingController">
+        <h3>Greeting</h3>
+
+        <p class="greeting-text" ng-show="status == 'PREVIEW' && greeting.text">
+          <span ng-bind="greeting.text"></span>
         </p>
 
         <p ng-show="status == 'PREVIEW'">
@@ -81,9 +86,12 @@
 
       </div>
 
-      <p class="photos">
-        <a ng-repeat="photo in letter.photos" ng-href="{{photo.link}}"><img ng-src="{{photo.images.low_resolution.url}}" /></a>
-      </p>
+      <div class="photos">
+        <h3>Photos</h3>
+        <p>
+          <a ng-repeat="photo in letter.photos" ng-href="{{photo.link}}"><img ng-src="{{photo.images.low_resolution.url}}" /></a>
+        </p>
+      </div>
 
       <div class="content recipients" ng-controller="RecipientsController">
         <h3>Recipients</h3>
