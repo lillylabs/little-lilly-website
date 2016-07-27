@@ -2,10 +2,10 @@
 title: Sign Up
 form:
   placeholders:
-    firstname: Lilly
-    lastname: Skywalker
-    email: lilly@example.com
-    password: super-secret
+    firstname: Lillian
+    lastname: Vader
+    email: lilly@death.star
+    password: FreeThroathHugz
   buttons:
     submit: Sign me up
 layout: form
