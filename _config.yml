@@ -14,3 +14,4 @@ collections:
   uploads:
     title: Uploads
     output: true
+permalink: none

@@ -1,0 +1,45 @@
+<section class="page-section team bg-{{ include.section.background | default: 'white' }}" id="{{ section.id }}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="block">
+                {% include page-sections/partials/content.html section=include.section %}
+            </div>
+        </div>
+        <div class="row">
+            {% for member in include.section.team %}
+            <div class="block team">
+                <div class="team-image">
+                    <div class="team-image-overlay"></div>
+                    <img src="{{ member.image | default: '/uploads/avatar.jpg' }}">
+                    {% if member.social %}
+                    <div class="team-image-social-icons">
+                        <ul class="list-inline">
+                            <!-- Add the Instagram icon if specified team member has an Instagram account specified in about.markdown -->
+                            {% if member.social.instagram %}
+                            <li>
+                                <a href="{{ member.social.instagram }}">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </li>
+                            {% endif %}
+                            <!-- Add the Twitter icon if specified team member has an Twitter account specified in about.markdown -->
+                            {% if member.social.twitter %}
+                            <li>
+                                <a href="{{ member.social.twitter }}">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="team-info">
+                    <div class="team-info-name">{{ member.name }}</div>
+                    <div class="team-info-title">{{ member.title }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

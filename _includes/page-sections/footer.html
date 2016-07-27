@@ -1,17 +1,17 @@
-<footer class="page-section bg-light site-footer">
+<footer class="page-section bg-{{ include.section.background | default: 'light' }} site-footer">
   <div class="container-fluid">
     <div class="row">
       <div class="block">
         {% include page-sections/partials/heading.html title="About Little Lilly" size="h3" %}
-        <p>Little Lilly is a small family run business operating out of Rodeløkka (Oslo, Norway).</p>
-        <p><a href="/about">Read more about us</a></p>
+        <p>Little Lilly is a service delivered by Lilly Labs; a small family run business operating out of Rodeløkka (Oslo, Norway).</p>
+<!--        <p><a href="/about">Read more about us</a></p>-->
       </div>
       <div class="block">
         {% include page-sections/partials/heading.html title="The serious stuff" size="h3" %}
         <ul>
           <li><a href="/serious">Imprint</a></li>
           <li><a href="/serious/#terms--conditions">Terms & Conditions</a></li>
-          <li><a href="/about/#contact-information">Contact information</a></li>
+          <li><a href="/contact">Contact Us</a></li>
         </ul>
       </div>
       <div class="block">

@@ -1,0 +1,75 @@
+{
+  "users": {
+    "kvw18di6wrdMzHjstw8pjxFwsYQ2": {
+      "meta": {
+        "credits": 0,
+        "greeting": {
+          "style": "text-align: center;",
+          "text": "Hei på deg, \nher kommer noen bilder fra meg :D \n-Benedicte"
+        }
+      },
+      "letter": {
+        "name": "June 2016",
+        "timeframe": {
+          "start": "2016-06-01",
+          "end": "2016-06-30"
+        },
+        "recipients": {
+          "r1": {
+            "name": "Bjørn Dingsør",
+            "address": "35 Upcerne Road"
+          }
+        },
+        "greeting": {
+          "style": "text-align: center;",
+          "text": "Hele juni har vi bodd på den bittelille Mollön sammen med søster/tante Anne-Lina :D Det har vært stor stas for både store og små!"
+        },
+        "meta": {
+          "photos": {
+            "excluded": {
+              "id-of-instagram-photo": true
+            }
+          }
+        }
+      },
+      "archive": {
+        "2016-05": {
+          "name": "May 2016",
+          "timeframe": {
+            "start": "2016-05-01",
+            "end": "2016-05-31"
+          },
+          "shipped": "2016-06-08",
+          "recipients": {
+            "r1": {
+              "name": "Bjørn Dingsør",
+              "address": "35 Upcerne Road"
+            }
+          }
+        }
+      },
+      "transactions": {
+        "some-shipment-id": {
+          "type": "shipment",
+          "letter": {
+            "name": "May 2016",
+            "id": "2016-05"
+          },
+          "date": "2016-06-08",
+          "credits": -5
+        },
+        "some-paypal-id": {
+          "type": "pay-pal",
+          "id": "pay-pal-id",
+          "date": "2016-08-03",
+          "credits": 5
+        },
+        "parse-import": {
+          "type": "imported",
+          "date": "2016-07-20",
+          "credits": 10
+        }
+      }
+    }
+  }
+}

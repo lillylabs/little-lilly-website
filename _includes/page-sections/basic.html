@@ -1,4 +1,4 @@
-<section class="page-section basic bg-{{ include.section.background }}" id="{{ section.id }}">
+<section class="page-section basic bg-{{ include.section.background | default: 'white' }}" id="{{ section.id }}">
   <div class="container-fluid">
     <div class="row">
 

@@ -1,0 +1,168 @@
+<header class="page-section header bg-primary" ng-controller="ProfileController">
+  <div class="container-fluid" ng-show="currentAuth">
+
+    <h1><span ng-bind="profile.getFullName()"></span></h1>
+    <hr>
+    <div class="content profile">
+
+      <ul class="list-group" ng-if="user">
+        <li class="list-group-item">
+          <div class="list-group-icon">
+            <i class="icon-envelope"></i>
+          </div>
+          <div class="list-group-content">
+            <span ng-bind="user.email"></span>
+          </div>
+        </li>
+<!--
+        <li class="list-group-item">
+          <div class="list-group-icon">
+            <i class="icon-wallet"></i>
+          </div>
+          <div class="list-group-content">
+            <span ng-bind="profile.credits"></span> credits
+          </div>
+        </li>
+-->
+        <li ng-if="profile.ig_accounts" class="list-group-item">
+          <div class="list-group-icon">
+            <i class="icon-social-instagram"></i>
+          </div>
+          <div class="list-group-content">
+            <span ng-repeat="account in profile.ig_accounts">
+              <a href="http://instagram.com/{{account.username}}">{{account.username}}</a>
+              <span ng-show="!$last"> / </span>
+            </span>
+          </div>
+        </li>
+      </ul>
+      <a ng-click="authIGAccount()" ng-if="!profile.ig_accounts" class="btn btn-white btn-block">Connect to Instagram</a>
+    </div>
+  </div>
+</header>
+
+<section class="page-section letter bg-white" ng-if="profile.ig_accounts" ng-controller="LetterController">
+  <div class="container-fluid">
+
+    <div ng-hide="letter.name">
+      <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div ng-show="letter.name">
+      <h2 ng-bind="letter.name"></h2>
+      <hr>
+      <div class="content">
+        This letter will be shipped to your recipents on August 8th. Make sure you have everything ready by <strong>August 4th</strong>.
+      </div>
+
+      <div class="content greeting" ng-controller="GreetingController">
+        <h3>Greeting</h3>
+
+        <p class="greeting-text" ng-show="status == 'PREVIEW' && greeting.text">
+          <span ng-bind="greeting.text"></span>
+        </p>
+
+        <p ng-show="status == 'PREVIEW'">
+          <button type="button" class="btn" ng-class="greeting.text ? 'btn-link' : 'btn-primary'" aria-hidden="true" ng-click="status= 'EDIT'">
+            <i ng-class="greeting.text ? 'icon-note' : 'icon-plus'" aria-hidden="true"></i> {{greeting.text ? "Edit greeting" : "Add greeting"}}
+          </button>
+        </p>
+
+        <form ng-show="status != 'PREVIEW'">
+          <div class="form-group">
+            <textarea class="form-control" rows="9" ng-model="greeting.text" ng-readonly="status == 'PROCESS'">
+            </textarea>
+          </div>
+
+          <div class="form-group">
+            <button type="button" class="btn btn-link" ng-click="status = 'CANCEL'">
+              Cancel
+            </button>
+            <button type="submit" class="btn" ng-click="status = 'SAVE'">
+              Save
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="photos">
+        <h3>Photos</h3>
+        <p ng-hide="!letter.photos">
+          Select photos for your letter by tagging them with <strong>#lillygram</strong>.
+        </p>
+        <p>
+          <a ng-repeat="photo in letter.photos" ng-href="{{photo.link}}"><img ng-src="{{photo.images.low_resolution.url}}" /></a>
+        </p>
+      </div>
+
+      <div class="content recipients" ng-controller="RecipientsController">
+        <h3>Recipients</h3>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="recipient in recipients">
+
+            <div class="list-group-content"
+                 ng-show="recipient._status == 'PREVIEW'">
+              <span class="recipient-name">{{recipient.name}}</span>
+              <small class="recipient-address" class="text-muted">
+                {{recipient.address}}
+              </small>
+            </div>
+            <div class="list-group-actions" ng-show="recipient._status == 'PREVIEW'">
+              <a class="btn btn-link list-group-action"
+               ng-click="editRecipient(recipient)">
+                <i class="icon-note"></i> Edit
+              </a>
+              <a class="btn btn-link list-group-action"
+               ng-click="deleteRecipient(recipient)" >
+                <i class="icon-trash"></i> Delete
+              </a>
+            </div>
+
+            <form ng-show="recipient._status != 'PREVIEW'">
+              <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" ng-model="recipient.name" ng-readonly="recipient._status == 'PROCESS'" />
+              </div>
+              <div class="form-group">
+                <label>Address</label>
+                <textarea class="form-control" rows="5" ng-model="recipient.address" ng-readonly="recipient._status == 'PROCESS'">
+                </textarea>
+              </div>
+
+              <div class="form-group">
+                <button type="button" class="btn btn-link" ng-click="revertRecipient(recipient)">
+                  Cancel
+                </button>
+                <button type="submit" class="btn" ng-click="saveRecipient(recipient)">
+                  Save
+                </button>
+              </div>
+            </form>
+
+          </li>
+        </ul>
+        <a class="btn btn-link" ng-click="addRecipient()" ng-show="!newRecipient">
+          <i class="icon-plus"></i> Add recipient
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="page-section archive bg-white" ng-if="archive.length > 0">
+  <div class="container-fluid">
+    <h2>Account history</h2>
+    <hr>
+    <div class="content">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="letter in archive | orderBy:'-$id' track by letter.$id">
+          <span ng-bind="letter.name"></span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>

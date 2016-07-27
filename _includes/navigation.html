@@ -1,25 +1,28 @@
-<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        Menu
-      </button>
-      <a class="navbar-brand page-scroll" href="{{ site.baseurl }}/">{{ site.title }}</a>
-    </div>
+<nav id="mainNav" class="navbar navbar-fixed-top navbar-light">
+  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+    &#9776;
+  </button>
+  <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <a class="navbar-brand page-scroll" href="{{ site.baseurl }}/">{{ site.title }}</a>
+    <ul class="nav navbar-nav pull-xs-right" ng-controller="NavBarController">
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a class="page-scroll" href="#portfolio">Sign up</a>
+      {% if page.slug == 'app' %}
+        <li class="nav-item hidden">
+          <a class="nav-link btn" ng-click="signOut()">Sign Out</a>
         </li>
-        <li>
-          <a class="page-scroll" href="#contact">Log in</a>
+      {% endif %}
+
+      {% if page.slug != 'app' %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ site.baseurl }}/contact">Contact</a>
         </li>
-      </ul>
-    </div>
-    <!-- /.navbar-collapse -->
+        <li class="nav-item">
+          <a class="nav-link" href="/signup">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn" ng-click="logIn()">Log In</a>
+        </li>
+      {% endif %}
+    </ul>
   </div>
-  <!-- /.container-fluid -->
 </nav>

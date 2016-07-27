@@ -2,24 +2,27 @@
 layout: default
 ---
 
-<article class="post">
+<article>
 
-  <div class="page-section page-header bg-dark row">
-      <header class="block">
-        <h1 class="post-title">{{ page.title }}</h1>
-      </header>
-  </div>
+  <div class="page-background" style="background-image: url({{ page.image }})"></div>
+  <div class="page-background-overlay"></div>
 
-  <div class="page-section page-content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="block">
-          <div class="content">
-            {{ content }}
+  <div class="page-section page-content bg-white">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="block">
+                  <div class="page-heading">
+                      <h1 class="post-title">{{ page.title }}</h1>
+                  </div>
+                  <div class="content">
+                      {{ content }}
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-    </div>
   </div>
+
+
+  {% include sections.html %}
 
 </article>

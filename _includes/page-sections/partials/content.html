@@ -1,9 +1,11 @@
 {% include page-sections/partials/heading.html title=include.section.title size=include.title_size %}
 
 <div class="content">
-  {{ include.section.content | markdownify }}
+  {% if include.section.content %}
+    {{ include.section.content | markdownify }}
+  {% endif %}
   {% if include.section.signature %}
-  <p class="signature">{{ include.section.signature }}</p>
+    <p class="signature">{{ include.section.signature }}</p>
   {% endif %}
 </div>
 
