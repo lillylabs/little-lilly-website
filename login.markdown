@@ -2,8 +2,8 @@
 title: Log in
 form:
   placeholders:
-    email: lilly@example.com
-    password: super-secret
+    email: lilly@death.star
+    password: FreeThroathHugz
 layout: form
 ---
 

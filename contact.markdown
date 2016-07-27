@@ -10,8 +10,8 @@ sections:
   address: "Lilly Labs  \nTromsøgata 26  \n0565 Oslo  \nNorway  "
 form:
   placeholders:
-    name: Lilly Skywalker
-    email: lilly@example.com
+    name: Lillian Vader
+    email: lilly@death.star
   buttons:
     submit: Send message
 layout: form
