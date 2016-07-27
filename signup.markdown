@@ -1,5 +1,12 @@
 ---
 title: Sign Up
+form:
+  placeholders:
+    firstname: Lilly
+    lastname: Skywalker
+    email: lilly@example.com
+  buttons:
+    submit: Sign me up
 layout: form
 ---
 
