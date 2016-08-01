@@ -70,7 +70,7 @@
 
         <form ng-show="status != 'PREVIEW'">
           <div class="form-group">
-            <textarea class="form-control" rows="9" ng-model="greeting.text" ng-readonly="status == 'PROCESS'">
+            <textarea title="Greeting for letter" class="form-control" rows="9" ng-model="greeting.text" ng-readonly="status == 'PROCESS'">
             </textarea>
           </div>
 
@@ -121,12 +121,12 @@
 
             <form ng-show="recipient._status != 'PREVIEW'">
               <div class="form-group">
-                <label>Name</label>
-                <input class="form-control" ng-model="recipient.name" ng-readonly="recipient._status == 'PROCESS'" />
+                <label for="name">Name</label>
+                <input id="name" class="form-control" ng-model="recipient.name" ng-readonly="recipient._status == 'PROCESS'" />
               </div>
               <div class="form-group">
-                <label>Address</label>
-                <textarea class="form-control" rows="5" ng-model="recipient.address" ng-readonly="recipient._status == 'PROCESS'">
+                <label for="address">Address</label>
+                <textarea id="address" class="form-control" rows="5" ng-model="recipient.address" ng-readonly="recipient._status == 'PROCESS'">
                 </textarea>
               </div>
 

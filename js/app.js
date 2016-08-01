@@ -15,7 +15,7 @@ var config = {
 
 console.log(window.location.host);
 
-if(window.location.host == 'www.littlelilly.no') {
+if (window.location.host == 'www.littlelilly.no') {
   console.log("Firebase: Little Lilly");
   firebase.initializeApp(config.prod);
 } else {
@@ -35,7 +35,7 @@ angular.module("IG", ["firebase"])
 
       function getRedirectUrl() {
         var redirectUrl = $window.location.host;
-        if (redirectUrl.indexOf('localhost' >= 0)) {
+        if (redirectUrl.indexOf('localhost') >= 0) {
           redirectUrl = 'http://' + redirectUrl + '/app/';
         }
         return redirectUrl;
@@ -61,7 +61,7 @@ angular.module("IG", ["firebase"])
         timeframe = {
           start: moment(timeframe.start),
           end: moment(timeframe.end)
-        }
+        };
 
         photo = moment(photo.created_time * 1000);
 
@@ -71,7 +71,7 @@ angular.module("IG", ["firebase"])
       function isNewerThanTimeFrameStart(timeframe, photo) {
         timeframe = {
           start: moment(timeframe.start)
-        }
+        };
 
         photo = moment(photo.created_time * 1000);
 
@@ -127,7 +127,7 @@ angular.module("IG", ["firebase"])
         });
       }
 
-      var instagram = {
+      return {
         authAccount: function () {
           getClientId().then(function (clientId) {
             goToAuthUrl(clientId, getRedirectUrl());
@@ -153,109 +153,103 @@ angular.module("IG", ["firebase"])
             token: profile.igToken(),
             timeframe: letter.timeframe,
             deferred: deferred
-          }
+          };
 
           fetchPhotos(params);
 
           return deferred.promise;
         }
-      }
-
-      return instagram;
-  }
-]);
+      };
+    }
+  ]);
 
 angular.module("Backbone", ["firebase"])
   .factory("Auth", ["$firebaseAuth",
     function ($firebaseAuth) {
       return $firebaseAuth();
     }
-]).factory("Profile", ["$firebaseObject",
-    function ($firebaseObject) {
+  ]).factory("Profile", ["$firebaseObject",
+  function ($firebaseObject) {
 
-      var Profile = $firebaseObject.$extend({
-        getFullName: function () {
-          if (this.name) {
-            return this.name.first + " " + this.name.last;
-          }
-        },
-        igToken: function () {
-          if (this.ig_accounts) {
-            return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
-          }
+    var Profile = $firebaseObject.$extend({
+      getFullName: function () {
+        if (this.name) {
+          return this.name.first + " " + this.name.last;
         }
-      });
-
-      return function (uid) {
-        var ref = firebase.database().ref('users/' + uid + '/profile');
-        return new Profile(ref);
+      },
+      igToken: function () {
+        if (this.ig_accounts) {
+          return this.ig_accounts[Object.keys(this.ig_accounts)[0]].token;
+        }
       }
+    });
+
+    return function (uid) {
+      var ref = firebase.database().ref('users/' + uid + '/profile');
+      return new Profile(ref);
+    }
   }
 ]).factory("Letter", ["$firebaseObject", "$firebaseArray",
   function ($firebaseObject, $firebaseArray) {
 
-      var Letter = $firebaseObject.$extend({
+    var Letter = $firebaseObject.$extend({
 
-        $$defaults: {
-          name: "July 2016",
-          timeframe: {
-            start: "2016-07-01",
-            end: "2016-07-31"
-          }
-        },
-        getGreeting: function () {
-          return $firebaseObject(this.$ref().child('greeting'));
-        },
-        getRecipients: function () {
-          return $firebaseArray(this.$ref().child('recipients'));
+      $$defaults: {
+        name: "July 2016",
+        timeframe: {
+          start: "2016-07-01",
+          end: "2016-07-31"
         }
-
-      });
-
-      return function (uid) {
-        var ref = firebase.database().ref('users/' + uid + '/letter');
-        return new Letter(ref);
+      },
+      getGreeting: function () {
+        return $firebaseObject(this.$ref().child('greeting'));
+      },
+      getRecipients: function () {
+        return $firebaseArray(this.$ref().child('recipients'));
       }
+
+    });
+
+    return function (uid) {
+      var ref = firebase.database().ref('users/' + uid + '/letter');
+      return new Letter(ref);
+    }
   }
 ]).factory("Archive", ["$firebaseArray",
   function ($firebaseArray) {
-      return function (uid) {
-        var ref = firebase.database().ref('users/' + uid + '/archive').limitToLast(5);
-        return $firebaseArray(ref);
-      }
+    return function (uid) {
+      var ref = firebase.database().ref('users/' + uid + '/archive').limitToLast(5);
+      return $firebaseArray(ref);
+    }
   }
 ]).service("URLService", ["$window", "$location",
-  function ($window, $location) {
+  function ($window) {
 
-      var baseUrl = $window.location.host;
+    var baseUrl = $window.location.host;
 
-      if (baseUrl.indexOf('localhost' >= 0)) {
-        baseUrl = "http://" + baseUrl
-      }
+    if (baseUrl.indexOf('localhost') >= 0) {
+      baseUrl = "http://" + baseUrl
+    }
 
-      function goTo(path) {
-        $window.location.assign(baseUrl + path);
-      }
+    function goTo(path) {
+      $window.location.assign(baseUrl + path);
+    }
 
-      this.goToHome = function () {
-        goTo('/');
-      }
+    this.goToHome = function () {
+      goTo('/');
+    };
 
-      this.goToApp = function () {
-        goTo('/app');
-      }
+    this.goToApp = function () {
+      goTo('/app');
+    };
 
-      this.goToSignIn = function () {
-        goTo('/login');
-      }
+    this.goToSignIn = function () {
+      goTo('/login');
+    };
 
-      this.goToSignUp = function () {
-        goTo('/#signup');
-      }
-
-      this.isApp = function () {
-        return $window.location.pathname == '/app/';
-      }
+    this.isApp = function () {
+      return $window.location.pathname == '/app/';
+    }
   }
 ]);
 
@@ -270,66 +264,66 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
             var profile = Profile(firebaseUser.uid);
             profile.name = {
               first: firstname ? firstname : "",
-              last: lastname ? lastname : "",
+              last: lastname ? lastname : ""
             };
             return profile.$save();
           }).catch(function (error) {
             console.error("Error: ", error);
             return $q.reject(error);
           });
-      }
+      };
 
       this.signIn = function (email, password) {
         return Auth.$signInWithEmailAndPassword(email, password).catch(function (error) {
           console.log("AuthService: Error, ", error);
           return $q.reject(error);
         });
-      }
+      };
 
       this.signOut = function () {
         return Auth.$signOut();
       }
-  }
-]).controller("SignUpFormController", ["$scope", "AuthService", "URLService",
+    }
+  ]).controller("SignUpFormController", ["$scope", "AuthService", "URLService",
 
-    function ($scope, AuthService, URLService) {
+  function ($scope, AuthService, URLService) {
 
-      $scope.signUp = function () {
-        AuthService.signUp($scope.email, $scope.password, $scope.firstname, $scope.lastname).then(function () {
-          URLService.goToApp();
-        }).catch(function (error) {
-          $scope.error = error.message;
-        });
-      };
+    $scope.signUp = function () {
+      AuthService.signUp($scope.email, $scope.password, $scope.firstname, $scope.lastname).then(function () {
+        URLService.goToApp();
+      }).catch(function (error) {
+        $scope.error = error.message;
+      });
+    };
 
   }
 ]).controller("SignInFormController", ["$scope", "AuthService", "URLService",
 
-    function ($scope, AuthService, URLService) {
+  function ($scope, AuthService, URLService) {
 
-      $scope.signIn = function () {
-        AuthService.signIn($scope.email, $scope.password).then(function () {
-          URLService.goToApp();
-        }).catch(function (error) {
-          $scope.error = error.message;
-        });
-      };
+    $scope.signIn = function () {
+      AuthService.signIn($scope.email, $scope.password).then(function () {
+        URLService.goToApp();
+      }).catch(function (error) {
+        $scope.error = error.message;
+      });
+    };
   }
 ]).controller("NavBarController", ["$scope", "$location", "AuthService", "URLService",
 
-    function ($scope, $location, AuthService, URLService) {
+  function ($scope, $location, AuthService, URLService) {
 
-      $scope.logIn = function() {
-        if($scope.currentAuth) {
-          URLService.goToApp();
-        } else {
-          URLService.goToSignIn();
-        }
+    $scope.logIn = function () {
+      if ($scope.currentAuth) {
+        URLService.goToApp();
+      } else {
+        URLService.goToSignIn();
       }
+    };
 
-      $scope.signOut = function () {
-        AuthService.signOut();
-      }
+    $scope.signOut = function () {
+      AuthService.signOut();
+    }
   }
 ]);
 
@@ -340,7 +334,7 @@ angular.module("Authentication").run(
       $rootScope.currentAuth = firebaseUser;
     });
 
-}]);
+  }]);
 
 angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment", "Backbone", "Authentication", "IG"]);
 
@@ -350,17 +344,17 @@ angular.module("LittleLillyApp").run(
     Auth.$onAuthStateChanged(function (firebaseUser) {
       if (URLService.isApp()) {
         if (firebaseUser) {
-          $state.go("account");
+          $state.go('account');
         } else {
           URLService.goToHome();
         }
       }
     });
 
-}]);
+  }]);
 
 angular.module("LittleLillyApp").config(
-  ["$stateProvider", "$locationProvider", "$urlRouterProvider", function ($stateProvider, $locationProvider, $urlRouterProvider) {
+  ["$stateProvider", function ($stateProvider) {
 
     $stateProvider
       .state("account", {
@@ -368,14 +362,14 @@ angular.module("LittleLillyApp").config(
         templateUrl: "partial-account.html",
         controller: "AccountController",
         resolve: {
-          "currentAuth": ["Auth", "$state", function (Auth, $state) {
+          "currentAuth": ["Auth", "$state", function (Auth) {
             return Auth.$requireSignIn();
           }],
           "profile": ["Auth", "Profile", function (Auth, Profile) {
             return Auth.$requireSignIn().then(function (auth) {
               return Profile(auth.uid).$loaded();
             });
-        }]
+          }]
         }
       })
       .state("access_token", {
@@ -390,14 +384,14 @@ angular.module("LittleLillyApp").config(
                     username: user.username,
                     token: $stateParams.igToken,
                     profile_picture: user.profile_picture
-                  }
+                  };
                   return profile.$save().catch(function (error) {
                     console.log("State 'access_token': Error saving profile, ", error);
                   });
                 });
               });
             });
-        }]
+          }]
         }
       });
   }]);
@@ -453,7 +447,7 @@ angular.module("LittleLillyApp").controller("LetterController", ["$scope", "Inst
           $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
           fetchIGPhotos();
         }
-      });;
+      });
     })
   }
 ]);
@@ -467,19 +461,19 @@ angular.module("LittleLillyApp").controller("GreetingController", ["$scope",
     $scope.$watch('status', function () {
 
       switch ($scope.status) {
-      case 'EDIT':
-        $scope.backup = angular.copy($scope.greeting.text);
-        break;
-      case 'SAVE':
-        $scope.status = 'PROCESS';
-        $scope.greeting.$save().then(function () {
+        case 'EDIT':
+          $scope.backup = angular.copy($scope.greeting.text);
+          break;
+        case 'SAVE':
+          $scope.status = 'PROCESS';
+          $scope.greeting.$save().then(function () {
+            $scope.status = 'PREVIEW';
+          });
+          break;
+        case 'CANCEL':
+          $scope.greeting.text = $scope.backup;
           $scope.status = 'PREVIEW';
-        });
-        break;
-      case 'CANCEL':
-        $scope.greeting.text = $scope.backup;
-        $scope.status = 'PREVIEW';
-        break;
+          break;
       }
     });
 
@@ -502,16 +496,16 @@ angular.module("LittleLillyApp").controller("RecipientsController", ["$scope",
       $scope.newRecipient = {};
       $scope.editRecipient($scope.newRecipient);
       $scope.recipients.push($scope.newRecipient);
-    }
+    };
 
     $scope.deleteRecipient = function (recipient) {
       $scope.recipients.$remove(recipient);
-    }
+    };
 
     $scope.editRecipient = function (recipient) {
       recipient._backup = angular.copy(recipient);
       recipient._status = 'EDIT';
-    }
+    };
 
     $scope.saveRecipient = function (recipient) {
       recipient._status = 'PROCESS';
@@ -526,7 +520,7 @@ angular.module("LittleLillyApp").controller("RecipientsController", ["$scope",
           recipient._status = 'PREVIEW';
         });
       }
-    }
+    };
 
     $scope.revertRecipient = function (recipient) {
       if (recipient == $scope.newRecipient) {
