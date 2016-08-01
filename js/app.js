@@ -24,152 +24,159 @@ if (window.location.host == 'www.littlelilly.no') {
 }
 
 angular.module("IG", ["firebase"])
-  .factory("Instagram", ["$window", "$http", "$q", "moment",
-    function ($window, $http, $q, moment) {
+  .factory("Instagram", ["$window", "$http", "$q", "moment", function ($window, $http, $q, moment) {
 
-      function getClientId() {
-        return firebase.database().ref('config/instagram').once('value').then(function (snapshot) {
-          return snapshot.val().client_id;
-        });
+    function getClientId() {
+      return firebase.database().ref('config/instagram').once('value').then(function (snapshot) {
+        return snapshot.val().client_id;
+      });
+    }
+
+    function getRedirectUrl() {
+      var redirectUrl = $window.location.host;
+      if (redirectUrl.indexOf('localhost') >= 0) {
+        redirectUrl = 'http://' + redirectUrl + '/app/';
       }
+      return redirectUrl;
+    }
 
-      function getRedirectUrl() {
-        var redirectUrl = $window.location.host;
-        if (redirectUrl.indexOf('localhost') >= 0) {
-          redirectUrl = 'http://' + redirectUrl + '/app/';
+    function goToAuthUrl(clientId, redirectUrl) {
+      var url = 'https://api.instagram.com/oauth/authorize/?client_id=' + clientId + '&redirect_uri=' + redirectUrl + '&response_type=token';
+      $window.location.assign(url);
+    }
+
+    function isSelected(photo) {
+      var TAGS = ['lillygram', 'lillygram'];
+      var isSelected = false;
+      angular.forEach(TAGS, function (TAG) {
+        if (photo.tags.toString().indexOf(TAG) > -1) {
+          isSelected = true;
         }
-        return redirectUrl;
+      });
+      return isSelected;
+    }
+
+    function isWithinTimeframe(timeframe, photo) {
+      timeframe = {
+        start: moment(timeframe.start),
+        end: moment(timeframe.end)
+      };
+
+      photo = moment(photo.created_time * 1000);
+
+      return photo.isBetween(timeframe.start, timeframe.end, 'day', '[]');
+    }
+
+    function isNewerThanTimeFrameStart(timeframe, photo) {
+      timeframe = {
+        start: moment(timeframe.start)
+      };
+
+      photo = moment(photo.created_time * 1000);
+
+      return photo.isAfter(timeframe.start, 'day', '[]');
+    }
+
+    function filterPhotos(photos, timeframe) {
+      var filtredPhotos = [];
+      angular.forEach(photos, function (photo) {
+        if (isSelected(photo) && isWithinTimeframe(timeframe, photo)) {
+          this.push(photo);
+        }
+      }, filtredPhotos);
+      return filtredPhotos;
+    }
+
+    function fetchPhotos(params) {
+
+      if (!params.token) {
+        return params.deferred.resolve();
       }
 
-      function goToAuthUrl(clientId, redirectUrl) {
-        var url = 'https://api.instagram.com/oauth/authorize/?client_id=' + clientId + '&redirect_uri=' + redirectUrl + '&response_type=token';
-        $window.location.assign(url);
+      var url = 'https://api.instagram.com/v1/users/self/media/recent/';
+      url += '?access_token=' + params.token;
+      url += '&count=' + '5';
+      url += '&callback=JSON_CALLBACK';
+
+
+      if (params.pagination && params.pagination.next_max_id) {
+        url += '&max_id=' + params.pagination.next_max_id;
       }
 
-      function isSelected(photo) {
-        var TAGS = ['lillygram', 'lillygram'];
-        var isSelected = false;
-        angular.forEach(TAGS, function (TAG) {
-          if (photo.tags.toString().indexOf(TAG) > -1) {
-            isSelected = true;
-          }
-        });
-        return isSelected;
+      if (params.pagination && params.pagination.next_min_id) {
+        url += '&min_id=' + params.pagination.next_min_id;
       }
 
-      function isWithinTimeframe(timeframe, photo) {
-        timeframe = {
-          start: moment(timeframe.start),
-          end: moment(timeframe.end)
-        };
+      $http.jsonp(url).success(function (response) {
+        console.log("Instagram: Response data, ", response.data);
 
-        photo = moment(photo.created_time * 1000);
-
-        return photo.isBetween(timeframe.start, timeframe.end, 'day', '[]');
-      }
-
-      function isNewerThanTimeFrameStart(timeframe, photo) {
-        timeframe = {
-          start: moment(timeframe.start)
-        };
-
-        photo = moment(photo.created_time * 1000);
-
-        return photo.isAfter(timeframe.start, 'day', '[]');
-      }
-
-      function filterPhotos(photos, timeframe) {
-        var filtredPhotos = [];
-        angular.forEach(photos, function (photo) {
-          if (isSelected(photo) && isWithinTimeframe(timeframe, photo)) {
-            this.push(photo);
-          }
-        }, filtredPhotos);
-        return filtredPhotos;
-      }
-
-      function fetchPhotos(params) {
-
-        if (!params.token) {
-          return params.deferred.resolve();
+        if(!response.data) {
+          console.log("Instagram: No response data, ", response);
+          return;
         }
 
-        var url = 'https://api.instagram.com/v1/users/self/media/recent/';
-        url += '?access_token=' + params.token;
-        url += '&count=' + '5';
+        if (!params.photos) {
+          params.photos = response.data;
+        } else {
+          params.photos = params.photos.concat(response.data);
+        }
+
+        if (response.pagination && response.pagination.next_url && isNewerThanTimeFrameStart(params.timeframe, params.photos[params.photos.length - 1])) {
+          params.pagination = response.pagination;
+          fetchPhotos(params);
+        } else {
+          console.log("Instagram: Params photos, ", params.photos);
+          var filteredPhotos = filterPhotos(params.photos, params.timeframe).reverse();
+          params.deferred.resolve(filteredPhotos);
+        }
+      });
+    }
+
+    return {
+      authAccount: function () {
+        getClientId().then(function (clientId) {
+          goToAuthUrl(clientId, getRedirectUrl());
+        });
+      },
+      fetchUserInfo: function (igToken) {
+        var url = 'https://api.instagram.com/v1/users/self/';
+        url += '?access_token=' + igToken;
         url += '&callback=JSON_CALLBACK';
 
-
-        if (params.pagination && params.pagination.next_max_id) {
-          url += '&max_id=' + params.pagination.next_max_id;
-        }
-
-        if (params.pagination && params.pagination.next_min_id) {
-          url += '&min_id=' + params.pagination.next_min_id;
-        }
+        var deferred = $q.defer();
 
         $http.jsonp(url).success(function (response) {
-          console.log("Instagram: Response data, ", response.data);
-          if (!params.photos) {
-            params.photos = response.data;
-          } else {
-            params.photos = params.photos.concat(response.data);
-          }
-
-          if (response.pagination && response.pagination.next_url && isNewerThanTimeFrameStart(params.timeframe, params.photos[params.photos.length - 1])) {
-            params.pagination = response.pagination;
-            fetchPhotos(params);
-          } else {
-            console.log("Instagram: Params photos, ", params.photos);
-            var filteredPhotos = filterPhotos(params.photos, params.timeframe).reverse();
-            params.deferred.resolve(filteredPhotos);
-          }
+          deferred.resolve(response.data);
         });
+
+        return deferred.promise;
+      },
+      fetchPhotos: function (profile, letter) {
+        var deferred = $q.defer();
+
+        var params = {
+          token: profile.igToken(),
+          timeframe: letter.timeframe,
+          deferred: deferred
+        };
+
+        fetchPhotos(params);
+
+        return deferred.promise;
       }
-
-      return {
-        authAccount: function () {
-          getClientId().then(function (clientId) {
-            goToAuthUrl(clientId, getRedirectUrl());
-          });
-        },
-        fetchUserInfo: function (igToken) {
-          var url = 'https://api.instagram.com/v1/users/self/';
-          url += '?access_token=' + igToken;
-          url += '&callback=JSON_CALLBACK';
-
-          var deferred = $q.defer();
-
-          $http.jsonp(url).success(function (response) {
-            deferred.resolve(response.data);
-          });
-
-          return deferred.promise;
-        },
-        fetchPhotos: function (profile, letter) {
-          var deferred = $q.defer();
-
-          var params = {
-            token: profile.igToken(),
-            timeframe: letter.timeframe,
-            deferred: deferred
-          };
-
-          fetchPhotos(params);
-
-          return deferred.promise;
-        }
-      };
-    }
+    };
+  }
   ]);
 
 angular.module("Backbone", ["firebase"])
-  .factory("Auth", ["$firebaseAuth",
-    function ($firebaseAuth) {
-      return $firebaseAuth();
-    }
-  ]).factory("Profile", ["$firebaseObject",
-  function ($firebaseObject) {
+  .factory("Auth", ["$firebaseAuth", function ($firebaseAuth) {
+
+    return $firebaseAuth();
+  }
+  ]);
+
+angular.module("Backbone")
+  .factory("Profile", ["$firebaseObject", function ($firebaseObject) {
 
     var Profile = $firebaseObject.$extend({
       getFullName: function () {
@@ -188,9 +195,8 @@ angular.module("Backbone", ["firebase"])
       var ref = firebase.database().ref('users/' + uid + '/profile');
       return new Profile(ref);
     }
-  }
-]).factory("Letter", ["$firebaseObject", "$firebaseArray",
-  function ($firebaseObject, $firebaseArray) {
+  }])
+  .factory("Letter", ["$firebaseObject", "$firebaseArray", function ($firebaseObject, $firebaseArray) {
 
     var Letter = $firebaseObject.$extend({
 
@@ -214,16 +220,14 @@ angular.module("Backbone", ["firebase"])
       var ref = firebase.database().ref('users/' + uid + '/letter');
       return new Letter(ref);
     }
-  }
-]).factory("Archive", ["$firebaseArray",
-  function ($firebaseArray) {
+  }])
+  .factory("Archive", ["$firebaseArray", function ($firebaseArray) {
     return function (uid) {
       var ref = firebase.database().ref('users/' + uid + '/archive').limitToLast(5);
       return $firebaseArray(ref);
     }
-  }
-]).service("URLService", ["$window", "$location",
-  function ($window) {
+  }])
+  .service("URLService", ["$window", "$location", function ($window) {
 
     var baseUrl = $window.location.host;
 
@@ -250,43 +254,39 @@ angular.module("Backbone", ["firebase"])
     this.isApp = function () {
       return $window.location.pathname == '/app/';
     }
-  }
-]);
+  }]);
 
 angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
-  .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile",
-    function ($q, $firebaseAuth, Auth, Profile) {
+  .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile", function ($q, $firebaseAuth, Auth, Profile) {
 
-      this.signUp = function (email, password, firstname, lastname) {
-        return Auth.$createUserWithEmailAndPassword(email, password)
-          .then(function (firebaseUser) {
-            console.log("Auth: User " + firebaseUser.uid + " created successfully!");
-            var profile = Profile(firebaseUser.uid);
-            profile.name = {
-              first: firstname ? firstname : "",
-              last: lastname ? lastname : ""
-            };
-            return profile.$save();
-          }).catch(function (error) {
-            console.error("Error: ", error);
-            return $q.reject(error);
-          });
-      };
-
-      this.signIn = function (email, password) {
-        return Auth.$signInWithEmailAndPassword(email, password).catch(function (error) {
-          console.log("AuthService: Error, ", error);
+    this.signUp = function (email, password, firstname, lastname) {
+      return Auth.$createUserWithEmailAndPassword(email, password)
+        .then(function (firebaseUser) {
+          console.log("Auth: User " + firebaseUser.uid + " created successfully!");
+          var profile = Profile(firebaseUser.uid);
+          profile.name = {
+            first: firstname ? firstname : "",
+            last: lastname ? lastname : ""
+          };
+          return profile.$save();
+        }).catch(function (error) {
+          console.error("Error: ", error);
           return $q.reject(error);
         });
-      };
+    };
 
-      this.signOut = function () {
-        return Auth.$signOut();
-      }
+    this.signIn = function (email, password) {
+      return Auth.$signInWithEmailAndPassword(email, password).catch(function (error) {
+        console.log("AuthService: Error, ", error);
+        return $q.reject(error);
+      });
+    };
+
+    this.signOut = function () {
+      return Auth.$signOut();
     }
-  ]).controller("SignUpFormController", ["$scope", "AuthService", "URLService",
-
-  function ($scope, AuthService, URLService) {
+  }])
+  .controller("SignUpFormController", ["$scope", "AuthService", "URLService", function ($scope, AuthService, URLService) {
 
     $scope.signUp = function () {
       AuthService.signUp($scope.email, $scope.password, $scope.firstname, $scope.lastname).then(function () {
@@ -296,10 +296,8 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
       });
     };
 
-  }
-]).controller("SignInFormController", ["$scope", "AuthService", "URLService",
-
-  function ($scope, AuthService, URLService) {
+  }])
+  .controller("SignInFormController", ["$scope", "AuthService", "URLService", function ($scope, AuthService, URLService) {
 
     $scope.signIn = function () {
       AuthService.signIn($scope.email, $scope.password).then(function () {
@@ -308,10 +306,8 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
         $scope.error = error.message;
       });
     };
-  }
-]).controller("NavBarController", ["$scope", "$location", "AuthService", "URLService",
-
-  function ($scope, $location, AuthService, URLService) {
+  }])
+  .controller("NavBarController", ["$scope", "$location", "AuthService", "URLService", function ($scope, $location, AuthService, URLService) {
 
     $scope.logIn = function () {
       if ($scope.currentAuth) {
@@ -324,37 +320,34 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
     $scope.signOut = function () {
       AuthService.signOut();
     }
-  }
-]);
-
-angular.module("Authentication").run(
-  ["$rootScope", "Auth", function ($rootScope, Auth) {
-
-    Auth.$onAuthStateChanged(function (firebaseUser) {
-      $rootScope.currentAuth = firebaseUser;
-    });
-
   }]);
+
+angular.module("Authentication").run(["$rootScope", "Auth", function ($rootScope, Auth) {
+
+  Auth.$onAuthStateChanged(function (firebaseUser) {
+    $rootScope.currentAuth = firebaseUser;
+  });
+
+}]);
 
 angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment", "Backbone", "Authentication", "IG"]);
 
-angular.module("LittleLillyApp").run(
-  ["$rootScope", "$state", "Auth", "URLService", function ($rootScope, $state, Auth, URLService) {
+angular.module("LittleLillyApp").run(["$rootScope", "$state", "Auth", "URLService", function ($rootScope, $state, Auth, URLService) {
 
-    Auth.$onAuthStateChanged(function (firebaseUser) {
-      if (URLService.isApp()) {
-        if (firebaseUser) {
-          $state.go('account');
-        } else {
-          URLService.goToHome();
-        }
+  Auth.$onAuthStateChanged(function (firebaseUser) {
+    if (URLService.isApp()) {
+      if (firebaseUser) {
+        $state.go('account');
+      } else {
+        URLService.goToHome();
       }
-    });
+    }
+  });
 
-  }]);
+}]);
 
-angular.module("LittleLillyApp").config(
-  ["$stateProvider", function ($stateProvider) {
+angular.module("LittleLillyApp")
+  .config(["$stateProvider", function ($stateProvider) {
 
     $stateProvider
       .state("account", {
@@ -362,12 +355,24 @@ angular.module("LittleLillyApp").config(
         templateUrl: "partial-account.html",
         controller: "AccountController",
         resolve: {
-          "currentAuth": ["Auth", "$state", function (Auth) {
+          "currentAuth": ["Auth", function (Auth) {
             return Auth.$requireSignIn();
           }],
           "profile": ["Auth", "Profile", function (Auth, Profile) {
             return Auth.$requireSignIn().then(function (auth) {
               return Profile(auth.uid).$loaded();
+            });
+          }]
+        }
+      })
+      .state("preview", {
+        url: "/preview",
+        templateUrl: "partial-preview.html",
+        controller: "PreviewController",
+        resolve: {
+          "letter": ["Auth", "Letter", function (Auth, Letter) {
+            return Auth.$requireSignIn().then(function (auth) {
+              return Letter(auth.uid).$loaded();
             });
           }]
         }
@@ -396,27 +401,23 @@ angular.module("LittleLillyApp").config(
       });
   }]);
 
-angular.module("LittleLillyApp").controller("AccountController", ["$scope", "currentAuth", "Profile", "Letter", "Archive",
-  function ($scope, currentAuth, Profile, Letter, Archive) {
+angular.module("LittleLillyApp")
+  .controller("AccountController", ["$scope", "currentAuth", "Profile", "Letter", "Archive", function ($scope, currentAuth, Profile, Letter, Archive) {
 
     $scope.user = currentAuth;
     $scope.letter = Letter(currentAuth.uid);
     $scope.profile = Profile(currentAuth.uid);
     $scope.archive = Archive(currentAuth.uid);
-  }
-]);
 
-angular.module("LittleLillyApp").controller("ProfileController", ["$scope", "Auth", "Instagram",
-  function ($scope, Auth, Instagram) {
+  }])
+  .controller("ProfileController", ["$scope", "Auth", "Instagram", function ($scope, Auth, Instagram) {
 
     $scope.authIGAccount = function () {
       Instagram.authAccount();
     };
-  }
-]);
 
-angular.module("LittleLillyApp").controller("LetterController", ["$scope", "Instagram",
-  function ($scope, Instagram) {
+  }])
+  .controller("LetterController", ["$scope", "Instagram", function ($scope, Instagram) {
 
     function fetchIGPhotos() {
       console.log("LetterController: fetchIGPhotos()");
@@ -449,11 +450,9 @@ angular.module("LittleLillyApp").controller("LetterController", ["$scope", "Inst
         }
       });
     })
-  }
-]);
 
-angular.module("LittleLillyApp").controller("GreetingController", ["$scope",
-  function ($scope) {
+  }])
+  .controller("GreetingController", ["$scope", function ($scope) {
 
     $scope.status = 'PREVIEW';
     $scope.greeting = $scope.letter.getGreeting();
@@ -477,11 +476,8 @@ angular.module("LittleLillyApp").controller("GreetingController", ["$scope",
       }
     });
 
-  }
-]);
-
-angular.module("LittleLillyApp").controller("RecipientsController", ["$scope",
-  function ($scope) {
+  }])
+  .controller("RecipientsController", ["$scope", function ($scope) {
 
     $scope.recipients = $scope.letter.getRecipients();
     $scope.newRecipient = null;
@@ -533,5 +529,42 @@ angular.module("LittleLillyApp").controller("RecipientsController", ["$scope",
       }
     }
 
-  }
-]);
+  }])
+  .controller("PreviewController", ["$scope", "letter", function ($scope, letter) {
+
+    function fetchIGPhotos() {
+      Instagram.fetchPhotos($scope.profile, $scope.letter).then(function (photos) {
+        $scope.letter.photos = photos;
+        $scope.letter.$save();
+      });
+    }
+
+    $scope.letter = letter;
+    $scope.backup = {};
+
+    $scope.letter.$watch(function () {
+      if (JSON.stringify($scope.letter.timeframe) !== JSON.stringify($scope.backup.timeframe)) {
+        $scope.backup.timeframe = angular.copy($scope.letter.timeframe);
+        fetchIGPhotos();
+      }
+    });
+
+    $scope.emptyPhotoBoxCount = function () {
+      if (!$scope.letter || !$scope.letter.photos)
+        return 3;
+
+      var emptyBoxCount = 4 - (($scope.letter.photos.length + 1) % 4);
+
+      return emptyBoxCount < 4 ? emptyBoxCount : 0;
+    };
+
+  }])
+  .filter('range', function() {
+    return function(input, total) {
+      total = parseInt(total);
+      for (var i=0; i<total; i++)
+        input.push(i);
+      return input;
+    };
+  });
+

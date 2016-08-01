@@ -8,9 +8,15 @@
     <ul class="nav navbar-nav pull-xs-right" ng-controller="NavBarController">
 
       {% if page.slug == 'app' %}
-        <li class="nav-item hidden">
-          <a class="nav-link btn" ng-click="signOut()">Sign Out</a>
+        <li class="nav-item">
+          <a class="nav-link" ui-sref="account">Account</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" ui-sref="preview">Preview</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link btn" ng-click="signOut()">Sign Out</a>
+      </li>
       {% endif %}
 
       {% if page.slug != 'app' %}

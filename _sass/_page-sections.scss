@@ -1,46 +1,146 @@
-.container-fluid {
-  .app-index main & {
+.app-index {
+
+  .container-fluid {
     max-width: 800px;
     text-align: center;
-
-    .content {
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    .profile {
-      margin-bottom: -40px;
-    }
-
-    .greeting {
-      .greeting-text {
-        white-space: pre-line;
-      }
-    }
-
-    .photos {
-      img {
-        display: inline-block;
-        width: 80px;
-        margin: 5px;
-      }
-    }
-
-    .recipients {
-
-      .recipient-address {
-        white-space: pre-line;
-      }
-
-      form {
-        width: 100%;
-        text-align: center;
-      }
-    }
 
     h3 {
       margin-top: $spacer*3;
       margin-bottom: $spacer*2;
+    }
+  }
+
+  .content {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .greeting {
+    .greeting-text {
+      white-space: pre-line;
+    }
+  }
+
+  .page-section {
+    &.profile {
+      margin-bottom: -40px;
+    }
+
+    &.letter {
+
+      .photos {
+        img {
+          display: inline-block;
+          width: 80px;
+          margin: 5px;
+        }
+      }
+
+      .recipients {
+
+        .recipient-address {
+          white-space: pre-line;
+        }
+
+        form {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+
+    &.preview {
+
+      .letter {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 10mm auto;
+        width: 210mm;
+        border: 1px solid #999;
+        border-bottom: 0;
+        box-sizing: content-box;
+
+        .greeting, .photo {
+          position: relative;
+          display: flex;
+          width: 105mm;
+          height: 148.5mm;
+          padding: 10mm 5mm;
+          box-sizing: border-box;
+
+          &:nth-child(4n+1),
+          &:nth-child(4n+2) {
+            border-bottom: 1px solid #ccc;
+          }
+
+          &:nth-child(4n+3),
+          &:nth-child(4n+0) {
+            border-bottom: 1px solid #999;
+          }
+
+          &:nth-child(4n+1)::after {
+            content: "fold line";
+            position: absolute;
+            color: #bbb;
+            font-size: 85%;
+            right: -10mm;
+            bottom: -6mm;
+            background: white;
+            padding: 3mm;
+            z-index: 10;
+          }
+
+          p {
+            margin: 0;
+            padding: 3mm 2mm;
+            width: 90mm;
+            text-align: center;
+          }
+        }
+
+        .greeting {
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+
+          p {
+            font-size: 10pt;
+            line-height: 16pt;
+            align-content: center;
+          }
+        }
+
+        .photo {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+
+          flex-direction: column;
+
+          &:nth-child(4n+1),
+          &:nth-child(4n+2) {
+            flex-direction: column-reverse;
+          }
+
+          &:nth-child(4n+2),
+          &:nth-child(4n+0) {
+            align-items: flex-start;
+          }
+
+          img {
+            padding: 1mm;
+            border: 1px solid #ccc;
+            width: 90mm;
+          }
+
+          p {
+            font-family: $font-family-sans-serif;
+            font-size: 8pt;
+            line-height: 11pt;
+            word-wrap: break-word;
+          }
+        }
+      }
     }
   }
 }
