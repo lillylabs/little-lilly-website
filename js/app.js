@@ -13,6 +13,17 @@ var config = {
     }
 };
 
+var parse = {
+    test: {
+        appKey: "GVeUGJvhxfUYrQjiaPWn00MgDx0m9I8178HIvSan",
+        javascriptKey: "JnfjqZx3WHsgqNpbIxU3Yp6tHD8TMy3pTSvDFmGo"
+    },
+    prod: {
+        appKey: "JRDFv7WKBItS7VPZ3vC4Iaa7mFkY7FmNdsrImIpr",
+        javascriptKey: "HGG0SJ0l9QMtmr7mwa3I97TAZBaY4t67jUtT23IZ"
+    }
+}
+
 console.log(window.location.host);
 
 if (window.location.host == 'www.littlelilly.no') {
@@ -21,6 +32,14 @@ if (window.location.host == 'www.littlelilly.no') {
 } else {
     console.log("Firebase: Little Lilly Test");
     firebase.initializeApp(config.test);
+}
+
+if (window.location.host == 'www.littlelilly.no') {
+    console.log("Parse: Lillygram");
+    Parse.initialize(parse.prod.appKey, parse.prod.javascriptKey);
+} else {
+    console.log("Parse: Lillygram Test");
+    Parse.initialize(parse.test.appKey, parse.test.javascriptKey);
 }
 
 angular.module("IG", ["firebase"])
@@ -257,7 +276,7 @@ angular.module("Backbone")
     }]);
 
 angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
-    .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile", function ($q, $firebaseAuth, Auth, Profile) {
+    .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile", "Letter", function ($q, $firebaseAuth, Auth, Profile, Letter) {
 
         this.signUp = function (email, password, firstname, lastname) {
             return Auth.$createUserWithEmailAndPassword(email, password)
@@ -276,11 +295,146 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
         };
 
         this.signIn = function (email, password) {
+
             return Auth.$signInWithEmailAndPassword(email, password).catch(function (error) {
-                console.log("AuthService: Error, ", error);
-                return $q.reject(error);
+
+                if (error.code === 'auth/user-not-found') {
+                    console.log("AuthService: Trying Parse");
+
+                    return Parse.User.logIn(email, password).then(function (parseUser) {
+                        console.log("AuthService: Parse User Found");
+
+                        function getRecipients(parseUser) {
+                            var query = new Parse.Query("Recipient");
+                            query.equalTo("user", parseUser);
+                            return query.find().then(function (parseRecipients) {
+                                var recipients = [];
+                                angular.forEach(parseRecipients, function (parseRecipient) {
+                                    recipients.push({
+                                        name: parseRecipient.get("name"),
+                                        address: parseRecipient.get("address")
+                                    });
+                                });
+                                return recipients;
+                            })
+                        }
+
+                        function getDefaultGreeting(parseUser) {
+                            var query = new Parse.Query("Greeting");
+                            query.equalTo("user", parseUser);
+                            return query.first().then(function (parseGreeting) {
+
+                                if(parseGreeting && parseGreeting.get("reusable")) {
+                                    return parseGreeting.get("text");
+                                } else {
+                                    return null;
+                                }
+                            })
+                        }
+
+                        function getCreditBalance(parseUser) {
+                            var query = new Parse.Query("CreditsBalance");
+                            query.equalTo("user", parseUser);
+                            return query.find().then(function (parseCreditBalances) {
+                                if(parseCreditBalances) {
+                                    var newCredits = parseCreditBalances[0] ? parseCreditBalances[0].get("credits") : 0;
+                                    var oldCredits = parseCreditBalances[1] ? parseCreditBalances[1].get("credits") : 0;
+                                    return newCredits+oldCredits;
+                                } else {
+                                    return null;
+                                }
+                            })
+                        }
+
+                        function getInstagramToken(parseUser) {
+                            var query = new Parse.Query("Instagram");
+                            query.equalTo("user", parseUser);
+                            return query.first().then(function (parseInstagram) {
+                                if(parseInstagram) {
+                                    return parseInstagram.get("accessToken");
+                                } else {
+                                    return null;
+                                }
+                            })
+                        }
+
+                        function getName(parseUser) {
+                            var query = new Parse.Query("Profile");
+                            query.equalTo("user", parseUser);
+                            return query.first().then(function (parseProfile) {
+                                if(parseProfile) {
+                                    return {
+                                        firstName: parseProfile.get("firstName"),
+                                        lastName: parseProfile.get("lastName")
+                                    };
+                                } else {
+                                    return null;
+                                }
+                            })
+                        }
+
+                        var promises = [];
+                        promises.push(getRecipients(parseUser));
+                        promises.push(getDefaultGreeting(parseUser));
+                        promises.push(getCreditBalance(parseUser));
+                        promises.push(getInstagramToken(parseUser));
+                        promises.push(getName(parseUser));
+
+                        return Parse.Promise.when(promises).then(function (parseInfo) {
+                            console.log("AuthService: Parse Data Imported");
+
+                            var recipients = parseInfo[0];
+                            var greeting = parseInfo[1];
+                            var creditBalance = parseInfo[2];
+                            var instagramToken = parseInfo[3];
+                            var name = parseInfo[4];
+
+                            return Auth.$createUserWithEmailAndPassword(email, password).then(function(firebaseUser) {
+
+                                console.log("Auth: User " + firebaseUser.uid + " created successfully!");
+
+                                var profile = Profile(firebaseUser.uid);
+                                profile.name = {
+                                    first: name.firstName ? name.firstName : "",
+                                    last: name.lastName ? name.lastName : ""
+                                };
+                                profile.credits = creditBalance;
+                                profile.greeting = {
+                                    text: greeting
+                                }
+                                profile.ig_accounts = {
+                                    parse_import: {
+                                        token: instagramToken
+                                    }
+                                }
+
+                                var letter = Letter(firebaseUser.uid);
+                                letter.greeting = {
+                                    text: greeting
+                                }
+                                letter.recipients = recipients;
+
+                                return profile.$save().then(function () {
+                                    return letter.$save();
+                                }).then(function () {
+                                    return firebaseUser;
+                                });
+                            });
+
+                        });
+
+                    }, function (parseError) {
+                        console.log("AuthService: Parse Error", parseError);
+                        return $q.reject(error);
+                    });
+
+                } else {
+                    console.log("AuthService: Error, ", error);
+                    return $q.reject(error);
+                }
             });
-        };
+        }
+        ;
 
         this.signOut = function () {
             return Auth.$signOut();
