@@ -1,6 +1,6 @@
 // Mixins
 
-@mixin fade($color, $opacity: 0.8) {
+@mixin fade-out($color, $opacity: 0.8) {
   color: transparentize($color, 1-$opacity);
 }
 

@@ -8,7 +8,7 @@ sections:
   team:
   - name: Benedicte Raae
     image: "/uploads/benedicte.jpg"
-    title: Chief Techologist
+    title: Chief Technologist
     social:
       instagram: https://www.instagram.com/benedicteraae/
       twitter: https://twitter.com/raae
