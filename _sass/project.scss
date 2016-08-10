@@ -15,7 +15,8 @@ img {
 
 hr {
   display: inline-block;
-  border: 3px $brand-primary;
+  border-width: 3px;
+  border-color: $brand-primary;
   width: 50px;
   max-width: 100%;
 
