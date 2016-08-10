@@ -346,18 +346,6 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
                             })
                         }
 
-                        function getInstagramToken(parseUser) {
-                            var query = new Parse.Query("Instagram");
-                            query.equalTo("user", parseUser);
-                            return query.first().then(function (parseInstagram) {
-                                if(parseInstagram) {
-                                    return parseInstagram.get("accessToken");
-                                } else {
-                                    return null;
-                                }
-                            })
-                        }
-
                         function getName(parseUser) {
                             var query = new Parse.Query("Profile");
                             query.equalTo("user", parseUser);
@@ -377,7 +365,6 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
                         promises.push(getRecipients(parseUser));
                         promises.push(getDefaultGreeting(parseUser));
                         promises.push(getCreditBalance(parseUser));
-                        promises.push(getInstagramToken(parseUser));
                         promises.push(getName(parseUser));
 
                         return Parse.Promise.when(promises).then(function (parseInfo) {
@@ -386,8 +373,7 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
                             var recipients = parseInfo[0];
                             var greeting = parseInfo[1];
                             var creditBalance = parseInfo[2];
-                            var instagramToken = parseInfo[3];
-                            var name = parseInfo[4];
+                            var name = parseInfo[3];
 
                             return Auth.$createUserWithEmailAndPassword(email, password).then(function(firebaseUser) {
 
@@ -401,11 +387,6 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
                                 profile.credits = creditBalance;
                                 profile.greeting = {
                                     text: greeting
-                                }
-                                profile.ig_accounts = {
-                                    parse_import: {
-                                        token: instagramToken
-                                    }
                                 }
 
                                 var letter = Letter(firebaseUser.uid);
