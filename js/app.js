@@ -220,9 +220,9 @@ angular.module("Backbone")
         var Letter = $firebaseObject.$extend({
 
             $$defaults: {
-                name: "July 2016",
+                name: "June - July 2016",
                 timeframe: {
-                    start: "2016-07-01",
+                    start: "2016-06-01",
                     end: "2016-07-31"
                 }
             },
@@ -273,10 +273,117 @@ angular.module("Backbone")
         this.isApp = function () {
             return $window.location.pathname == '/app/';
         }
+    }])
+    .service("DataMigration", ["Profile", "Letter", function (Profile, Letter) {
+
+        function getRecipients(parseUser) {
+            var query = new Parse.Query("Recipient");
+            query.equalTo("user", parseUser);
+            return query.find().then(function (parseRecipients) {
+                var recipients = [];
+                angular.forEach(parseRecipients, function (parseRecipient) {
+                    recipients.push({
+                        name: parseRecipient.get("name"),
+                        address: parseRecipient.get("address")
+                    });
+                });
+                return recipients;
+            })
+        }
+
+        function getDefaultGreeting(parseUser) {
+            var query = new Parse.Query("Greeting");
+            query.equalTo("user", parseUser);
+            return query.first().then(function (parseGreeting) {
+
+                if (parseGreeting && parseGreeting.get("reusable")) {
+                    return parseGreeting.get("text");
+                } else {
+                    return null;
+                }
+            })
+        }
+
+        function getCreditBalance(parseUser) {
+            var query = new Parse.Query("CreditsBalance");
+            query.equalTo("user", parseUser);
+            return query.find().then(function (parseCreditBalances) {
+                if (parseCreditBalances) {
+                    var newCredits = parseCreditBalances[0] ? parseCreditBalances[0].get("credits") : 0;
+                    var oldCredits = parseCreditBalances[1] ? parseCreditBalances[1].get("credits") : 0;
+                    return newCredits + oldCredits;
+                } else {
+                    return null;
+                }
+            })
+        }
+
+        function getName(parseUser) {
+            var query = new Parse.Query("Profile");
+            query.equalTo("user", parseUser);
+            return query.first().then(function (parseProfile) {
+                if (parseProfile) {
+                    return {
+                        firstName: parseProfile.get("firstName"),
+                        lastName: parseProfile.get("lastName")
+                    };
+                } else {
+                    return null;
+                }
+            })
+        }
+
+        this.getParseUserInfo = function (parseUser) {
+            var promises = [];
+            promises.push(getRecipients(parseUser));
+            promises.push(getDefaultGreeting(parseUser));
+            promises.push(getCreditBalance(parseUser));
+            promises.push(getName(parseUser));
+            return Parse.Promise.when(promises).then(function (parseInfo) {
+                return {
+                    recipients: parseInfo[0],
+                    greeting: parseInfo[1],
+                    creditBalance: parseInfo[2],
+                    name: parseInfo[3]
+                }
+            });
+        }
+
+        this.updateFirebaseUser = function (firebaseUser, userData) {
+            return Profile(firebaseUser.uid).$loaded().then(function (profile) {
+
+                if(userData.name) {
+                    profile.name = {
+                        first: userData.name.firstName ? userData.name.firstName : "",
+                        last: userData.name.lastName ? userData.name.lastName : ""
+                    };
+                }
+
+                profile.credits = userData.creditBalance;
+                profile.greeting = {
+                    text: userData.greeting
+                }
+
+                return profile.$save();
+
+            }).then(function () {
+
+                return Letter(firebaseUser.uid).$loaded().then(function (letter) {
+
+                    letter.greeting = {
+                        text: userData.greeting
+                    }
+                    letter.recipients = userData.recipients;
+                    return letter.$save();
+                })
+            }).then(function () {
+                return firebaseUser;
+            });
+        }
     }]);
 
 angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
-    .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile", "Letter", function ($q, $firebaseAuth, Auth, Profile, Letter) {
+    .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile", "DataMigration", function ($q, $firebaseAuth, Auth, Profile, DataMigration) {
 
         this.signUp = function (email, password, firstname, lastname) {
             return Auth.$createUserWithEmailAndPassword(email, password)
@@ -301,112 +408,32 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
                 if (error.code === 'auth/user-not-found') {
                     console.log("AuthService: Trying Parse");
 
+                    var parseUserInfo = {};
+
                     return Parse.User.logIn(email, password).then(function (parseUser) {
+
                         console.log("AuthService: Parse User Found");
+                        return DataMigration.getParseUserInfo(parseUser);
 
-                        function getRecipients(parseUser) {
-                            var query = new Parse.Query("Recipient");
-                            query.equalTo("user", parseUser);
-                            return query.find().then(function (parseRecipients) {
-                                var recipients = [];
-                                angular.forEach(parseRecipients, function (parseRecipient) {
-                                    recipients.push({
-                                        name: parseRecipient.get("name"),
-                                        address: parseRecipient.get("address")
-                                    });
-                                });
-                                return recipients;
-                            })
-                        }
+                    }).then(function (info) {
+                        parseUserInfo = info;
+                        console.log("AuthService: Parse Info Fetched", parseUserInfo);
+                        return Auth.$createUserWithEmailAndPassword(email, password);
 
-                        function getDefaultGreeting(parseUser) {
-                            var query = new Parse.Query("Greeting");
-                            query.equalTo("user", parseUser);
-                            return query.first().then(function (parseGreeting) {
+                    }).then(function (firebaseUser) {
 
-                                if(parseGreeting && parseGreeting.get("reusable")) {
-                                    return parseGreeting.get("text");
-                                } else {
-                                    return null;
-                                }
-                            })
-                        }
+                        console.log("Auth: User " + firebaseUser.uid + " created successfully!");
+                        return DataMigration.updateFirebaseUser(firebaseUser, parseUserInfo);
 
-                        function getCreditBalance(parseUser) {
-                            var query = new Parse.Query("CreditsBalance");
-                            query.equalTo("user", parseUser);
-                            return query.find().then(function (parseCreditBalances) {
-                                if(parseCreditBalances) {
-                                    var newCredits = parseCreditBalances[0] ? parseCreditBalances[0].get("credits") : 0;
-                                    var oldCredits = parseCreditBalances[1] ? parseCreditBalances[1].get("credits") : 0;
-                                    return newCredits+oldCredits;
-                                } else {
-                                    return null;
-                                }
-                            })
-                        }
+                    }).then(function (updatedFirebaseUser) {
 
-                        function getName(parseUser) {
-                            var query = new Parse.Query("Profile");
-                            query.equalTo("user", parseUser);
-                            return query.first().then(function (parseProfile) {
-                                if(parseProfile) {
-                                    return {
-                                        firstName: parseProfile.get("firstName"),
-                                        lastName: parseProfile.get("lastName")
-                                    };
-                                } else {
-                                    return null;
-                                }
-                            })
-                        }
+                        return updatedFirebaseUser;
 
-                        var promises = [];
-                        promises.push(getRecipients(parseUser));
-                        promises.push(getDefaultGreeting(parseUser));
-                        promises.push(getCreditBalance(parseUser));
-                        promises.push(getName(parseUser));
+                    }).catch(function (migrationError) {
 
-                        return Parse.Promise.when(promises).then(function (parseInfo) {
-                            console.log("AuthService: Parse Data Imported");
-
-                            var recipients = parseInfo[0];
-                            var greeting = parseInfo[1];
-                            var creditBalance = parseInfo[2];
-                            var name = parseInfo[3];
-
-                            return Auth.$createUserWithEmailAndPassword(email, password).then(function(firebaseUser) {
-
-                                console.log("Auth: User " + firebaseUser.uid + " created successfully!");
-
-                                var profile = Profile(firebaseUser.uid);
-                                profile.name = {
-                                    first: name.firstName ? name.firstName : "",
-                                    last: name.lastName ? name.lastName : ""
-                                };
-                                profile.credits = creditBalance;
-                                profile.greeting = {
-                                    text: greeting
-                                }
-
-                                var letter = Letter(firebaseUser.uid);
-                                letter.greeting = {
-                                    text: greeting
-                                }
-                                letter.recipients = recipients;
-
-                                return profile.$save().then(function () {
-                                    return letter.$save();
-                                }).then(function () {
-                                    return firebaseUser;
-                                });
-                            });
-
-                        });
-
-                    }, function (parseError) {
-                        console.log("AuthService: Parse Error", parseError);
+                        console.log("AuthService: Migration Error, ", migrationError);
                         return $q.reject(error);
+
                     });
 
                 } else {
@@ -414,12 +441,11 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
                     return $q.reject(error);
                 }
             });
-        }
-        ;
+        };
 
         this.signOut = function () {
             return Auth.$signOut();
-        }
+        };
     }])
     .controller("SignUpFormController", ["$scope", "AuthService", "URLService", function ($scope, AuthService, URLService) {
 
