@@ -60,7 +60,6 @@ sections:
   form:
     type: signup
 layout: landing
-
 form:
   type: signup
   placeholders:
@@ -70,6 +69,5 @@ form:
     password: FreeThroathHugz
   buttons:
     submit: Sign me up
-    
 ---
 

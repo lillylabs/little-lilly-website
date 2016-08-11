@@ -15,8 +15,8 @@ img {
 
 hr {
   display: inline-block;
-  border-color: $brand-primary;
   border-width: 3px;
+  border-color: $brand-primary;
   width: 50px;
   max-width: 100%;
 
@@ -46,7 +46,7 @@ h3 {
 
 p {
   .bg-primary &, .bg-dark & {
-    @include fade($brand-white);
+    @include fade-out($brand-white);
   }
 }
 
@@ -68,13 +68,6 @@ form {
     @extend .form-control;
   }
 
-  span.note {
-    display: inline-block;
-    @include fade($body-color);
-    font-size: $font-size-sm;
-    margin-top: 60px;
-  }
-
   button {
     @extend .btn;
     @extend .btn-primary;
@@ -91,7 +84,7 @@ form {
     }
 
     span.note {
-      @include fade($brand-white, 0.5);
+      @include fade-out($brand-white, 0.5);
     }
   }
 
