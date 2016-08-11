@@ -52,10 +52,7 @@ angular.module("IG", ["firebase"])
         }
 
         function getRedirectUrl() {
-            var redirectUrl = $window.location.host;
-            if (redirectUrl.indexOf('localhost') >= 0) {
-                redirectUrl = 'http://' + redirectUrl + '/app/';
-            }
+            var redirectUrl = $window.location.protocol + $window.location.host;
             return redirectUrl;
         }
 
@@ -248,11 +245,7 @@ angular.module("Backbone")
     }])
     .service("URLService", ["$window", "$location", function ($window) {
 
-        var baseUrl = $window.location.host;
-
-        if (baseUrl.indexOf('localhost') >= 0) {
-            baseUrl = "http://" + baseUrl
-        }
+        var baseUrl = $window.location.protocol + $window.location.host;
 
         function goTo(path) {
             $window.location.assign(baseUrl + path);
