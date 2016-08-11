@@ -52,7 +52,7 @@ angular.module("IG", ["firebase"])
         }
 
         function getRedirectUrl() {
-            var redirectUrl = $window.location.protocol + $window.location.host;
+            var redirectUrl = $window.location.protocol + "//" + $window.location.host;
             return redirectUrl;
         }
 
@@ -245,10 +245,8 @@ angular.module("Backbone")
     }])
     .service("URLService", ["$window", "$location", function ($window) {
 
-        var baseUrl = $window.location.protocol + $window.location.host;
-
         function goTo(path) {
-            $window.location.assign(baseUrl + path);
+            $window.location.assign(path);
         }
 
         this.goToHome = function () {
