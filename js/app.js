@@ -52,7 +52,7 @@ angular.module("IG", ["firebase"])
         }
 
         function getRedirectUrl() {
-            var redirectUrl = $window.location.protocol + "//" + $window.location.host;
+            var redirectUrl = $window.location.protocol + "//" + $window.location.host + "/app/";
             return redirectUrl;
         }
 
