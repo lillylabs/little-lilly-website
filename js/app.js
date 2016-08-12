@@ -452,9 +452,11 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
     .controller("SignInFormController", ["$scope", "AuthService", "URLService", function ($scope, AuthService, URLService) {
 
         $scope.signIn = function () {
+            $scope.submitting = true;
             AuthService.signIn($scope.email, $scope.password).then(function () {
                 URLService.goToApp();
             }).catch(function (error) {
+                $scope.submitting = false;
                 $scope.error = error.message;
             });
         };
