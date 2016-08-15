@@ -237,6 +237,15 @@ angular.module("Backbone")
             return new Letter(ref);
         }
     }])
+    .factory("Users", ["$firebaseArray", function ($firebaseArray) {
+
+        return function (uid) {
+            console.log("Users");
+            var ref = firebase.database().ref('users');
+            console.log(ref);
+            return $firebaseArray(ref);
+        }
+    }])
     .factory("Archive", ["$firebaseArray", function ($firebaseArray) {
         return function (uid) {
             var ref = firebase.database().ref('users/' + uid + '/archive').limitToLast(5);
@@ -495,9 +504,7 @@ angular.module("Authentication").run(["$rootScope", "$state", "Auth", "URLServic
 
         Auth.$onAuthStateChanged(function (firebaseUser) {
             if (URLService.isApp()) {
-                if (firebaseUser) {
-                    $state.go('account');
-                } else {
+                if (!firebaseUser) {
                     URLService.goToHome();
                 }
             }
@@ -536,7 +543,7 @@ angular.module("LittleLillyApp")
                     }
                 }
             })
-            .state("preview", {
+            .state("app.preview", {
                 url: "/preview",
                 views: {
                     "main@": {
@@ -549,6 +556,20 @@ angular.module("LittleLillyApp")
                         return Auth.$requireSignIn().then(function (auth) {
                             return Letter(auth.uid).$loaded();
                         });
+                    }]
+                }
+            })
+            .state("app.admin", {
+                url: "/admin",
+                views: {
+                    "main@": {
+                        templateUrl: "partial-admin.html",
+                        controller: "AdminController",
+                    }
+                },
+                resolve: {
+                    "users": ["Auth", "Users", function (Auth, Users) {
+                        return Users("test").$loaded();
                     }]
                 }
             })
@@ -733,6 +754,9 @@ angular.module("LittleLillyApp")
             return emptyBoxCount < 4 ? emptyBoxCount : 0;
         };
 
+    }])
+    .controller("AdminController", ["$scope", "users", function ($scope, users) {
+        $scope.users = users;
     }])
     .filter('range', function () {
         return function (input, total) {
