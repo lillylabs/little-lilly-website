@@ -1,0 +1,33 @@
+<header class="page-section header bg-primary">
+    <div class="container-fluid">
+        <h1>Admin</h1>
+    </div>
+</header>
+
+<div class="page-section preview">
+    <div class="container-fluid">
+        <div class="user" ng-repeat="user in users">
+            <div class="cover content">
+                <h1>{{ user.profile.name.first }} {{ user.profile.name.last }}</h1>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="recipient in user.letter.recipients">
+                        <div class="list-group-content">
+                            <strong>{{ recipient.name }}</strong>
+                            <br/>
+                            {{ recipient.address }}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="letter" ng-repeat="recipient in user.letter.recipients">
+                <div class="greeting">
+                    <p class="greeting-text"><span ng-bind="user.letter.greeting.text" /></p>
+                </div>
+                <div class="photo" ng-repeat="photo in user.letter.photos">
+                    <img ng-src="{{photo.images.standard_resolution.url}}"/>
+                    <p ng-bind="photo.caption.text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
