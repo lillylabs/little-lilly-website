@@ -23,10 +23,19 @@
       padding: 0;
       marging: 0;
 
+      .cover {
+        padding: 10mm;
+        margin: 0 auto;
+        page-break-after: always !important;
+      }
+
       .letter {
         border: 0;
         margin: 0;
-        page-break-after: always !important;
+
+        + .letter {
+          page-break-after: always !important;
+        }
 
         .greeting, .photo {
 
