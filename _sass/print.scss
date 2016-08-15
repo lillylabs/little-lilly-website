@@ -24,18 +24,14 @@
       marging: 0;
 
       .cover {
-        padding: 10mm;
-        margin: 0 auto;
+        margin: 20mm auto;
         page-break-after: always !important;
       }
 
       .letter {
         border: 0;
         margin: 0;
-
-        + .letter {
-          page-break-after: always !important;
-        }
+        page-break-after: always !important;
 
         .greeting, .photo {
 
