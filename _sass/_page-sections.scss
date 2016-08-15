@@ -51,6 +51,10 @@
 
     &.preview {
 
+      .cover {
+        padding: 50px 0;
+      }
+
       .letter {
         display: flex;
         flex-wrap: wrap;

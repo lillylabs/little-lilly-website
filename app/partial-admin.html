@@ -9,12 +9,13 @@
         <div class="user" ng-repeat="user in users">
             <div class="cover content">
                 <h1>{{ user.profile.name.first }} {{ user.profile.name.last }}</h1>
-                <ul class="list-group">
+                <ul class="list-group recipients">
                     <li class="list-group-item" ng-repeat="recipient in user.letter.recipients">
                         <div class="list-group-content">
-                            <strong>{{ recipient.name }}</strong>
-                            <br/>
-                            {{ recipient.address }}
+                            <span class="recipient-name">{{recipient.name}}</span><br/>
+                            <small class="recipient-address" class="text-muted">
+                                {{recipient.address}}
+                            </small>
                         </div>
                     </li>
                 </ul>
