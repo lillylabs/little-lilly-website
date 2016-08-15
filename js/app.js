@@ -237,6 +237,15 @@ angular.module("Backbone")
             return new Letter(ref);
         }
     }])
+    .factory("Users", ["$firebaseArray", function ($firebaseArray) {
+
+        return function (uid) {
+            console.log("Users");
+            var ref = firebase.database().ref('users');
+            console.log(ref);
+            return $firebaseArray(ref);
+        }
+    }])
     .factory("Archive", ["$firebaseArray", function ($firebaseArray) {
         return function (uid) {
             var ref = firebase.database().ref('users/' + uid + '/archive').limitToLast(5);
@@ -374,7 +383,7 @@ angular.module("Backbone")
     }]);
 
 angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
-    .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile", "DataMigration", function ($q, $firebaseAuth, Auth, Profile, DataMigration) {
+    .service("AuthService", ["$q", "$firebaseAuth", "Auth", "Profile", "DataMigration", "URLService", function ($q, $firebaseAuth, Auth, Profile, DataMigration, URLService) {
 
         this.signUp = function (email, password, firstname, lastname) {
             return Auth.$createUserWithEmailAndPassword(email, password)
@@ -435,7 +444,10 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
         };
 
         this.signOut = function () {
-            return Auth.$signOut();
+            Auth.$signOut();
+            if(URLService.isApp()) {
+                URLService.goToSignIn();
+            }
         };
     }])
     .controller("SignUpFormController", ["$scope", "AuthService", "URLService", function ($scope, AuthService, URLService) {
@@ -451,8 +463,12 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
     }])
     .controller("SignInFormController", ["$scope", "AuthService", "URLService", function ($scope, AuthService, URLService) {
 
+        $scope.submitting = false;
+        $scope.error = null;
+
         $scope.signIn = function () {
             $scope.submitting = true;
+            $scope.error = null;
             AuthService.signIn($scope.email, $scope.password).then(function () {
                 URLService.goToApp();
             }).catch(function (error) {
@@ -476,41 +492,40 @@ angular.module("Authentication", ["firebase", "ui.router", "Backbone"])
         }
     }]);
 
-angular.module("Authentication").run(["$rootScope", "Auth", function ($rootScope, Auth) {
+angular.module("Authentication").run(["$rootScope", "$state", "Auth", "URLService", function ($rootScope, $state, Auth, URLService) {
+
+    if(URLService.isApp() && $state.current.abstract) {
+        $state.go("app.account");
+    }
 
     Auth.$onAuthStateChanged(function (firebaseUser) {
+
         $rootScope.currentAuth = firebaseUser;
+
+        Auth.$onAuthStateChanged(function (firebaseUser) {
+            if (URLService.isApp()) {
+                if (!firebaseUser) {
+                    URLService.goToHome();
+                }
+            }
+        });
     });
 
 }]);
 
 angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment", "Backbone", "Authentication", "IG"]);
 
-angular.module("LittleLillyApp").run(["$rootScope", "$state", "Auth", "URLService", function ($rootScope, $state, Auth, URLService) {
-
-    Auth.$onAuthStateChanged(function (firebaseUser) {
-        if (URLService.isApp()) {
-            if (firebaseUser) {
-                $state.go('account');
-            } else {
-                URLService.goToHome();
-            }
-        }
-    });
-
-}]);
-
 angular.module("LittleLillyApp")
-    .config(["$stateProvider", function ($stateProvider) {
+    .config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
         $stateProvider
-            .state("account", {
-                url: "/account",
-                templateUrl: "partial-account.html",
-                controller: "AccountController",
+            .state("app", {
+                abstract: true,
                 resolve: {
-                    "currentAuth": ["Auth", function (Auth) {
-                        return Auth.$requireSignIn();
+                    "currentAuth": ["Auth", "URLService", "$state", function (Auth, URLService, $state) {
+                        return Auth.$requireSignIn().catch(function (error) {
+                            URLService.goToSignIn();
+                        });
                     }],
                     "profile": ["Auth", "Profile", function (Auth, Profile) {
                         return Auth.$requireSignIn().then(function (auth) {
@@ -519,15 +534,42 @@ angular.module("LittleLillyApp")
                     }]
                 }
             })
-            .state("preview", {
+            .state("app.account", {
+                url: "/account",
+                views: {
+                    "main@": {
+                        templateUrl: "partial-account.html",
+                        controller: "AccountController"
+                    }
+                }
+            })
+            .state("app.preview", {
                 url: "/preview",
-                templateUrl: "partial-preview.html",
-                controller: "PreviewController",
+                views: {
+                    "main@": {
+                        templateUrl: "partial-preview.html",
+                        controller: "PreviewController",
+                    }
+                },
                 resolve: {
                     "letter": ["Auth", "Letter", function (Auth, Letter) {
                         return Auth.$requireSignIn().then(function (auth) {
                             return Letter(auth.uid).$loaded();
                         });
+                    }]
+                }
+            })
+            .state("app.admin", {
+                url: "/admin",
+                views: {
+                    "main@": {
+                        templateUrl: "partial-admin.html",
+                        controller: "AdminController",
+                    }
+                },
+                resolve: {
+                    "users": ["Auth", "Users", function (Auth, Users) {
+                        return Users("test").$loaded();
                     }]
                 }
             })
@@ -712,6 +754,9 @@ angular.module("LittleLillyApp")
             return emptyBoxCount < 4 ? emptyBoxCount : 0;
         };
 
+    }])
+    .controller("AdminController", ["$scope", "users", function ($scope, users) {
+        $scope.users = users;
     }])
     .filter('range', function () {
         return function (input, total) {

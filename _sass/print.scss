@@ -1,0 +1,53 @@
+@media print {
+
+  @page
+  {
+    size: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  nav, header, footer.site-footer {
+    display: none;
+  }
+
+  .preview {
+    padding: 0;
+    margin: 0;
+
+    .container-fluid {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+      marging: 0;
+
+      .cover {
+        padding: 10mm;
+        margin: 0 auto;
+        page-break-after: always !important;
+      }
+
+      .letter {
+        border: 0;
+        margin: 0;
+
+        + .letter {
+          page-break-after: always !important;
+        }
+
+        .greeting, .photo {
+
+          border: 0 !important;
+
+          &:nth-child(4n+1)::after {
+            content: "" !important;
+          }
+
+        }
+
+      }
+    }
+  }
+}
