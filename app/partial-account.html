@@ -40,7 +40,7 @@
 </header>
 
 <section class="page-section letter bg-white" ng-if="profile.ig_accounts" ng-controller="LetterController">
-  <div class="container-fluid">
+  <div class="container-fluid" ng-show="currentAuth">
 
     <div ng-hide="letter.name">
       <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
@@ -156,7 +156,7 @@
   </div>
 </section>
 
-<section class="page-section archive bg-white" ng-if="archive.length > 0">
+<section class="page-section archive bg-white" ng-if="archive.length > 0" ng-show="currentAuth">
   <div class="container-fluid">
     <h2>Account history</h2>
     <hr>
