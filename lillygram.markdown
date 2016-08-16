@@ -21,9 +21,10 @@ sections:
 - title: Why this change?
   content: "Several things came together this year to force us to take an active stance.
     \n\nShould we stay or should we go?  \nWe decided to stay! \n\nBut in order to
-    that we needed to rebrand since apps connected to Instagram are not allowed \"gram\"
-    in their name.\n\nIn addition the original Instagram API we were using retired
-    in June and the BaaS software powering Lillygram will shut down in January."
+    that we needed to rebrand. Apps connected to Instagram are not allowed \"gram\"
+    in their name.\n\nWe also needed to upgrade the system technically. The Instagram
+    API we were using retired in June, and the BaaS software powering Lillygram will
+    shut down in January."
   image: "/uploads/about4.jpg"
 - id: gallery
   images:
