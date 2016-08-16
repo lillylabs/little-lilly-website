@@ -3,7 +3,7 @@ title: Lillygram
 date: 2016-06-18 14:06:00 Z
 position: 0
 sections:
-- title: Little Lilly is now in charge of sending Lillygrams
+- title: From now on Little Lilly is in charge of sending your Lillygrams
   image: "/uploads/letter2.jpg"
   actions:
   - label: Learn more
