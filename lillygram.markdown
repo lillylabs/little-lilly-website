@@ -9,26 +9,24 @@ sections:
   type: hero
 - title: What do I need to do?
   content: |-
-    To be get up and running with this new system you need to log in at [www.littlelilly.no/login](/login).
+    To be get up and running with this new system you need to log in at [www.littlelilly.no/login](/login), or use the button in the top right corner.
 
     Please be patient while the new system imports your information from the old system.
 
     After logging in it is important that you reconnect with Instagram by using the "Connect to Instagram" button.
+  background: primary
+- title: Why this change?
+  content: "Several things came together this year to force us to take an active stance.
+    \n\nShould we stay or should we go?  \nWe decided to stay! \n\nBut in order to
+    that we needed to rebrand since apps connected to Instagram are not allowed \"gram\"
+    in their name.\n\nIn addition the original Instagram API we were using retired
+    in June and the BaaS software powering Lillygram will shut down in January."
+  image: "/uploads/about4.jpg"
 - id: gallery
   images:
   - "/uploads/letter1.jpg"
   - "/uploads/letter3.jpg"
   - "/uploads/letter2.jpg"
-- title: Keep grandma updated!
-  id: signup
-  content: Learn more about Little Lilly and get early access when we relaunch by
-    signing up below.
-  background: dark
-  form:
-    type: signup
-    submit: Sign me up
-    note: We take your privacy seriously and will never spam you, or share your e-mail
-      with anyone else.
 layout: landing
 ---
 
