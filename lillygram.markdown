@@ -8,7 +8,7 @@ sections:
   image: "/uploads/letter2.jpg"
   actions:
   - label: Learn more
-    url: "#learnmore"
+    link: "#learnmore"
   type: hero
 - title: What do I need to do?
   content: |-
