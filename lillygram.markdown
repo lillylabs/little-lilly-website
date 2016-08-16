@@ -28,9 +28,8 @@ sections:
   image: "/uploads/about4.jpg"
 - id: gallery
   images:
-  - "/uploads/letter1.jpg"
-  - "/uploads/letter3.jpg"
-  - "/uploads/letter2.jpg"
+  - url: "/uploads/letter1.jpg"
+  - url: "/uploads/letter2.jpg"
 layout: landing
 ---
 
