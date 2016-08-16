@@ -19,7 +19,7 @@ sections:
 
     After logging in it is important that you reconnect with Instagram by using the "Connect to Instagram" button.
 
-    We are really grateful you are joining us in this transition :D
+    Thank you, thank you, thank you for  joining us in this transition!
   id: learnmore
 - title: Why this change?
   content: "Several things came together this year to force us to take an active stance.
