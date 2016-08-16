@@ -4,6 +4,8 @@ date: 2016-06-18 14:06:00 Z
 position: 0
 sections:
 - title: From now on Little Lilly is in charge of sending your Lillygrams
+  content: The service keeps operating the same way as before, but the brand and the
+    technology behind the service are updated.
   image: "/uploads/letter2.jpg"
   actions:
   - label: Learn more
