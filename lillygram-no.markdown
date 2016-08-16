@@ -30,6 +30,7 @@ sections:
     shut down in January."
   image: "/uploads/about4.jpg"
   background: primary
+  signature: "- Benedicte Raae, founder"
 - id: gallery
   images:
   - url: "/uploads/letter1.jpg"
