@@ -17,7 +17,6 @@ sections:
     Please be patient while the new system imports your information from the old system.
 
     After logging in it is important that you reconnect with Instagram by using the "Connect to Instagram" button.
-  background: primary
   id: learnmore
 - title: Why this change?
   content: "Several things came together this year to force us to take an active stance.
