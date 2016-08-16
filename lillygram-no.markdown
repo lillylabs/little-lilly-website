@@ -4,8 +4,8 @@ date: 2016-06-18 14:06:00 Z
 position: 0
 sections:
 - title: From now on Little Lilly is in charge of sending your Lillygrams
-  content: The service keeps operating the same way as before, but the brand and the
-    technology behind the service are updated.
+  content: Your Lillygrams are automagically sent as before. Just with a new brand
+    and updated technology behind the scenes.
   image: "/uploads/letter2.jpg"
   actions:
   - label: Learn more
@@ -18,6 +18,8 @@ sections:
     Please be patient while the new system imports your information from the old system.
 
     After logging in it is important that you reconnect with Instagram by using the "Connect to Instagram" button.
+
+    We are really grateful you are joining us in this transition :D
   id: learnmore
 - title: Why this change?
   content: "Several things came together this year to force us to take an active stance.
