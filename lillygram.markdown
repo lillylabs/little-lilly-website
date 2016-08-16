@@ -18,6 +18,7 @@ sections:
 
     After logging in it is important that you reconnect with Instagram by using the "Connect to Instagram" button.
   id: learnmore
+  background: primary
 - title: Why this change?
   content: "Several things came together this year to force us to take an active stance.
     \n\nShould we stay or should we go?  \nWe decided to stay! \n\nBut in order to
