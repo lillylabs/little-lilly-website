@@ -238,13 +238,10 @@ angular.module("Backbone")
         }
     }])
     .factory("Users", ["$firebaseArray", function ($firebaseArray) {
-
-        return function (uid) {
-            console.log("Users");
-            var ref = firebase.database().ref('users');
-            console.log(ref);
-            return $firebaseArray(ref);
-        }
+      return function (uid) {
+        var ref = firebase.database().ref('users');
+        return $firebaseArray(ref);
+      };
     }])
     .factory("Archive", ["$firebaseArray", function ($firebaseArray) {
         return function (uid) {

@@ -1,33 +1,28 @@
 .app-index {
-
   .container-fluid {
     max-width: 800px;
     text-align: center;
-
     h3 {
       margin-top: $spacer*3;
       margin-bottom: $spacer*2;
     }
   }
-
   .content {
     max-width: 480px;
     margin: 0 auto;
   }
-
   .greeting {
+    max-height: 120mm;
+    align-self: flex-end;
     .greeting-text {
       white-space: pre-line;
     }
   }
-
   .page-section {
     &.profile {
       margin-bottom: -40px;
     }
-
     &.letter {
-
       .photos {
         img {
           display: inline-block;
@@ -35,26 +30,20 @@
           margin: 5px;
         }
       }
-
       .recipients {
-
         .recipient-address {
           white-space: pre-line;
         }
-
         form {
           width: 100%;
           text-align: center;
         }
       }
     }
-
     &.preview {
-
       .cover {
         padding: 50px 0;
       }
-
       .letter {
         display: flex;
         flex-wrap: wrap;
@@ -64,26 +53,23 @@
         border: 1px solid #999;
         border-bottom: 0;
         box-sizing: content-box;
-
-        .greeting, .photo {
+        .greeting,
+        .photo {
           position: relative;
           display: flex;
           width: 105mm;
           padding: 10mm 5mm;
           box-sizing: border-box;
-
           &:nth-child(4n+1),
           &:nth-child(4n+2) {
             border-bottom: 1px solid #ccc;
             height: 148.6mm;
           }
-
           &:nth-child(4n+3),
           &:nth-child(4n+0) {
             height: 149mm;
             border-bottom: 1px solid #999;
           }
-
           &:nth-child(4n+1)::after {
             content: "fold line";
             position: absolute;
@@ -95,7 +81,6 @@
             padding: 3mm;
             z-index: 10;
           }
-
           p {
             margin: 0;
             padding: 3mm 2mm;
@@ -103,42 +88,34 @@
             text-align: center;
           }
         }
-
         .greeting {
           flex-direction: row;
           justify-content: center;
           align-items: center;
-
           p {
             font-size: 10pt;
             line-height: 16pt;
             align-content: center;
           }
         }
-
         .photo {
           display: flex;
           justify-content: flex-start;
           align-items: flex-end;
-
           flex-direction: column;
-
           &:nth-child(4n+1),
           &:nth-child(4n+2) {
             flex-direction: column-reverse;
           }
-
           &:nth-child(4n+2),
           &:nth-child(4n+0) {
             align-items: flex-start;
           }
-
           img {
             padding: 1mm;
             border: 1px solid #ccc;
             width: 90mm;
           }
-
           p {
             font-family: $font-family-sans-serif;
             font-size: 8pt;
@@ -150,8 +127,8 @@
     }
   }
 }
-// Navigation
 
+// Navigation
 #mainNav {
   font-family: $headings-font-family;
   font-weight: $headings-font-weight;
@@ -215,7 +192,6 @@
 }
 
 // Pages
-
 .page-background {
   position: absolute;
   width: 100%;
@@ -236,33 +212,25 @@
 }
 
 .page-section {
-
   @include background-cover();
   padding: 100px 0;
-
   &.bg-white + .bg-white {
     padding-top: 0;
   }
-
   .actions {
     margin-top: 60px;
   }
-
   .row {
     align-items: center;
     justify-content: center;
     margin-bottom: -30px;
-
     .block {
       margin-bottom: 30px;
     }
   }
-
   .block {
-
     // More than 4 blocks not supported
     @extend .col-xs-12;
-
     // 4 blocks
     &:nth-child(1):nth-last-child(4),
     &:nth-child(2):nth-last-child(3),
@@ -271,57 +239,46 @@
       @extend .col-lg-3;
       @extend .col-md-6;
     }
-
     // 3 blocks
     &:nth-child(1):nth-last-child(3),
     &:nth-child(2):nth-last-child(2),
     &:nth-child(3):nth-last-child(1) {
       @extend .col-sm-4;
     }
-
     // 2 blocks
     &:nth-child(1):nth-last-child(2),
-    &:nth-child(2):nth-last-child(1), {
+    &:nth-child(2):nth-last-child(1),
+    {
       @extend .col-md-6;
     }
-
     &:first-child:last-child {
       @extend .col-xs-12;
       text-align: center;
       max-width: $content-width-max;
     }
-
     img {
       width: 100%;
     }
   }
-
   &.page-content {
-
     padding-bottom: 0;
     color: $brand-white;
-
     .block {
       max-width: 800px !important;
-
       .page-heading {
         margin-top: 50px;
-
         h1:last-child {
           margin-bottom: 50px;
         }
-
         p {
           max-width: $content-width-max;
           margin-left: auto;
           margin-right: auto;
-
           :last-child {
             margin-bottom: 0;
           }
         }
       }
-
       .content {
         padding: 60px;
         background: $brand-white;
@@ -329,7 +286,6 @@
         width: 100%;
         border-radius: $border-radius;
         text-align: left;
-
         blockquote p {
           border-left: 3px solid $brand-primary;
           padding: 0 20px;
@@ -341,49 +297,37 @@
       }
     }
   }
-
   &.blurbs {
     text-align: center;
-
     .row {
       align-items: flex-start;
     }
-
     i.fa {
       @extend .fa-4x;
       color: $brand-primary;
     }
-
     // New Icon Class using Simple Line Icons instead of Font Awesome - To give things a bit more unique of a look?
     i.icon {
       @extend .fa-4x;
       color: $brand-primary;
     }
-
     h3 {
       font-size: 24px;
     }
-
     p {
       @extend .text-muted;
     }
   }
-
   &.gallery {
     padding: 0;
-
     .row {
       margin: 0;
-
       .block {
         padding: 0;
         margin-bottom: 0;
-
         a {
-
           position: relative;
           display: block;
-
           .overlay {
             position: absolute;
             height: 100%;
@@ -394,46 +338,35 @@
             background-color: fade-out($brand-primary, 0.5);
             opacity: 0;
             @include transition-all;
-
             i {
-                color: $brand-white;
-                font-size: 40px;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+              color: $brand-white;
+              font-size: 40px;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
             }
-
           }
-
           &:hover {
             .overlay {
               opacity: 1;
             }
           }
-
           &:focus,
           &:active {
             outline: none;
           }
-
         }
-
       }
-
     }
-
   }
-
   &.contact {
-
     .content {
       p {
         margin-bottom: 60px;
       }
     }
   }
-
   &.team {
     .row {
       align-items: flex-start;
@@ -518,14 +451,12 @@
       }
     }
   }
-
   &.hero {
     width: 100%;
     margin: 0;
     align-items: center;
     justify-content: center;
     position: relative;
-
     .header-overlay {
       width: 100%;
       height: 100%;
@@ -534,56 +465,44 @@
       position: absolute;
       background: fade-out($brand-background, 0.4);
     }
-
     .content {
       font-size: $font-size-lg;
       max-width: 80%;
       margin: 0 auto;
     }
-
     .actions {
       a:last-child {
         @extend .btn-primary;
         margin-left: 0;
       }
     }
-
     .block {
       text-align: center;
       max-width: 800px !important;
     }
-
     @include media-breakpoint-up(md) {
       min-height: 100vh;
     }
   }
-
   &.site-footer {
-
     padding-bottom: 50px;
     font-size: $font-size-sm;
-
     h3 {
       font-size: $font-size-base;
     }
-
     ul {
       list-style: none;
       padding: 0;
     }
-
     .row {
       align-items: flex-start;
     }
-
     .block {
       text-align: center;
-
       @include media-breakpoint-up(sm) {
         &:first-child {
           text-align: left;
         }
-
         &:last-child {
           text-align: right;
         }
@@ -593,12 +512,10 @@
 }
 
 .contact-form {
-
   .form-group {
     position: relative;
     padding-bottom: 30px;
     margin-bottom: 0;
-
     .form-control,
     form input {
       padding: 15px 20px;
@@ -607,31 +524,23 @@
         border: 1px solid $brand-primary;
       }
     }
-
     label {
       color: fade-out($brand-dark, 0.75);
       margin-bottom: 0;
     }
-
     label.error {
       position: absolute;
       bottom: 0;
       color: $brand-primary;
       font-size: 75%;
     }
-
     button {
       margin-bottom: 14px;
     }
-
   }
-
   &.form-dark {
-
     .form-group label {
       color: fade-out($brand-white, 0.75);
     }
-
   }
-
 }
