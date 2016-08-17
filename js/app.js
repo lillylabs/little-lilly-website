@@ -762,4 +762,16 @@ angular.module("LittleLillyApp")
         input.push(i);
       return input;
     };
+  })
+  .filter('removeLillygramTags', function () {
+
+    return function (input) {
+
+      var output = input.replace("#lillygram", "");
+      output = output.replace("#lilygram", "");
+      output = output.replace("#lilligram", "");
+
+      return output;
+
+    };
   });
