@@ -1,24 +1,24 @@
 <header class="page-section header bg-primary">
-    <div class="container-fluid">
-        <h1><span ng-bind="letter.name"></span></h1>
-        <hr/>
-        <p>This letter will be shipped to your recipients on Wednesday August 17. Make sure you have everything ready by the end of <strong>Monday, August 15</strong>.</p>
-    </div>
+  <div class="container-fluid">
+    <h1><span ng-bind="letter.name"></span></h1>
+    <hr/>
+    <p>This letter will be shipped to your recipients on Wednesday August 17. Make sure you have everything ready by the end of <strong>Monday, August 15</strong>.</p>
+  </div>
 
 </header>
 
 <div class="page-section preview">
-    <div class="container-fluid">
-        <div class="letter">
-            <div class="greeting">
-                <p class="greeting-text"><span ng-bind="letter.greeting.text" /></p>
-            </div>
-            <div class="photo" ng-repeat="photo in letter.photos">
-                <img ng-src="{{photo.images.standard_resolution.url}}"/>
-                <p ng-bind="photo.caption.text"></p>
-            </div>
-            <div class="photo" ng-repeat="unused in [] | range:emptyPhotoBoxCount()">
-            </div>
-        </div>
+  <div class="container-fluid">
+    <div class="letter">
+      <div class="greeting">
+        <p class="greeting-text"><span ng-bind="letter.greeting.text" /></p>
+      </div>
+      <div class="photo" ng-repeat="photo in letter.photos">
+        <img ng-src="{{photo.images.standard_resolution.url}}" />
+        <p ng-bind="photo.caption.text | removeLillygramTags"></p>
+      </div>
+      <div class="photo" ng-repeat="unused in [] | range:emptyPhotoBoxCount()">
+      </div>
     </div>
+  </div>
 </div>
