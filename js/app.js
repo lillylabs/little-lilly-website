@@ -603,7 +603,7 @@ angular.module("LittleLillyApp")
     $scope.archive = Archive(currentAuth.uid);
 
     }])
-  .controller("ProfileController", ["$scope", "Auth", "Instagram", function ($scope, Auth, Instagram) {
+  .controller("ProfileController", ["$scope", "Auth", "Instagram", "moment", function ($scope, Auth, Instagram, moment) {
 
     $scope.authIGAccount = function () {
       Instagram.authAccount();
@@ -621,6 +621,13 @@ angular.module("LittleLillyApp")
     }
 
     $scope.backup = {};
+
+    $scope.letter.$loaded().then(function () {
+      var format = "dddd, MMMM Do";
+      $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(8).format(format);
+      $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(4).format(format);
+    });
+
 
     $scope.profile.$loaded().then(function () {
       return $scope.letter.$loaded();
@@ -734,6 +741,10 @@ angular.module("LittleLillyApp")
 
     $scope.letter = letter;
     $scope.backup = {};
+
+    var format = "dddd, MMMM Do";
+    $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(8).format(format);
+    $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(4).format(format);
 
     $scope.letter.$watch(function () {
       if (JSON.stringify($scope.letter.timeframe) !== JSON.stringify($scope.backup.timeframe)) {

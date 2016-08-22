@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <h1><span ng-bind="letter.name"></span></h1>
     <hr/>
-    <p>This letter will be shipped to your recipients on Wednesday August 17. Make sure you have everything ready by the end of <strong>Monday, August 15</strong>.</p>
+    <p>This letter will be shipped to your recipients on <span ng-bind="shipmentDate"></span>. Make sure you have everything ready by the end of <strong ng-bind="readyDate"></strong>.</p>
   </div>
 
 </header>
