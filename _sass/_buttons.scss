@@ -12,6 +12,9 @@
   font-family: $font-family-sans-serif;
 
   @include transition-all();
+  &:focus {
+    outline: none;
+  }
 }
 
 .btn-primary {
