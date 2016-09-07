@@ -29,7 +29,8 @@
   .open > &.dropdown-toggle {
     background-color: transparentize($color, 0.8);
   }
-  @include hover {
+  &:hover {
+    color: $color;
     background-color: transparentize($color, 0.8);
   }
 }

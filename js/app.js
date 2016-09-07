@@ -214,13 +214,16 @@ angular.module("Backbone")
     }])
   .factory("Letter", ["$firebaseObject", "$firebaseArray", function ($firebaseObject, $firebaseArray) {
 
+    var startMoment = moment().date(1);
+    var endMoment = moment().endOf('month');
+
     var Letter = $firebaseObject.$extend({
 
       $$defaults: {
-        name: "June - July 2016",
+        name: startMoment.format("MMMM YYYY"),
         timeframe: {
-          start: "2016-06-01",
-          end: "2016-07-31"
+          start: startMoment.format("YYYY-MM-DD"),
+          end: endMoment.format("YYYY-MM-DD")
         }
       },
       getGreeting: function () {
@@ -622,11 +625,32 @@ angular.module("LittleLillyApp")
 
     $scope.backup = {};
 
-    $scope.letter.$loaded().then(function () {
+    $scope.mergeWithNextMonth = function() {
+      var startFormat = "MMMM YYYY";
+      var endFormat = "MMMM YYYY";
+      var startMoment = moment($scope.letter.timeframe.start);
+      var endMoment = moment($scope.letter.timeframe.end);
+
+      if(startMoment.year() === endMoment.year()) {
+        startFormat = "MMMM";
+      }
+
+      $scope.letter.timeframe.end = endMoment.add(1, "month").format("YYYY-MM-DD");
+      $scope.letter.name = startMoment.format(startFormat);
+      $scope.letter.name += " - ";
+      $scope.letter.name += endMoment.format(endFormat);
+      $scope.letter.$save();
+    }
+
+    $scope.readyDate = function() {
       var format = "dddd, MMMM Do";
-      $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(8).format(format);
-      $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(4).format(format);
-    });
+      return moment($scope.letter.timeframe.end).add(1, "month").date(7).format(format);
+    } 
+
+    $scope.shipmentDate = function() {
+      var format = "dddd, MMMM Do";
+      return moment($scope.letter.timeframe.end).add(1, "month").date(9).format(format);
+    } 
 
     $scope.profile.$loaded().then(function () {
       return $scope.letter.$loaded();
@@ -742,8 +766,8 @@ angular.module("LittleLillyApp")
     $scope.backup = {};
 
     var format = "dddd, MMMM Do";
-    $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(8).format(format);
-    $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(4).format(format);
+    $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(9).format(format);
+    $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(7).format(format);
 
     $scope.letter.$watch(function () {
       if (JSON.stringify($scope.letter.timeframe) !== JSON.stringify($scope.backup.timeframe)) {

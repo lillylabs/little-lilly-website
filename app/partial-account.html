@@ -49,13 +49,22 @@
     <div ng-show="letter.name">
       <h2 ng-bind="letter.name"></h2>
       <hr>
+      
       <div class="content">
-        This letter will be shipped to your recipients on <span ng-bind="shipmentDate"></span>. Make sure you have everything ready by the end of <strong ng-bind="readyDate"></strong>.
+        <p>
+         This letter will be shipped to your recipients on <span ng-bind="shipmentDate()"></span>. Make sure you have everything ready by the end of <strong ng-bind="readyDate()"></strong>.
+        </p>
+        <p>
+          <button class="btn btn-outline-primary" ng-click="mergeWithNextMonth()">
+            <i class="icon-action-redo"></i> Merge with next month's letter 
+          </button>
+        </p>
+        <p>
+          <a class="btn btn-outline-primary" ui-sref="app.preview">
+            <i class="icon-eye"></i> Preview letter
+          </a>
+        </p>
       </div>
-
-      <a class="btn btn-link" ui-sref="app.preview">
-        <i class="icon-eye"></i> Preview letter
-      </a>
 
       <div class="content greeting" ng-controller="GreetingController">
         <h3>Greeting</h3>
