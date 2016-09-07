@@ -575,7 +575,7 @@ angular.module("LittleLillyApp")
       .state("access_token", {
         url: "/access_token=:igToken",
         resolve: {
-          "currentAuth": ["$stateParams", "Auth", "Profile", "Instagram", function ($stateParams, Auth, Profile, Instagram) {
+          "currentAuth": ["$stateParams", "Auth", "Profile", "Instagram", "URLService", function ($stateParams, Auth, Profile, Instagram, URLService) {
             return Auth.$waitForSignIn().then(function (auth) {
               return Profile(auth.uid).$loaded().then(function (profile) {
                 return Instagram.fetchUserInfo($stateParams.igToken).then(function (user) {
@@ -590,8 +590,10 @@ angular.module("LittleLillyApp")
                   });
                 });
               });
+            }).then(function() {
+              URLService.goToApp();
             });
-                    }]
+          }]
         }
       });
     }]);
