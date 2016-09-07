@@ -22,10 +22,6 @@
 @mixin button-outline($color) {
   @include button-outline-variant($color);
 
-  &:focus,
-  &.focus,
-  &:active,
-  &.active,
   .open > &.dropdown-toggle {
     background-color: transparentize($color, 0.8);
   }
