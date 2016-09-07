@@ -214,13 +214,16 @@ angular.module("Backbone")
     }])
   .factory("Letter", ["$firebaseObject", "$firebaseArray", function ($firebaseObject, $firebaseArray) {
 
+    var startMoment = moment().date(1);
+    var endMoment = moment().endOf('month');
+
     var Letter = $firebaseObject.$extend({
 
       $$defaults: {
-        name: "June - July 2016",
+        name: startMoment.format("MMMM YYYY"),
         timeframe: {
-          start: "2016-06-01",
-          end: "2016-07-31"
+          start: startMoment.format("YYYY-MM-DD"),
+          end: endMoment.format("YYYY-MM-DD")
         }
       },
       getGreeting: function () {
@@ -627,7 +630,7 @@ angular.module("LittleLillyApp")
       var endFormat = "MMMM YYYY";
       var startMoment = moment($scope.letter.timeframe.start);
       var endMoment = moment($scope.letter.timeframe.end);
-      
+
       if(startMoment.year() === endMoment.year()) {
         startFormat = "MMMM";
       }
