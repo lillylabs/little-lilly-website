@@ -626,6 +626,12 @@ angular.module("LittleLillyApp")
     }
 
     $scope.backup = {};
+    $scope.showMergeWithNextMonth = function() {
+      var endMoment = moment($scope.letter.timeframe.end);
+      var weekBeforeEndMoment = endMoment.subtract(1, 'week');
+
+      return moment().isSameOrAfter(weekBeforeEndMoment);
+    }
 
     $scope.mergeWithNextMonth = function() {
       var startFormat = "MMMM YYYY";

@@ -55,7 +55,7 @@
          This letter will be shipped to your recipients on <span ng-bind="shipmentDate()"></span>. Make sure you have everything ready by the end of <strong ng-bind="readyDate()"></strong>.
         </p>
         <p>
-          <button class="btn btn-outline-primary" ng-click="mergeWithNextMonth()">
+          <button class="btn btn-outline-primary" ng-click="mergeWithNextMonth()" ng-if="showMergeWithNextMonth()">
             <i class="icon-action-redo"></i> Merge with next month's letter 
           </button>
         </p>
