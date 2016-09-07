@@ -622,11 +622,32 @@ angular.module("LittleLillyApp")
 
     $scope.backup = {};
 
-    $scope.letter.$loaded().then(function () {
+    $scope.mergeWithNextMonth = function() {
+      var startFormat = "MMMM YYYY";
+      var endFormat = "MMMM YYYY";
+      var startMoment = moment($scope.letter.timeframe.start);
+      var endMoment = moment($scope.letter.timeframe.end);
+      
+      if(startMoment.year() === endMoment.year()) {
+        startFormat = "MMMM";
+      }
+
+      $scope.letter.timeframe.end = endMoment.add(1, "month").format("YYYY-MM-DD");
+      $scope.letter.name = startMoment.format(startFormat);
+      $scope.letter.name += " - ";
+      $scope.letter.name += endMoment.format(endFormat);
+      $scope.letter.$save();
+    }
+
+    $scope.readyDate = function() {
       var format = "dddd, MMMM Do";
-      $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(9).format(format);
-      $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(7).format(format);
-    });
+      return moment($scope.letter.timeframe.end).add(1, "month").date(7).format(format);
+    } 
+
+    $scope.shipmentDate = function() {
+      var format = "dddd, MMMM Do";
+      return moment($scope.letter.timeframe.end).add(1, "month").date(9).format(format);
+    } 
 
     $scope.profile.$loaded().then(function () {
       return $scope.letter.$loaded();
