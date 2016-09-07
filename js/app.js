@@ -292,7 +292,6 @@ angular.module("Backbone")
       var query = new Parse.Query("Greeting");
       query.equalTo("user", parseUser);
       return query.first().then(function (parseGreeting) {
-
         if (parseGreeting && parseGreeting.get("reusable")) {
           return parseGreeting.get("text");
         } else {
@@ -603,6 +602,7 @@ angular.module("LittleLillyApp")
     $scope.archive = Archive(currentAuth.uid);
 
     }])
+
   .controller("ProfileController", ["$scope", "Auth", "Instagram", "moment", function ($scope, Auth, Instagram, moment) {
 
     $scope.authIGAccount = function () {
@@ -627,7 +627,6 @@ angular.module("LittleLillyApp")
       $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(8).format(format);
       $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(4).format(format);
     });
-
 
     $scope.profile.$loaded().then(function () {
       return $scope.letter.$loaded();
