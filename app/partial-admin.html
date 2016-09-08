@@ -6,10 +6,10 @@
 
 <div class="page-section preview">
   <div class="container-fluid">
-    <div class="user" ng-repeat="user in users">
+    <div class="user" ng-repeat="user in users" ng-if="user.letter_in_progress">
       <div class="cover content">
         <h1>{{ user.profile.name.first }} {{ user.profile.name.last }}</h1>
-        <p class="timeframe">{{user.letter_in_progress.timeframe.start | amDateFormat:'MMMM Do YYYY'}} - {{user.letter.timeframe.end | amDateFormat:'MMMM Do YYYY'}}</p>
+        <p class="timeframe">{{user.letter_in_progress.timeframe.start | amDateFormat:'MMMM Do YYYY'}} - {{user.letter_in_progress.timeframe.end | amDateFormat:'MMMM Do YYYY'}}</p>
         <ul class="list-group recipients">
           <li class="list-group-item" ng-repeat="recipient in user.letter_in_progress.recipients">
             <div class="list-group-content">
