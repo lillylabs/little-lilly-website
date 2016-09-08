@@ -9,6 +9,7 @@
     <div class="user" ng-repeat="user in users">
       <div class="cover content">
         <h1>{{ user.profile.name.first }} {{ user.profile.name.last }}</h1>
+        <p class="timeframe">{{user.letter.timeframe.start | amDateFormat:'MMMM Do YYYY'}} - {{user.letter.timeframe.end | amDateFormat:'MMMM Do YYYY'}}</p>
         <ul class="list-group recipients">
           <li class="list-group-item" ng-repeat="recipient in user.letter.recipients">
             <div class="list-group-content">
