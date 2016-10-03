@@ -652,7 +652,7 @@ angular.module("LittleLillyApp")
 
     $scope.readyDate = function() {
       var format = "dddd, MMMM Do";
-      return moment($scope.letter.timeframe.end).add(1, "month").date(7).format(format);
+      return moment($scope.letter.timeframe.end).add(1, "month").date(5).format(format);
     } 
 
     $scope.shipmentDate = function() {
@@ -775,7 +775,7 @@ angular.module("LittleLillyApp")
 
     var format = "dddd, MMMM Do";
     $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(9).format(format);
-    $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(7).format(format);
+    $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(5).format(format);
 
     $scope.letter.$watch(function () {
       if (JSON.stringify($scope.letter.timeframe) !== JSON.stringify($scope.backup.timeframe)) {
