@@ -652,12 +652,12 @@ angular.module("LittleLillyApp")
 
     $scope.readyDate = function() {
       var format = "dddd, MMMM Do";
-      return moment($scope.letter.timeframe.end).add(1, "month").date(7).format(format);
+      return moment($scope.letter.timeframe.end).add(1, "month").date(4).format(format);
     } 
 
     $scope.shipmentDate = function() {
       var format = "dddd, MMMM Do";
-      return moment($scope.letter.timeframe.end).add(1, "month").date(9).format(format);
+      return moment($scope.letter.timeframe.end).add(1, "month").date(8).format(format);
     } 
 
     $scope.profile.$loaded().then(function () {
@@ -774,8 +774,8 @@ angular.module("LittleLillyApp")
     $scope.backup = {};
 
     var format = "dddd, MMMM Do";
-    $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(9).format(format);
-    $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(7).format(format);
+    $scope.shipmentDate = moment($scope.letter.timeframe.end).add(1, "month").date(8).format(format);
+    $scope.readyDate = moment($scope.letter.timeframe.end).add(1, "month").date(4).format(format);
 
     $scope.letter.$watch(function () {
       if (JSON.stringify($scope.letter.timeframe) !== JSON.stringify($scope.backup.timeframe)) {
