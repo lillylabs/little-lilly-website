@@ -6,12 +6,12 @@
 
 <div class="page-section preview">
   <div class="container-fluid">
-    <div class="user" ng-repeat="user in users" ng-if="user.letter">
+    <div class="user" ng-repeat="user in users" ng-if="user.letter_in_progress">
       <div class="cover content">
         <h1>{{ user.profile.name.first }} {{ user.profile.name.last }}</h1>
-        <p class="timeframe">{{user.letter.timeframe.start | amDateFormat:'MMMM Do YYYY'}} - {{user.letter.timeframe.end | amDateFormat:'MMMM Do YYYY'}}</p>
+        <p class="timeframe">{{user.letter_in_progress.timeframe.start | amDateFormat:'MMMM Do YYYY'}} - {{user.letter_in_progress.timeframe.end | amDateFormat:'MMMM Do YYYY'}}</p>
         <ul class="list-group recipients">
-          <li class="list-group-item" ng-repeat="recipient in user.letter.recipients">
+          <li class="list-group-item" ng-repeat="recipient in user.letter_in_progress.recipients">
             <div class="list-group-content">
               <span class="recipient-name">{{recipient.name}}</span>
               <br/>
@@ -22,11 +22,11 @@
           </li>
         </ul>
       </div>
-      <div class="letter" ng-repeat="recipient in user.letter.recipients">
+      <div class="letter" ng-repeat="recipient in user.letter_in_progress.recipients">
         <div class="greeting">
-          <p class="greeting-text"><span ng-bind="user.letter.greeting.text" /></p>
+          <p class="greeting-text"><span ng-bind="user.letter_in_progress.greeting.text" /></p>
         </div>
-        <div class="photo" ng-repeat="photo in user.letter.photos">
+        <div class="photo" ng-repeat="photo in user.letter_in_progress.photos">
           <img ng-src="{{photo.images.standard_resolution.url}}" />
           <p ng-bind="photo.caption.text | removeLillygramTags"></p>
         </div>
