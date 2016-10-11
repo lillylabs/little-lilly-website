@@ -39,6 +39,11 @@
         }
       }
     }
+    &.admin-status {
+      .icon-close {
+        color: red;
+      }
+    }
     &.address-labels {
       .row {
         align-items: flex-start;
