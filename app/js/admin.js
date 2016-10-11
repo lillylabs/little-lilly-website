@@ -11,9 +11,34 @@ angular.module("LittleLillyAdmin")
   .controller("AdminUserStatusController", ["$scope", "Profile", "Letter", function ($scope, Profile, Letter) {
 
     var uid = $scope.user.$id;
-    $scope.profile = Profile(uid);
-    $scope.letter = Letter(uid);
+
     $scope.uid = uid;
+
+    $scope.fullName = "";
+    $scope.recipientCount = 0;
+    $scope.greetingText = "";
+    $scope.photoCount = 0;
+
+    $scope.letter = Letter(uid);
+
+    Profile(uid).$loaded().then(function(letter) {
+      $scope.fullName = letter.getFullName();
+    });
+
+    Letter(uid).$loaded().then(function(letter) {
+      $scope.greetingText = letter.greeting.text;
+    });
+
+    Letter(uid).$loaded().then(function(letter) {
+      $scope.recipientCount = 0;
+      angular.forEach(letter.recipients, function(recipient) {
+        $scope.recipientCount++;
+      });
+    });
+
+    Letter(uid).$loaded().then(function(letter) {
+      $scope.photoCount = letter.photos.length;
+    });
 
 
   }]);
@@ -33,7 +58,9 @@ angular.module("LittleLillyAdmin")
     for(var i=0; i < users.length; i++) {
       var user = users[i];
       if(user.letter_in_progress) {
-        $scope.recipients = $scope.recipients.concat(user.letter_in_progress.recipients);
+        angular.forEach(user.letter_in_progress.recipients, function(recipient) {
+          $scope.recipients.push(recipient);
+        });
       }
     }
 

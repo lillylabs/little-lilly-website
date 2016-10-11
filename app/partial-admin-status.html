@@ -1,23 +1,23 @@
 <div class="page-section admin-status">
   <div class="container-fluid">
     <div class="user" ng-repeat="user in users" ng-controller="AdminUserStatusController">
-      <p class="m-b-1"><strong>{{ profile.getFullName() }}</strong><br/>
+      <p class="m-b-1"><strong>{{ fullName }}</strong><br/>
         <small>{{ uid }}</small><br/>
         {{ letter.name }}<br/>
         <small>{{ letter.timeframe.start }} - {{ letter.timeframe.end }}</small>
       </p>
       <ul class="m-b-2 list-unstyled">
         <li>
-          Photos <span class="icon m-l-1 m-r-1" ng-class="letter.photos.length > 3 ? 'icon-check' : 'icon-close'"></span>
-          {{ letter.photos.length }} Photos
+          Photos <span class="icon m-l-1 m-r-1" ng-class="photoCount > 3 ? 'icon-check' : 'icon-close'"></span>
+          {{ photoCount }} Photos
         </li>
         <li>
-          Greeting <span class="icon m-l-1 m-r-1" ng-class="letter.greeting.text ? 'icon-check' : 'icon-close'"></span>
-          {{ letter.greeting.text | limitTo:50 }}
+          Greeting <span class="icon m-l-1 m-r-1" ng-class="greetingText ? 'icon-check' : 'icon-close'"></span>
+          {{ greetingText | limitTo:50 }}
         </li>
         <li>
-          Recipients <span class="icon m-l-1 m-r-1" ng-class="letter.recipients.length > 0 ? 'icon-check' : 'icon-close'"></span>
-          {{ letter.recipients.length }} Recipient
+          Recipients <span class="icon m-l-1 m-r-1" ng-class="recipientCount > 0 ? 'icon-check' : 'icon-close'"></span>
+          {{ recipientCount }} Recipient
         </li>
       </ul>
     </div>
