@@ -39,6 +39,16 @@
         }
       }
     }
+    &.address-labels {
+      .row {
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+
+      .address-label {
+        padding: 5mm;
+      }
+    }
     &.preview {
       .cover {
         padding: 50px 0;

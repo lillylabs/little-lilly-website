@@ -1,5 +1,14 @@
-<div class="page-section">
+<div class="page-section address-labels">
   <div class="container-fluid">
-    LABELS
+    <div class="row">
+      <div class="col-xs-4 address-label" ng-repeat="recipient in recipients">
+
+        <strong class="recipient-name">{{recipient.name}}</strong><br/>
+        <small class="recipient-address">
+          {{recipient.address}}
+        </small>
+
+      </div>
+    </div>
   </div>
 </div>

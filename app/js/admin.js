@@ -28,6 +28,14 @@ angular.module("LittleLillyAdmin")
 angular.module("LittleLillyAdmin")
   .controller("AdminLabelsController", ["$scope", "users", function ($scope, users) {
 
-    $scope.users = users;
+    $scope.recipients = [];
+
+    for(var i=0; i < users.length; i++) {
+      var user = users[i];
+      if(user.letter_in_progress) {
+        $scope.recipients = $scope.recipients.concat(user.letter_in_progress.recipients);
+      }
+    }
+
 
   }]);
