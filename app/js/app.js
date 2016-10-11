@@ -11,12 +11,12 @@ angular.module("LittleLillyApp")
             return Auth.$requireSignIn().catch(function (error) {
               URLService.goToSignIn();
             });
-                    }],
+          }],
           "profile": ["Auth", "Profile", function (Auth, Profile) {
             return Auth.$requireSignIn().then(function (auth) {
               return Profile(auth.uid).$loaded();
             });
-                    }]
+          }]
         }
       })
       .state("app.account", {
