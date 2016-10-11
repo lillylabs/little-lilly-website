@@ -1,5 +1,23 @@
 <div class="page-section">
   <div class="container-fluid">
-    STATUS
+    <div class="user" ng-repeat="user in users" ng-controller="AdminUserStatusController">
+      <p class="m-b-1"><strong>{{ profile.getFullName() }}</strong><br/>
+        <small>{{ uid }}</small>
+      </p>
+      <ul class="m-l-1 m-b-2 list-unstyled">
+        <li>
+          <span class="icon m-r-1" ng-class="letter.photos.length > 3 ? 'icon-check' : 'icon-close'"></span>
+          {{ letter.photos.length }} Photos
+        </li>
+        <li>
+          <span class="icon m-r-1" ng-class="letter.greeting.text ? 'icon-check' : 'icon-close'"></span>
+          {{ letter.greeting.text | limitTo:50 }}
+        </li>
+        <li>
+          <span class="icon m-r-1" ng-class="letter.recipients.length > 0 ? 'icon-check' : 'icon-close'"></span>
+          {{ letter.recipients.length }} Recipient
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

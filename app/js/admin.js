@@ -8,6 +8,17 @@ angular.module("LittleLillyAdmin")
   }]);
 
 angular.module("LittleLillyAdmin")
+  .controller("AdminUserStatusController", ["$scope", "Profile", "Letter", function ($scope, Profile, Letter) {
+
+    var uid = $scope.user.$id;
+    $scope.profile = Profile(uid);
+    $scope.letter = Letter(uid);
+    $scope.uid = uid;
+
+
+  }]);
+
+angular.module("LittleLillyAdmin")
   .controller("AdminPdfController", ["$scope", "users", function ($scope, users) {
 
     $scope.users = users;
