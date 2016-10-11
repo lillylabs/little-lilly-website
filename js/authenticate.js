@@ -3,7 +3,7 @@
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      $('.navbar .login').attr('href', '/app');
+      $('.navbar #site-login').attr('href', '/app');
     }
   });
 
