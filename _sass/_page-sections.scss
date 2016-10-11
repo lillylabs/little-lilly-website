@@ -46,7 +46,10 @@
       }
 
       .address-label {
-        padding: 5mm;
+        padding: 5mm 10mm;
+        .recipient-address {
+          white-space: pre-line;
+        }
       }
     }
     &.preview {
