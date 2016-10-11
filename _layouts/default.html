@@ -5,14 +5,9 @@
 
   {% assign slug = page.path | remove: '.html' | remove: '.markdown' | remove: '.md' | slugify %}
 
-  <body id="page-top" class="{{ slug }}" ng-app="LittleLillyApp">
+  <body id="page-top" class="{{ slug }}">
 
     {% include navigation.html %}
-
-    {% comment %}
-      To include and fix
-      {% include navigation.html %}
-    {% endcomment %}
 
     {{ content }}
 

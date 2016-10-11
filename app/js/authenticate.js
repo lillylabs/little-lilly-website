@@ -95,11 +95,23 @@ angular.module("Authentication")
 angular.module("Authentication")
   .controller("SignUpFormController", ["$scope", "AuthService", "URLService", function ($scope, AuthService, URLService) {
 
+    $scope.submitting = false;
+    $scope.error = null;
+
     $scope.signUp = function () {
+
+      $scope.submitting = true;
+      $scope.error = null;
+
       AuthService.signUp($scope.email, $scope.password, $scope.firstname, $scope.lastname).then(function () {
+
         URLService.goToApp();
+
       }).catch(function (error) {
+
+        $scope.submitting = false;
         $scope.error = error.message;
+
       });
     };
 
@@ -112,13 +124,19 @@ angular.module("Authentication")
     $scope.error = null;
 
     $scope.signIn = function () {
+
       $scope.submitting = true;
       $scope.error = null;
+
       AuthService.signIn($scope.email, $scope.password).then(function () {
+
         URLService.goToApp();
+
       }).catch(function (error) {
+
         $scope.submitting = false;
         $scope.error = error.message;
+
       });
     };
 
@@ -126,6 +144,8 @@ angular.module("Authentication")
 
 angular.module("Authentication")
   .controller("NavBarController", ["$scope", "$location", "AuthService", "URLService", function ($scope, $location, AuthService, URLService) {
+
+    console.log("NavBar");
 
     $scope.logIn = function () {
       if ($scope.currentAuth) {
