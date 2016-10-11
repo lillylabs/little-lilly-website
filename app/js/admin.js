@@ -37,5 +37,13 @@ angular.module("LittleLillyAdmin")
       }
     }
 
+    var lillylabels = ($scope.recipients.length % 24) + 24;
+
+    for(var i=0; i < lillylabels; i++) {
+     $scope.recipients.push({
+       name: "Little Lilly",
+       address: "co/bGraphic AS \nTromsøgata 26 \n0565 Oslo \nNorway"
+     });
+    }
 
   }]);
