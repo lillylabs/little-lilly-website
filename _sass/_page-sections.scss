@@ -1,5 +1,5 @@
 .app-index {
-  .container-fluid {
+  .page-section:not(.site-footer) .container-fluid {
     max-width: 800px;
     text-align: center;
     h3 {

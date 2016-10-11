@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  {% assign slug = page.path | remove: '.html' | remove: '.markdown' | remove: '.md' | slugify %}
+
+  <body id="page-top" class="{{ slug }}" ng-app="LittleLillyApp">
+
+    {% include navigation.html %}
+
+    {{ content }}
+
+    {% include page-sections/footer.html %}
+    {% include firebase.html %}
+    {% include scripts.html %}
+
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+
+    <!-- Parse -->
+    <script src="https://unpkg.com/parse@1.9.1/dist/parse.min.js"></script>
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+
+    <!-- load momentJS (required for angular-moment) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+
+    <!-- load angular-moment -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-moment/0.9.0/angular-moment.min.js"></script>
+
+    <!-- Custom App JavaScript -->
+    <script src="/app/js/config.js"></script>
+    <script src="/app/js/backbone.js"></script>
+    <script src="/app/js/ig.js"></script>
+    <script src="/app/js/authenticate.js"></script>
+    <script src="/app/js/app-usersite.js"></script>
+
+  </body>
+
+</html>
