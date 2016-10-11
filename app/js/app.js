@@ -1,4 +1,4 @@
-angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment", "Backbone", "Authentication", "IG"]);
+angular.module("LittleLillyApp", ["firebase", "ui.router", "angularMoment", "Backbone", "Authentication", "IG", "LittleLillyAdmin"]);
 
 angular.module("LittleLillyApp")
   .config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
@@ -48,14 +48,40 @@ angular.module("LittleLillyApp")
         url: "/admin",
         views: {
           "main@": {
-            templateUrl: "partial-admin.html",
-            controller: "AdminController",
+            templateUrl: "partial-admin.html"
           }
         },
         resolve: {
           "users": ["Auth", "Users", function (Auth, Users) {
             return Users("test").$loaded();
           }]
+        }
+      })
+      .state("app.admin.status", {
+        url: "/status",
+        views: {
+          "admin@app.admin": {
+            templateUrl: "partial-admin-status.html",
+            controller: "AdminStatusController"
+          }
+        }
+      })
+      .state("app.admin.pdf", {
+        url: "/pdf",
+        views: {
+          "admin@app.admin": {
+            templateUrl: "partial-admin-pdf.html",
+            controller: "AdminPdfController"
+          }
+        }
+      })
+      .state("app.admin.labels", {
+        url: "/labels",
+        views: {
+          "admin@app.admin": {
+            templateUrl: "partial-admin-labels.html",
+            controller: "AdminLabelsController"
+          }
         }
       })
       .state("access_token", {

@@ -2,39 +2,13 @@
   <div class="container-fluid">
     <h1>Admin</h1>
     <div class="actions">
-      <a href=""></a>
-      <a href=""></a>
+      <a ui-sref-active="active" ui-sref="app.admin.status">Status</a>
+      <a ui-sref-active="active" ui-sref="app.admin.pdf">Previews</a>
+      <a ui-sref-active="active" ui-sref="app.admin.labels">Labels</a>
     </div>
   </div>
 </header>
 
-<div class="page-section preview">
-  <div class="container-fluid">
-    <div class="user" ng-repeat="user in users" ng-if="user.letter_in_progress">
-      <div class="cover content">
-        <h1>{{ user.profile.name.first }} {{ user.profile.name.last }}</h1>
-        <p class="timeframe">{{user.letter_in_progress.timeframe.start | amDateFormat:'MMMM Do YYYY'}} - {{user.letter_in_progress.timeframe.end | amDateFormat:'MMMM Do YYYY'}}</p>
-        <ul class="list-group recipients">
-          <li class="list-group-item" ng-repeat="recipient in user.letter_in_progress.recipients">
-            <div class="list-group-content">
-              <span class="recipient-name">{{recipient.name}}</span>
-              <br/>
-              <small class="recipient-address" class="text-muted">
-                                {{recipient.address}}
-                            </small>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="letter" ng-repeat="recipient in user.letter_in_progress.recipients">
-        <div class="greeting">
-          <p class="greeting-text"><span ng-bind="user.letter_in_progress.greeting.text" /></p>
-        </div>
-        <div class="photo" ng-repeat="photo in user.letter_in_progress.photos">
-          <img ng-src="{{photo.images.standard_resolution.url}}" />
-          <p ng-bind="photo.caption.text | removeLillygramTags"></p>
-        </div>
-      </div>
-    </div>
-  </div>
+<div ui-view="admin">
+
 </div>

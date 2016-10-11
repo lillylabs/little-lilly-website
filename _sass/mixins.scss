@@ -25,7 +25,9 @@
   .open > &.dropdown-toggle {
     background-color: transparentize($color, 0.8);
   }
-  &:hover {
+  &:hover,
+  &:active,
+  &.active {
     color: $color;
     background-color: transparentize($color, 0.8);
   }
