@@ -40,7 +40,9 @@ angular.module("LittleLillyAdmin")
     });
 
     letter.$watch(function() {
-      $scope.greetingText = letter.greeting.text;
+      if(letter.greeting && letter.greeting.text) {
+        $scope.greetingText = letter.greeting.text;
+      }
     });
 
     letter.$watch(function() {
@@ -59,7 +61,9 @@ angular.module("LittleLillyAdmin")
     });
 
     letter.$watch(function() {
-      $scope.photoCount = letter.photos.length;
+      if(letter.photos) {
+        $scope.photoCount = letter.photos.length;
+      }
     });
 
   }]);
