@@ -8,7 +8,7 @@
       </p>
       <ul class="m-b-2 list-unstyled" ng-if="!postponed">
         <li>
-          Photos <span class="icon m-l-1 m-r-1" ng-class="photoCount > 3 ? 'icon-check' : 'icon-close'"></span>
+          Photos <span class="icon m-l-1 m-r-1" ng-class="photoCount >= 3 ? 'icon-check' : 'icon-close'"></span>
           {{ photoCount }} Photos
         </li>
         <li>
