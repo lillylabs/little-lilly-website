@@ -158,7 +158,7 @@ angular.module("LittleLillyApp")
         startFormat = "MMMM";
       }
 
-      $scope.letter.timeframe.end = endMoment.add(1, "month").format("YYYY-MM-DD");
+      $scope.letter.timeframe.end = endMoment.add(1, "month").endOf('month').format("YYYY-MM-DD");
       $scope.letter.name = startMoment.format(startFormat);
       $scope.letter.name += " - ";
       $scope.letter.name += endMoment.format(endFormat);
