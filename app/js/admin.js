@@ -8,7 +8,7 @@ angular.module("LittleLillyAdmin")
   }]);
 
 angular.module("LittleLillyAdmin")
-  .controller("AdminUserStatusController", ["$scope", "Profile", "Letter", function ($scope, Profile, Letter) {
+  .controller("AdminUserStatusController", ["$scope", "Profile", "Letter", "moment", function ($scope, Profile, Letter, moment) {
 
     var uid = $scope.user.$id;
 
@@ -27,6 +27,12 @@ angular.module("LittleLillyAdmin")
 
     Letter(uid).$loaded().then(function(letter) {
       $scope.greetingText = letter.greeting.text;
+
+      if(moment().date() > 15) {
+        $scope.postponed = moment(letter.timeframe.end).month() > moment().month();
+      } else {
+        $scope.postponed = moment(letter.timeframe.end).month() >= moment().month();
+      }
     });
 
     Letter(uid).$loaded().then(function(letter) {
@@ -39,7 +45,6 @@ angular.module("LittleLillyAdmin")
     Letter(uid).$loaded().then(function(letter) {
       $scope.photoCount = letter.photos.length;
     });
-
 
   }]);
 

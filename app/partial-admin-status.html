@@ -6,7 +6,7 @@
         {{ letter.name }}<br/>
         <small>{{ letter.timeframe.start }} - {{ letter.timeframe.end }}</small>
       </p>
-      <ul class="m-b-2 list-unstyled">
+      <ul class="m-b-2 list-unstyled" ng-if="!postponed">
         <li>
           Photos <span class="icon m-l-1 m-r-1" ng-class="photoCount > 3 ? 'icon-check' : 'icon-close'"></span>
           {{ photoCount }} Photos
@@ -18,6 +18,11 @@
         <li>
           Recipients <span class="icon m-l-1 m-r-1" ng-class="recipientCount > 0 ? 'icon-check' : 'icon-close'"></span>
           {{ recipientCount }} Recipient
+        </li>
+      </ul>
+      <ul class="m-b-2 list-unstyled" ng-if="postponed">
+        <li>
+          Postponed <span class="icon m-l-1 m-r-1 icon-check"></span>
         </li>
       </ul>
     </div>
