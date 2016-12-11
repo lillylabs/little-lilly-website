@@ -14,20 +14,36 @@ angular.module("LittleLillyAdmin")
 
     $scope.uid = uid;
 
-    $scope.fullName = "";
+    $scope.userFullName = "";
+    $scope.name = "";
+    $scope.timeframe = {
+      start: "",
+      end: ""
+    };
     $scope.recipientCount = 0;
     $scope.greetingText = "";
     $scope.photoCount = 0;
 
-    $scope.letter = Letter(uid);
+    var letter = Letter(uid);
+    var profile = Profile(uid);
 
-    Profile(uid).$loaded().then(function(letter) {
-      $scope.fullName = letter.getFullName();
+    profile.$watch(function() {
+      $scope.userFullName = profile.getFullName();
     });
 
-    Letter(uid).$loaded().then(function(letter) {
-      $scope.greetingText = letter.greeting.text;
+    letter.$watch(function() {
+      $scope.name = letter.name;
+    });
 
+    letter.$watch(function() {
+      $scope.timeframe = letter.timeframe;
+    });
+
+    letter.$watch(function() {
+      $scope.greetingText = letter.greeting.text;
+    });
+
+    letter.$watch(function() {
       if(moment().date() > 15) {
         $scope.postponed = moment(letter.timeframe.end).month() > moment().month();
       } else {
@@ -35,14 +51,14 @@ angular.module("LittleLillyAdmin")
       }
     });
 
-    Letter(uid).$loaded().then(function(letter) {
+    letter.$watch(function() {
       $scope.recipientCount = 0;
       angular.forEach(letter.recipients, function(recipient) {
         $scope.recipientCount++;
       });
     });
 
-    Letter(uid).$loaded().then(function(letter) {
+    letter.$watch(function() {
       $scope.photoCount = letter.photos.length;
     });
 

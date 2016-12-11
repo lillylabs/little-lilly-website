@@ -1,10 +1,10 @@
 <div class="page-section admin-status">
   <div class="container-fluid">
     <div class="user" ng-repeat="user in users" ng-controller="AdminUserStatusController">
-      <p class="m-b-1"><strong>{{ fullName }}</strong><br/>
+      <p class="m-b-1"><strong>{{ userFullName }}</strong><br/>
         <small>{{ uid }}</small><br/>
-        {{ letter.name }}<br/>
-        <small>{{ letter.timeframe.start }} - {{ letter.timeframe.end }}</small>
+        {{ name }}<br/>
+        <small>{{ timeframe.start }} - {{ timeframe.end }}</small>
       </p>
       <ul class="m-b-2 list-unstyled" ng-if="!postponed">
         <li>
