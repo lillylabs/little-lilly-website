@@ -2,15 +2,15 @@
     <div class="row">
         <div class="form-group col-xs-12 col-sm-6">
             <label>Name</label>
-            <input type="text" class="form-control" id="name" placeholder="{{ page.form.placeholders.name }}">
+            <input name="name" type="text" class="form-control" id="name" placeholder="{{ page.form.placeholders.name }}">
         </div>
         <div class="form-group col-xs-12 col-sm-6">
             <label>Email</label>
-            <input type="email" class="form-control" id="email" placeholder="{{ page.form.placeholders.email }}">
+            <input name="email" type="email" class="form-control" id="email" placeholder="{{ page.form.placeholders.email }}">
         </div>
         <div class="form-group col-xs-12">
             <label>Message</label>
-            <textarea class="form-control" id="message" rows="12" placeholder="{{ page.form.placeholders.message }}"></textarea>
+            <textarea name="message" class="form-control" id="message" rows="12" placeholder="{{ page.form.placeholders.message }}"></textarea>
         </div>
         <div class="form-group col-xs-12">
             <button type="submit" class="btn btn-primary btn-block">{{ page.form.buttons.submit | default: 'Send message' }}</button>
