@@ -38,12 +38,12 @@ sections:
   - icon: icon-envelope-letter
     title: Quality paper
     content: We use high quality, recycled paper.
-- title: Relaunching this fall
+- title: Relaunching this summer
   id: relaunch
   content: |-
     Little Lilly has quietly helped many families stay in touch since  2013.  This suited me fine while taking time for my first born, Lillian.
 
-    But now, now it is time to make this baby my priority and we are relaunching in august with an upgraded product.
+    But now, now it is time to make this baby my priority and we are relaunching this summer with an upgraded product.
 
     Follow the process and be the first to get an invite [by signing up today](#signup).
   signature: "- Benedicte Raae, founder"
