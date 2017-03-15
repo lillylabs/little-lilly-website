@@ -11,5 +11,5 @@ form:
 layout: form
 ---
 
-Sign up to send your first letters.  
-It will only take a minute :D
+Little Lilly is relaunching this summer.  
+Follow the process and be the first to get an invite by signing up today.
