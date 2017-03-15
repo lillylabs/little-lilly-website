@@ -4,7 +4,7 @@ form:
   placeholders:
     email: lilly@death.star
     password: FreeThroathHugz
-layout: form
+layout: form-app
 ---
 
 Don't have a Little Lilly account yet?  
