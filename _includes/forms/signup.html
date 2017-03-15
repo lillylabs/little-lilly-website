@@ -1,5 +1,5 @@
-<div ng-controller="SignUpFormController">
-  <form ng-submit="signUp()" class="contact-form">
+<div>
+  <form name="waitinglist" class="contact-form" netlify netlify-honeypot="bot-field">
     <div class="row">
       <div class="form-group col-xs-12 col-sm-6">
         <label>Firstname</label>
@@ -18,10 +18,8 @@
         <input type="password" class="form-control" id="password" placeholder="{{ page.form.placeholders.password }}" ng-model="password">
       </div>
       <div class="form-group col-xs-12">
-        <p class="text-muted" ng-show="error" ng-bind="error"></p>
         <button type="submit" class="btn btn-primary btn-block">
           {{ page.form.buttons.submit | default: 'Sign up' }}
-          <i class="fa fa-spinner fa-pulse fa-fw" ng-show="submitting"></i>
         </button>
       </div>
     </div>
