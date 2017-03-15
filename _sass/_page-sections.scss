@@ -555,7 +555,8 @@
       margin-bottom: 14px;
     }
   }
-  &.form-dark {
+  &.form-dark,
+  .bg-dark & {
     .form-group label {
       color: fade-out($brand-white, 0.75);
     }
